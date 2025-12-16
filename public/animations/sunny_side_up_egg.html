@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Sunny Side Up Egg Animation</title>
+  <style>
+    #egg {
+      width: 200px;
+      height: 200px;
+      background-color: #d2b48c; /* light brown */
+      transition: background-color 1s linear;
+      margin: 20px auto;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="egg"></div>
+
+  <script>
+    const egg = document.getElementById("egg");
+
+    /*
+      burnLevel: number between 0 and 1
+      0   -> fresh
+      1   -> completely burned
+    */
+    function setBurnLevel(burnLevel) {
+      const startColor = [210, 180, 140]; // light brown (RGB)
+      const endColor = [0, 0, 0];         // black
+
+      const r = Math.round(
+        startColor[0] + (endColor[0] - startColor[0]) * burnLevel
+      );
+      const g = Math.round(
+        startColor[1] + (endColor[1] - startColor[1]) * burnLevel
+      );
+      const b = Math.round(
+        startColor[2] + (endColor[2] - startColor[2]) * burnLevel
+      );
+
+      egg.style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
+    }
+
+    window.setBurnLevel = setBurnLevel;
+  </script>
+
+</body>
+</html>

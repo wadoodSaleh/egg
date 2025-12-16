@@ -1,0 +1,33 @@
+<div>
+  <h2>Login or Register</h2>
+  <% if (typeof message !== 'undefined' && message) { %>
+    <div style="color: #8b0000; background:#ffecec; padding:8px; margin-bottom:10px; border-radius:4px;"> <%= message %></div>
+  <% } %>
+
+  <form action="/login" method="POST">
+    <div>
+      <label>Email</label><br />
+      <input type="email" name="email" required  />
+    </div>
+
+    <br />
+
+    <div>
+      <label>Password</label><br />
+      <input type="password" name="password" required/>
+    </div>
+
+    <br />
+
+    <div>
+      <label>Username (optional, for new accounts)</label><br />
+      <input type="text" name="username" />
+    </div>
+
+    <br />
+
+    <button type="submit" >
+      Submit
+    </button>
+  </form>
+</div>

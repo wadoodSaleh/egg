@@ -1,0 +1,36 @@
+</div>
+
+  <audio id="backgroundMusic" loop preload="auto">
+    <source src="/cosy_music.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+
+  <script>
+    const audio = document.getElementById('backgroundMusic');
+    let isPlaying = false;
+
+    function playMusic() {
+      if (isPlaying) {
+        audio.pause();
+        isPlaying = false;
+        return;
+      }
+
+      // Play returns a promise — handle rejection (browsers may block without a user gesture)
+      const playPromise = audio.play();
+      if (playPromise !== undefined) {
+        playPromise.then(() => {
+          isPlaying = true;
+        }).catch((err) => {
+          console.warn('Audio play was prevented:', err);
+          isPlaying = false;
+        });
+      } else {
+        // Older browsers
+        isPlaying = true;
+      }
+    }
+  </script>
+  <script src="/pjax.js"></script>
+</body>
+</html>

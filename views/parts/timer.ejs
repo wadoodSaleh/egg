@@ -1,0 +1,18 @@
+<%console.log("Rendering timer for recipe:", recipe);%>
+<div id="timerArea"
+     data-cook="<%= recipe.cook_minutes %>"
+     data-lose="<%= recipe['losing minute'] %>">
+     
+  <iframe id="animationFrame" src="/animations/<%= recipe.animation %>"></iframe>
+  <button id="startBtn">Start Cooking</button>
+
+  <p id="timer">00:00</p>
+
+  <!-- Lose Popup -->
+  <div id="losePopup" style="display:none;">
+    <%- include("lose") %>
+  </div>
+
+</div>
+
+<script src="/timer.js"></script>

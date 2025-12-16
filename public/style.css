@@ -1,0 +1,65 @@
+* {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.5rem 2rem;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .page-name {
+      font-size: 1.8rem;
+      font-weight: bold;
+      color: white;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    .nav-button {
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: inline-block;
+      color: white;
+    }
+
+    .home-btn {
+      background: rgba(52, 211, 153, 0.8);
+    }
+
+    .home-btn:hover {
+      background: rgba(52, 211, 153, 1);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(52, 211, 153, 0.4);
+    }
+
+    .music-btn {
+      background: rgba(251, 146, 60, 0.8);
+    }
+
+    .music-btn:hover {
+      background: rgba(251, 146, 60, 1);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(251, 146, 60, 0.4);
+    }
+
+    .content {
+      padding: 2rem;
+    }

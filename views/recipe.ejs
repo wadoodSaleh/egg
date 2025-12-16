@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<%- include('parts/header', { pageName: recipe.egg , pageTitle: recipe.egg}) %>
+<body>
+  <h2>Ingredients</h2>
+  <ul>
+    <% recipe.ingredients.forEach(item => { %>
+      <li><%= item %></li>
+    <% }) %>
+  </ul>
+
+  <h2>Instructions</h2>
+  <ol>
+    <% recipe.instructions.forEach(step => { %>
+      <li><%= step %></li>
+    <% }) %>
+  </ol>
+
+  <!-- Timer -->
+  <%- include("parts/timer", { recipe }) %>
+
+</body>
+<%- include('parts/footer') %>
+</html>

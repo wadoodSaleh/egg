@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<%- include('parts/header', { pageName: 'egg', pageTitle: 'EGG' }) %>
+<body>
+
+  <div class="container">
+    <button id="mainBtn" onclick="openLogin()">egg</button>
+  </div>
+
+  <!-- Login Popup -->
+  <div id="loginPopup" class="popup-overlay" style="display: none;">
+    <div class="popup-content">
+      <button class="close-btn" onclick="closeLogin()">&times;</button>
+      <%- include("parts/login") %>
+    </div>
+  </div>
+
+  <script>
+    function openLogin() {
+      document.getElementById("loginPopup").style.display = "block";
+    }
+
+    function closeLogin() {
+      document.getElementById("loginPopup").style.display = "none";
+    }
+
+    </script>
+    <% if (typeof message !== "undefined" && message) { %>
+      <script>
+        window.addEventListener('load', function() { openLogin(); });
+      </script>
+    <% } %>
+
+    <script>
+    // Close popup when clicking outside
+    document.getElementById("loginPopup").addEventListener("click", function(e) {
+      if (e.target === this) {
+        closeLogin();
+      }
+    });
+  </script>
+
+</body>
+<%- include('parts/footer') %>
+</html>
