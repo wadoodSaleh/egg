@@ -19,7 +19,7 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1.5rem 2rem;
+  padding: 0rem 2rem;
   background: #FFE130; /* keep header color */
   backdrop-filter: blur(10px);
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -55,11 +55,23 @@ body {
   transform: scale(1.15);        /* grow image only */
 }
 
-.home-btn,
+
 .music-btn {
-  background: none;
+  padding: 0.25rem;
 }
 
-.content {
-  padding: 2rem;
+/* larger image for the music button */
+.music-btn img {
+  width: 50px;
+  height: auto;
+  transition: transform 0.25s ease;
+}
+
+.music-btn:hover img {
+  transform: scale(1.08);
+}
+
+.pixel_egg{
+  width: 200px; /* increase as needed */
+  height: auto;
 }
