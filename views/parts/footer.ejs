@@ -8,11 +8,18 @@
   <script>
     const audio = document.getElementById('backgroundMusic');
     let isPlaying = false;
+    const musicIcon = document.getElementById('musicIcon');
+    // sequence: 1 -> 2 -> 3 -> 2 -> repeat
+    const danceSequence = ['dancing egg 1.png','dancing egg 2.png','dancing egg 3.png','dancing egg 2.png'];
+    let danceIndex = 0;
+    let danceInterval = null;
+    const DANCE_INTERVAL_MS = 350;
 
     function playMusic() {
       if (isPlaying) {
         audio.pause();
         isPlaying = false;
+        stopDance();
         return;
       }
 
@@ -21,6 +28,7 @@
       if (playPromise !== undefined) {
         playPromise.then(() => {
           isPlaying = true;
+          startDance();
         }).catch((err) => {
           console.warn('Audio play was prevented:', err);
           isPlaying = false;
@@ -28,8 +36,34 @@
       } else {
         // Older browsers
         isPlaying = true;
+        startDance();
       }
     }
+
+    function startDance() {
+      if (!musicIcon) return;
+      stopDance();
+      // set first frame immediately
+      danceIndex = 0;
+      musicIcon.src = '/' + danceSequence[danceIndex];
+      danceInterval = setInterval(() => {
+        danceIndex = (danceIndex + 1) % danceSequence.length;
+        musicIcon.src = '/' + danceSequence[danceIndex];
+      }, DANCE_INTERVAL_MS);
+    }
+
+    function stopDance() {
+      if (!musicIcon) return;
+      if (danceInterval) {
+        clearInterval(danceInterval);
+        danceInterval = null;
+      }
+      // revert to idle icon
+      musicIcon.src = '/dancing egg 0.png';
+    }
+
+    // Ensure animation stops when navigating away
+    window.addEventListener('beforeunload', stopDance);
   </script>
   <script src="/pjax.js"></script>
 </body>

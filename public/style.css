@@ -1,65 +1,65 @@
 * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      min-height: 100vh;
-    }
+/* Global custom cursor */
+html, body, * {
+  cursor: url('/cursor.png') 16 16, auto;
+}
 
-    .header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1.5rem 2rem;
-      background: rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(10px);
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    }
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #FDF0C3; /* page background */
+  min-height: 100vh;
+}
 
-    .page-name {
-      font-size: 1.8rem;
-      font-weight: bold;
-      color: white;
-      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
-    }
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 2rem;
+  background: #FFE130; /* keep header color */
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
 
-    .nav-button {
-      padding: 0.75rem 1.5rem;
-      border: none;
-      border-radius: 8px;
-      font-size: 1rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      text-decoration: none;
-      display: inline-block;
-      color: white;
-    }
+.page-name {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: white;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
 
-    .home-btn {
-      background: rgba(52, 211, 153, 0.8);
-    }
+.nav-button {
+  padding: 0.5rem;               /* slightly bigger click area */
+  border: none;
+  background: none;              /* NO background */
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: transform 0.25s ease;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
 
-    .home-btn:hover {
-      background: rgba(52, 211, 153, 1);
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(52, 211, 153, 0.4);
-    }
+.nav-button img {
+  width: 36px;                   /* bigger image button */
+  height: auto;
+  transition: transform 0.25s ease;
+}
 
-    .music-btn {
-      background: rgba(251, 146, 60, 0.8);
-    }
+.nav-button:hover img {
+  transform: scale(1.15);        /* grow image only */
+}
 
-    .music-btn:hover {
-      background: rgba(251, 146, 60, 1);
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(251, 146, 60, 0.4);
-    }
+.home-btn,
+.music-btn {
+  background: none;
+}
 
-    .content {
-      padding: 2rem;
-    }
+.content {
+  padding: 2rem;
+}
