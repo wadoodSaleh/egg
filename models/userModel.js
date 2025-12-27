@@ -58,6 +58,13 @@ function loginOrRegister(email, password, username = null) {
   };
 }
 
+
+function findById(id) {
+  const users = readUsers();
+  return users.find(u => u.id === Number(id)); // ensure type match
+}
+
 module.exports = {
-  loginOrRegister
+  loginOrRegister,
+  findById
 };

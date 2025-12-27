@@ -1,42 +1,50 @@
-let seconds = 0;
-let interval = null;
+(function() {
+  let seconds = 0;
+  let interval = null;
 
-const timerArea = document.getElementById("timerArea");
-const cookMinutes = Number(timerArea.dataset.cook);
-const losingMinute = Number(timerArea.dataset.lose);
+  const timerArea = document.getElementById("timerArea");
+  if (!timerArea) return; // Guard clause in case script runs on a page without timer
 
-const timerDisplay = document.getElementById("timer");
-const startBtn = document.getElementById("startBtn");
-const losePopup = document.getElementById("losePopup");
+  const cookMinutes = Number(timerArea.dataset.cook);
+  const losingMinute = Number(timerArea.dataset.lose);
 
-const animationFrame = document.getElementById("animationFrame");
+  const timerDisplay = document.getElementById("timer");
+  const startBtn = document.getElementById("startBtn");
+  const losePopup = document.getElementById("losePopup");
 
-startBtn.addEventListener("click", () => {
-  if (interval) return;
+  const animationFrame = document.getElementById("animationFrame");
 
-  interval = setInterval(() => {
-    seconds++;
+  if (startBtn) {
+    startBtn.addEventListener("click", () => {
+      if (interval) return;
 
-    const mins = Math.floor(seconds / 60);
-    const secs = seconds % 60;
+      interval = setInterval(() => {
+        seconds++;
 
-    timerDisplay.textContent =
-      String(mins).padStart(2, "0") + ":" +
-      String(secs).padStart(2, "0");
+        const mins = Math.floor(seconds / 60);
+        const secs = seconds % 60;
 
-    // 🔥 BURN PROGRESS
-    if (animationFrame && animationFrame.contentWindow?.setBurnLevel) {
-      const burnProgress = seconds / (losingMinute * 60);
-      animationFrame.contentWindow.setBurnLevel(
-        Math.min(burnProgress, 1)
-      );
-    }
-    
-    // 🔥 Lose condition
-    if (mins >= losingMinute) {
-      clearInterval(interval);
-      losePopup.style.display = "block";
-    }
+        if (timerDisplay) {
+          timerDisplay.textContent =
+            String(mins).padStart(2, "0") + ":" +
+            String(secs).padStart(2, "0");
+        }
 
-  }, 1000);
-});
+        // 🔥 BURN PROGRESS
+        if (animationFrame && animationFrame.contentWindow?.setBurnLevel) {
+          const burnProgress = seconds / (losingMinute * 60);
+          animationFrame.contentWindow.setBurnLevel(
+            Math.min(burnProgress, 1)
+          );
+        }
+        
+        // 🔥 Lose condition
+        if (mins >= losingMinute) {
+          clearInterval(interval);
+          if (losePopup) losePopup.style.display = "block";
+        }
+
+      }, 1000);
+    });
+  }
+})();
