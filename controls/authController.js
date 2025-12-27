@@ -14,19 +14,34 @@ function login(req, res) {
     return res.render("home", { message: "Wrong password" });
   }
 
+  // Helper to set cookie
+  const setCookie = (user) => {
+    res.cookie("userId", user.id, {
+      signed: true,
+      maxAge: 1000 * 60 * 60 * 24 * 7 // 7 days
+    });
+  };
+
   if (result.status === "login_success") {
     const msg = `Welcome back, ${result.user.username}!`;
     console.log("[authController] login success, redirecting to /menu");
+    setCookie(result.user);
     return res.redirect(`/menu?msg=${encodeURIComponent(msg)}`);
   }
 
   if (result.status === "user_created") {
     const msg = `Account created! Welcome, ${result.user.username}!`;
     console.log("[authController] user created, redirecting to /menu");
+    setCookie(result.user);
     return res.redirect(`/menu?msg=${encodeURIComponent(msg)}`);
   }
 
   return res.render("home", { message: "An error occurred" });
 }
 
-module.exports = { login };
+function logout(req, res) {
+  res.clearCookie("userId");
+  res.redirect("/");
+}
+
+module.exports = { login, logout };
