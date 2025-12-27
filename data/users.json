@@ -28,5 +28,11 @@
     "username": "wsaleh1",
     "email": "wsaleh1@asu.edu",
     "password": "$2b$10$1Azey6RdBpzQ1hSTreTSdu6jJGqJVebNM42ROnoh4jmaLas12COYC"
+  },
+  {
+    "id": 6,
+    "username": "Wren",
+    "email": "bestt1711@gmail.com",
+    "password": "$2b$10$LEkfO9ged6/Q.RhZ0/S9huCRTYBsDvF.mUEvR7AGinofXmpZjHCL."
   }
 ]
