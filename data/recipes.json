@@ -32,7 +32,7 @@
         "Slide onto a plate and serve immediately."
     ],
     "animation": "sunny_side_up_egg.html",
-    "losing minute": 1
+    "losing minute": 5
   }
   ,{
     "id" : "omelet",
