@@ -75,3 +75,10 @@ body {
   width: 200px; /* increase as needed */
   height: auto;
 }
+
+.animationFrame{
+  box-shadow: none;
+  border: none;
+  outline: none;
+  background: transparent;
+}
