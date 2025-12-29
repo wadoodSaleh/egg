@@ -218,8 +218,15 @@ function drawFace(faceType) {
   ctx.fillStyle = "#000";
 
   // Eyes
-  drawPixel(-6, -4);
-  drawPixel(6, -4);
+  if (faceType === "sleepy") {
+    // Closed eyes (small horizontal lines)
+    drawLine(-8, -4, -4, -4); // left eye
+    drawLine(4, -4, 8, -4);  // right eye
+  } else {
+    // Open eyes (single pixels)
+    drawPixel(-6, -4);
+    drawPixel(6, -4);
+  }
 
   // Mouth based on face type
   switch (faceType) {
