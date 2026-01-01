@@ -2,48 +2,336 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Sunny Side Up Egg Animation</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Boiling Egg Animation</title>
   <style>
-    #egg {
-      width: 200px;
-      height: 200px;
-      background-color: #d2b48c; /* light brown */
-      transition: background-color 1s linear;
-      margin: 20px auto;
+    body {
+      margin: 0;
+      background: #FDF0C3;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      overflow: hidden;
+    }
+
+    canvas {
+      /* keep canvas square and scale to viewport without cropping */
+      width: min(80vmin, 512px);
+      aspect-ratio: 1/1;
+      image-rendering: pixelated;
+      display: block;
+      background: transparent;
+      max-width: 100%;
+      max-height: 100%;
     }
   </style>
 </head>
 <body>
 
-  <div id="egg"></div>
+<canvas id="egg" width="128" height="128"></canvas>
 
-  <script>
-    const egg = document.getElementById("egg");
+<script>
+// Canvas setup
+const canvas = document.getElementById("egg");
+const ctx = canvas.getContext("2d");
+ctx.imageSmoothingEnabled = false;
 
-    /*
-      burnLevel: number between 0 and 1
-      0   -> fresh
-      1   -> completely burned
-    */
-    function setBurnLevel(burnLevel) {
-      const startColor = [210, 180, 140]; // light brown (RGB)
-      const endColor = [0, 0, 0];         // black
+// State
+let cookLevel = 0;
 
-      const r = Math.round(
-        startColor[0] + (endColor[0] - startColor[0]) * burnLevel
-      );
-      const g = Math.round(
-        startColor[1] + (endColor[1] - startColor[1]) * burnLevel
-      );
-      const b = Math.round(
-        startColor[2] + (endColor[2] - startColor[2]) * burnLevel
-      );
+// Image assets
+const images = {};
+const ASSETS = [
+  "sunnysideup_white.png",
+  "sunnysideup_white_nocrust.png",
+  "sunnysideup_yolk.png",
+  "face_sleepy.png",
+  "face_happy.png",
+  "face_hard.png",
+  "face_sad.png",
+  "face_scream.png"
+];
 
-      egg.style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
-    }
+// Load all assets
+loadAssets().then(() => {
+  loop();
+});
 
-    window.setBurnLevel = setBurnLevel;
-  </script>
+function loadAssets() {
+  return Promise.all(
+    ASSETS.map(src => new Promise(res => {
+      const img = new Image();
+      img.src = `/${src}`;
+      img.onload = () => {
+        images[src] = img;
+        // Also expose without .png extension for easier access
+        const key = src.replace('.png', '');
+        images[key] = img;
+        res();
+      };
+      img.onerror = () => res(); // Allow missing images
+    }))
+  );
+}
+
+// Define cooking stages
+const STAGES = [
+  { max: 0.25, name: "soft-boiled", face: "sleepy" },
+  { max: 0.45, name: "hard-boiled", face: "happy" },
+  { max: 0.725, name: "overcooked-mid", face: "hard" },
+  { max: 0.95, name: "burnt-start", face: "sad" },
+  { max: 1.0, name: "burnt", face: "scream" }
+];
+
+function getStage(level) {
+  return STAGES.find(s => level <= s.max);
+}
+
+function drawEgg(level) {
+  ctx.clearRect(0, 0, 128, 128);
+
+  // Calculate white opacity (0 to 1 as it reaches soft-boiled)
+  const whiteOpacity = Math.min(level / 0.25, 1);
+  
+  // Calculate brown hue for overcooked (starts after hard-boiled at 0.45)
+  let brownAmount = 0;
+  if (level > 0.725) {
+    brownAmount = Math.min((level - 0.725) / 0.55, 1);
+  }
+
+  // Draw white with opacity and brown tint
+  drawBoiledWhite(whiteOpacity, brownAmount);
+  
+  // Draw yolk with color transition
+  drawBoiledYolk(level);
+
+  // Draw face on top
+  const stage = getStage(level);
+  drawFace(stage.face);
+}
+
+function drawBoiledWhite(opacity, brownAmount) {
+  ctx.save();
+  
+  // Use white_nocrust until stage 3 (0.45), then switch to sunnysideup_white with crust
+  const useWhiteWithCrust = cookLevel >= 0.45;
+  const whiteImage = useWhiteWithCrust ? images.sunnysideup_white : images.sunnysideup_white_nocrust;
+  
+  if (!whiteImage) {
+    ctx.restore();
+    return;
+  }
+  
+  // Draw the white image with opacity
+  ctx.globalAlpha = opacity;
+  ctx.drawImage(whiteImage, 0, 0, 128, 128);
+  
+  // Apply brown tint for overcooked state (starts after 0.45)
+  if (brownAmount > 0) {
+    ctx.globalCompositeOperation = "source-atop";
+    
+    // Progressive brown to black tint
+    // At brownAmount = 0.5 it should be brown, at 1.0 it should be black
+    const brownToBlackProgress = brownAmount;
+    const baseValue = Math.floor(180 * (1 - brownToBlackProgress)); // goes from 180 to 0 (black)
+    
+    const gradient = ctx.createRadialGradient(64, 64, 20, 64, 64, 50);
+    gradient.addColorStop(0, `rgba(${baseValue + 30}, ${baseValue + 10}, ${Math.max(baseValue - 10, 0)}, 0)`);
+    gradient.addColorStop(1, `rgba(${baseValue}, ${Math.max(baseValue - 20, 0)}, ${Math.max(baseValue - 60, 0)}, ${0.7 + brownToBlackProgress * 0.3})`);
+    
+    ctx.fillStyle = gradient;
+    ctx.fillRect(0, 0, 128, 128);
+  }
+  
+  ctx.restore();
+}
+
+function drawBoiledYolk(level) {
+  if (!images.sunnysideup_yolk) return;
+  
+  ctx.save();
+  
+  // Draw the yolk image
+  ctx.drawImage(images.sunnysideup_yolk, 0, 0, 128, 128);
+  
+  // Get yolk dimensions from the image (matching the actual yolk size)
+  const yolkCenterX = 64;
+  const yolkCenterY = 60;
+  const yolkRadius = 25;
+  
+  // (removed ring from raw → soft) the yellow ring now appears during hard→overcooked transition
+  
+  // Stage 2: Soft to hard-boiled (0.25 to 0.45) - entire yolk turns light yellow
+  const softToHardStart = 0.25;
+  const softToHardEnd = 0.45;
+  const softToHardProgress = Math.min(Math.max((level - softToHardStart) / (softToHardEnd - softToHardStart), 0), 1);
+  if (softToHardProgress > 0) {
+    ctx.save();
+    ctx.beginPath();
+    ctx.arc(yolkCenterX, yolkCenterY, yolkRadius, 0, Math.PI * 2);
+    ctx.clip();
+
+    ctx.globalCompositeOperation = "source-atop";
+    
+    // Uniform light yellow across entire yolk
+    const uniformYellow = ctx.createRadialGradient(yolkCenterX, yolkCenterY, 0, yolkCenterX, yolkCenterY, yolkRadius);
+    uniformYellow.addColorStop(0, `rgba(255, 240, 120, 0)`);
+    uniformYellow.addColorStop(1, `rgba(255, 230, 100, ${softToHardProgress * 0.85})`);
+    
+    ctx.fillStyle = uniformYellow;
+    ctx.fillRect(0, 0, 128, 128);
+
+    ctx.restore();
+  }
+
+  // New: Hard → Overcooked transition (0.45 to 0.725) — apply a subtle yellow ring that grows
+  const hardToOverStart = 0.45;
+  const hardToOverEnd = 0.725;
+  const hardToOverProgress = Math.min(Math.max((level - hardToOverStart) / (hardToOverEnd - hardToOverStart), 0), 1);
+  if (hardToOverProgress > 0) {
+    ctx.save();
+    ctx.beginPath();
+    ctx.arc(yolkCenterX, yolkCenterY, yolkRadius, 0, Math.PI * 2);
+    ctx.clip();
+
+    ctx.globalCompositeOperation = "source-atop";
+
+    // Ring gradient becomes more visible as cooking progresses into overcooked
+    const ringGradient = ctx.createRadialGradient(yolkCenterX, yolkCenterY, yolkRadius * 0.2, yolkCenterX, yolkCenterY, yolkRadius);
+    ringGradient.addColorStop(0, `rgba(255, 222, 100, 0)`);
+    ringGradient.addColorStop(0.4, `rgba(255, 222, 100, ${hardToOverProgress * 0.25})`);
+    ringGradient.addColorStop(1, `rgba(255, 222, 100, ${hardToOverProgress * 0.9})`);
+
+    ctx.fillStyle = ringGradient;
+    ctx.fillRect(0, 0, 128, 128);
+
+    ctx.restore();
+  }
+
+  // Stage 3: Burnt stage (0.80 to 1.0) - yolk gets slightly darker yellow
+  if (level > 0.80) {
+    ctx.save();
+    ctx.beginPath();
+    ctx.arc(yolkCenterX, yolkCenterY, yolkRadius, 0, Math.PI * 2);
+    ctx.clip();
+
+    ctx.globalCompositeOperation = "source-atop";
+
+    const burntYolkProgress = (level - 0.95) / 0.05;
+    
+    // Slightly darker yellow for burnt yolk
+    const darkerYellow = ctx.createRadialGradient(yolkCenterX, yolkCenterY, 0, yolkCenterX, yolkCenterY, yolkRadius);
+    darkerYellow.addColorStop(0, `rgba(230, 200, 80, ${burntYolkProgress * 0.5})`);
+    darkerYellow.addColorStop(1, `rgba(220, 180, 60, ${burntYolkProgress * 0.6})`);
+    
+    ctx.fillStyle = darkerYellow;
+    ctx.fillRect(0, 0, 128, 128);
+
+    ctx.restore();
+  }
+  
+  ctx.restore();
+}
+
+function drawFace(faceType) {
+  const faceKey = `face_${faceType}`;
+  
+  // Try to use image first
+  if (images[faceKey]) {
+    // Draw face image smaller and slightly higher
+    const faceScale = 0.75; // scale down face
+    const faceW = 128 * faceScale;
+    const faceH = 128 * faceScale;
+    const faceYOffset = -6; // move face up (negative = up)
+    const fx = Math.round((128 - faceW) / 2);
+    const fy = Math.round((128 - faceH) / 2 + faceYOffset);
+    ctx.save();
+    ctx.globalCompositeOperation = 'source-over';
+    ctx.drawImage(images[faceKey], fx, fy, Math.round(faceW), Math.round(faceH));
+    ctx.restore();
+    return;
+  }
+
+  // Fallback to drawn face
+  // Draw fallback face smaller and a bit up
+  const faceScale = 0.75;
+  const faceYOffset = -6; // negative moves up
+  ctx.save();
+  ctx.globalCompositeOperation = 'source-over';
+  ctx.translate(64, 64 + faceYOffset);
+  ctx.scale(faceScale, faceScale);
+  ctx.fillStyle = "#000";
+
+  // Eyes
+  if (faceType === "sleepy") {
+    // Closed eyes (small horizontal lines)
+    drawLine(-8, -4, -4, -4); // left eye
+    drawLine(4, -4, 8, -4);  // right eye
+  } else {
+    // Open eyes (single pixels)
+    drawPixel(-6, -4);
+    drawPixel(6, -4);
+  }
+
+  // Mouth based on face type
+  switch (faceType) {
+    case "sleepy":
+      drawLine(-4, 4, 4, 4);
+      break;
+    case "happy":
+      drawLine(-4, 3, -2, 5);
+      drawLine(-2, 5, 2, 5);
+      drawLine(2, 5, 4, 3);
+      break;
+    case "hard":
+      drawLine(-3, 4, 3, 4);
+      break;
+    case "sad":
+      drawLine(-4, 6, -2, 4);
+      drawLine(-2, 4, 2, 4);
+      drawLine(2, 4, 4, 6);
+      break;
+    case "scream":
+      ctx.fillRect(-2, 2, 4, 6);
+      break;
+  }
+
+  ctx.restore();
+}
+
+function drawPixel(x, y) {
+  ctx.fillRect(x, y, 2, 2);
+}
+
+function drawLine(x1, y1, x2, y2) {
+  const dx = Math.sign(x2 - x1) * 2;
+  const dy = Math.sign(y2 - y1) * 2;
+  let x = x1, y = y1;
+
+  while (Math.abs(x - x2) > 1 || Math.abs(y - y2) > 1) {
+    drawPixel(x, y);
+    if (Math.abs(x - x2) > 1) x += dx;
+    if (Math.abs(y - y2) > 1) y += dy;
+  }
+  drawPixel(x2, y2);
+}
+
+function loop() {
+  drawEgg(cookLevel);
+  requestAnimationFrame(loop);
+}
+
+// Expose function for parent timer to control burn level
+window.setBurnLevel = function(level) {
+  cookLevel = Math.max(0, Math.min(1, level));
+};
+
+// Start animation if images are already loaded
+if (Object.keys(images).length > 0) {
+  loop();
+}
+</script>
 
 </body>
 </html>
