@@ -1,22 +1,23 @@
 <!DOCTYPE html>
-<%- include('parts/header', { pageName: 'egg', pageTitle: 'EGG' }) %>
-<body>
+<%- include('parts/header', { pageName: 'Egg Timer', pageTitle: 'ET' }) %>
+<body class="body_home">
 
   <div class="container">
-    <button id="mainBtn" onclick="openLogin()">egg</button>
+    <button id="mainBtn" onclick="openLogin()">start</button>
   </div>
 
   <!-- Login Popup -->
   <div id="loginPopup" class="popup-overlay" style="display: none;">
     <div class="popup-content">
+      <h2>Login ✿</h2>
       <button class="close-btn" onclick="closeLogin()">&times;</button>
-      <%- include("parts/login") %>
+      <div class="popup-inerr-content"><%- include("parts/login") %></div>
     </div>
   </div>
 
   <script>
     function openLogin() {
-      document.getElementById("loginPopup").style.display = "block";
+      document.getElementById("loginPopup").style.display = "flex";
     }
 
     function closeLogin() {
