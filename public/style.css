@@ -376,6 +376,27 @@ body {
   image-rendering: crisp-edges;
 }
 
+.body_menu{
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  background-image:
+      repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 35px,
+        rgba(236, 135, 132, 0.27) 35px,
+        rgba(236, 135, 132, 0.27) 65px
+      ),
+      repeating-linear-gradient(
+        90deg,
+        transparent,
+        transparent 35px,
+        #FCCAA7 35px,
+        #FCCAA7 70px
+      );
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
   .header {

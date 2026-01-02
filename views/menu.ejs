@@ -1,15 +1,18 @@
 <!DOCTYPE html>
 <%- include('parts/header', { pageName: 'Menu', pageTitle: 'MENU' }) %>
-	<body>
+	<body class="body_menu">
 		<% if (message) { %>
 			<div class="message"><%= message %></div>
 		<% } %>
 		<ul>
-			<li class="pixel_egg"><a href="/recipe/boiled"><img src="/boiled.png" alt="egg pixel art"></a></li>
-			<li><a href="/recipe/sunny-side"><img src="/sunnysideup.png" alt="egg pixel art"></a></li>
-			<li><a href="/recipe/scrambled"><img src="/scrumbeled.png" alt="egg pixel art"></a></li>
-			<li><a href="/recipe/omelet"><img src="/omelet.png" alt="egg pixel art"></a></li>
+			<li><a href="/recipe/boiled"><img src="/boiled.png" alt="boiled egg"></a></li>
+			<li><a href="/recipe/sunny-side"><img src="/sunnysideup.png" alt="sunny side up egg"></a></li>
+			<li><a href="/recipe/scrambled"><img src="/scrumbeled.png" alt="scrambled egg"></a></li>
+			<li><a href="/recipe/omelet"><img src="/omelet.png" alt="omelet"></a></li>
 		</ul>
+		
+		<button onclick="location.href='/leaderboard'" class="leaderboard">leader-board</button>
+		<button onclick="location.href='/user-recipy'" class="user-recipy">user recipes</button>
 	</body>
 <%- include('parts/footer') %>
 </html>
