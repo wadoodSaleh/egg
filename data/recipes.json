@@ -15,7 +15,7 @@
         "Peel the egg and enjoy!"
     ],
     "animation": "boiling_egg.html",
-    "losing minute": 15
+    "losing minute": 1
   }
  ,{
     "id" : "sunny-side",
@@ -32,7 +32,7 @@
         "Slide onto a plate and serve immediately."
     ],
     "animation": "sunny_side_up_egg.html",
-    "losing minute": 5
+    "losing minute": 1
   }
   ,{
     "id" : "omelet",
@@ -53,7 +53,7 @@
         "Slide onto a plate and serve hot."
     ],
     "animation": "omelet.html",
-    "losing minute": 10
+    "losing minute": 1
   }
   ,{
     "id" : "scrambled",
@@ -73,6 +73,6 @@
         "Remove from heat and serve immediately."
     ],
     "animation": "scrambled_eggs.html",
-    "losing minute": 7
+    "losing minute": 1
   }
 ]
