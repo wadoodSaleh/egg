@@ -46,7 +46,7 @@ body {
   transform: translateX(-50%);
 }
 
-.header-right {
+.header-right, .header-left{
   display: flex;
   align-items: center;
   gap: 1rem;
@@ -75,11 +75,18 @@ body {
   image-rendering: crisp-edges;
 }
 
+/* Visible button text next to icons for larger screens */
+.nav-button .btn-text {
+  margin-left: 0.5rem;
+  font-size: 1rem;
+  line-height: 1;
+}
+
 .nav-button:hover img {
   transform: scale(1.15);
 }
 
-.logout-btn {
+.logout-btn, .leaderboard-btn {
   background: #EC8784;
   color: white;
   padding: 0.5rem 1rem;
@@ -87,6 +94,11 @@ body {
   font-weight: 600;
   text-decoration: none;
   transition: all 0.2s ease;
+}
+
+.logout-btn img,
+.leaderboard-btn img {
+  display: none;
 }
 
 .logout-btn:hover {
@@ -393,6 +405,16 @@ body {
     width: 32px;
   }
 
+  /* Smaller button text on medium screens */
+  .nav-button .btn-text {
+    font-size: 0.85rem;
+  }
+
+  .logout-btn,
+  .leaderboard-btn {
+    font-size: 0.85rem;
+  }
+
   .music-btn img {
     width: 40px;
   }
@@ -458,8 +480,18 @@ body {
     text-align: center;
   }
 
+  /* keep home button visually first on small screens */
   .nav-button.home-btn {
     order: 1;
+  }
+
+  /* inside the right header group, show music before logout */
+  .header-right .nav-button.music-btn {
+    order: -1;
+  }
+
+  .header-right .nav-button.logout-btn {
+    order: 0;
   }
 
   .header-right {
@@ -546,6 +578,36 @@ body {
   .pixel_egg {
     width: 150px;
   }
+
+  /* Switch buttons from text to icon-only at small screens */
+  .nav-button,
+  .logout-btn,
+  .leaderboard-btn,
+  .music-btn {
+    font-size: 0; /* hide inline text while keeping images visible */
+    padding: 0.25rem;
+    width: 48px;
+    height: 48px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .logout-btn,
+  .leaderboard-btn {
+    border-radius: 50px;
+  }
+  /* hide the text span but keep it accessible to screen readers */
+  .nav-button .btn-text {
+    display: none;
+  }
+
+  .logout-btn img,
+  .leaderboard-btn img {
+    width: 28px;
+    height: auto;
+    display: block;
+  }
 }
 
 /* Very small devices */
@@ -594,6 +656,21 @@ body {
 
   .popup-inerr-content{
     padding: 1rem;
+  }
+
+  /* Further reduce icon/button sizes on very small screens */
+  .nav-button,
+  .logout-btn,
+  .leaderboard-btn,
+  .music-btn {
+    width: 40px;
+    height: 40px;
+    padding: 0.2rem;
+  }
+
+  .logout-btn img,
+  .leaderboard-btn img {
+    width: 20px;
   }
 
 }
