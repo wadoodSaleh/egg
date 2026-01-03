@@ -33,8 +33,13 @@
   }
 
   function resetAnimation() {
-    if (animationFrame && animationFrame.contentWindow?.setBurnLevel) {
-      animationFrame.contentWindow.setBurnLevel(0);
+    if (animationFrame && animationFrame.contentWindow) {
+      if (animationFrame.contentWindow.setBurnLevel) {
+        animationFrame.contentWindow.setBurnLevel(0);
+      }
+      if (animationFrame.contentWindow.stopPanAnimation) {
+        animationFrame.contentWindow.stopPanAnimation();
+      }
     }
   }
 
@@ -66,6 +71,15 @@
     }, 1000);
 
     setButtonStates();
+    // Start pan animation in iframe (if available) and set faster speed
+    if (animationFrame && animationFrame.contentWindow) {
+      if (animationFrame.contentWindow.setPanAnimationSpeed) {
+        animationFrame.contentWindow.setPanAnimationSpeed(300); // faster default
+      }
+      if (animationFrame.contentWindow.startPanAnimation) {
+        animationFrame.contentWindow.startPanAnimation();
+      }
+    }
   }
 
   function pauseTimer() {
@@ -73,6 +87,10 @@
     clearInterval(interval);
     interval = null;
     setButtonStates();
+    // pause animation
+    if (animationFrame && animationFrame.contentWindow?.stopPanAnimation) {
+      animationFrame.contentWindow.stopPanAnimation();
+    }
   }
 
   function stopTimer() {
