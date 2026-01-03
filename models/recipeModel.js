@@ -1,15 +1,32 @@
-const fs = require("fs");
-const path = require("path");
+const db = require("./db");
 
-const recipesPath = path.join(__dirname, "../data/recipes.json");
+async function getRecipeBySlug(slug, userId) {
+  try {
+    const [rows] = await db.execute(
+      'SELECT * FROM recipes WHERE slug = ? AND user_id = ?', 
+      [slug, userId]
+    );
+    return rows[0]; 
+  } catch (err) {
+    console.error("Error in getRecipeBySlug:", err);
+    return null;
+  }
+}
 
-function getRecipeById(id) {
-  const data = fs.readFileSync(recipesPath, "utf-8");
-  const recipes = JSON.parse(data);
-
-  return recipes.find(recipe => recipe.id === id);
+async function getAllRecipes(userId) {
+  try {
+    const [rows] = await db.execute(
+      'SELECT * FROM recipes WHERE user_id = ?', 
+      [userId]
+    );
+    return rows;
+  } catch (err) {
+    console.error("Error in getAllRecipes:", err);
+    return [];
+  }
 }
 
 module.exports = {
-  getRecipeById
+  getRecipeBySlug,
+  getAllRecipes
 };

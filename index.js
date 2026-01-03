@@ -14,11 +14,16 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser("super_secret_egg_timer_key"));
 
 // Make 'user' available to all views if cookie is present
-app.use((req, res, next) => {
+app.use(async (req, res, next) => {
   const userId = req.signedCookies.userId;
   if (userId) {
-    const user = userModel.findById(userId);
-    res.locals.user = user;
+    try {
+      const user = await userModel.findById(userId);
+      res.locals.user = user;
+    } catch (err) {
+      console.error("Error fetching user in middleware:", err);
+      res.locals.user = null;
+    }
   } else {
     res.locals.user = null;
   }
@@ -41,13 +46,17 @@ app.get("/", (req, res) => {
 app.post("/login", login);
 app.get("/logout", logout);
 
-app.get("/menu", (req, res) => {
-  res.render("menu", { message: req.query.msg });
+app.get("/menu", async (req, res) => {
+  if (!res.locals.user) {
+    return res.redirect("/");
+  }
+  const recipes = await recipeController.getAllRecipes(res.locals.user.id);
+  res.render("menu", { message: req.query.msg, recipes });
 });
 
 app.get("/recipe/:id", recipeController.showRecipe);
 // ---------- server ----------
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 9000;
 app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);
 });
