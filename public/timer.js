@@ -10,41 +10,107 @@
 
   const timerDisplay = document.getElementById("timer");
   const startBtn = document.getElementById("startBtn");
+  const pauseBtn = document.getElementById("pauseBtn");
+  const stopBtn = document.getElementById("stopBtn");
   const losePopup = document.getElementById("losePopup");
 
   const animationFrame = document.getElementById("animationFrame");
 
-  if (startBtn) {
-    startBtn.addEventListener("click", () => {
-      if (interval) return;
-
-      interval = setInterval(() => {
-        seconds++;
-
-        const mins = Math.floor(seconds / 60);
-        const secs = seconds % 60;
-
-        if (timerDisplay) {
-          timerDisplay.textContent =
-            String(mins).padStart(2, "0") + ":" +
-            String(secs).padStart(2, "0");
-        }
-
-        // 🔥 BURN PROGRESS
-        if (animationFrame && animationFrame.contentWindow?.setBurnLevel) {
-          const burnProgress = seconds / (losingMinute * 60);
-          animationFrame.contentWindow.setBurnLevel(
-            Math.min(burnProgress, 1)
-          );
-        }
-        
-        // 🔥 Lose condition
-        if (mins >= losingMinute) {
-          clearInterval(interval);
-          if (losePopup) losePopup.style.display = "block";
-        }
-
-      }, 1000);
-    });
+  function updateDisplay() {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    if (timerDisplay) {
+      timerDisplay.textContent =
+        String(mins).padStart(2, "0") + ":" + String(secs).padStart(2, "0");
+    }
   }
+
+  function setButtonStates() {
+    const running = !!interval;
+    if (startBtn) startBtn.disabled = running;
+    if (pauseBtn) pauseBtn.disabled = !running;
+    if (stopBtn) stopBtn.disabled = (!running && seconds === 0);
+  }
+
+  function resetAnimation() {
+    if (animationFrame && animationFrame.contentWindow) {
+      if (animationFrame.contentWindow.setBurnLevel) {
+        animationFrame.contentWindow.setBurnLevel(0);
+      }
+      if (animationFrame.contentWindow.stopPanAnimation) {
+        animationFrame.contentWindow.stopPanAnimation();
+      }
+    }
+  }
+
+  function startTimer() {
+    if (interval) return; // already running
+    // hide lose popup if present when restarting
+    if (losePopup) losePopup.style.display = "none";
+
+    interval = setInterval(() => {
+      seconds++;
+      updateDisplay();
+
+      // 🔥 BURN PROGRESS
+      if (animationFrame && animationFrame.contentWindow?.setBurnLevel) {
+        const burnProgress = seconds / (losingMinute * 60);
+        animationFrame.contentWindow.setBurnLevel(Math.min(burnProgress, 1));
+      }
+
+      // 🔥 Lose condition
+      const mins = Math.floor(seconds / 60);
+      if (mins >= losingMinute) {
+        clearInterval(interval);
+        interval = null;
+        if (losePopup) losePopup.style.display = "block";
+        setButtonStates();
+      }
+
+      setButtonStates();
+    }, 1000);
+
+    setButtonStates();
+    // Start pan animation in iframe (if available) and set faster speed
+    if (animationFrame && animationFrame.contentWindow) {
+      if (animationFrame.contentWindow.setPanAnimationSpeed) {
+        animationFrame.contentWindow.setPanAnimationSpeed(300); // faster default
+      }
+      if (animationFrame.contentWindow.startPanAnimation) {
+        animationFrame.contentWindow.startPanAnimation();
+      }
+    }
+  }
+
+  function pauseTimer() {
+    if (!interval) return;
+    clearInterval(interval);
+    interval = null;
+    setButtonStates();
+    // pause animation
+    if (animationFrame && animationFrame.contentWindow?.stopPanAnimation) {
+      animationFrame.contentWindow.stopPanAnimation();
+    }
+  }
+
+  function stopTimer() {
+    if (interval) {
+      clearInterval(interval);
+      interval = null;
+    }
+    seconds = 0;
+    updateDisplay();
+    if (losePopup) losePopup.style.display = "none";
+    resetAnimation();
+    setButtonStates();
+  }
+
+  // Attach events
+  if (startBtn) startBtn.addEventListener("click", startTimer);
+  if (pauseBtn) pauseBtn.addEventListener("click", pauseTimer);
+  if (stopBtn) stopBtn.addEventListener("click", stopTimer);
+
+  // Initial UI state
+  updateDisplay();
+  setButtonStates();
 })();

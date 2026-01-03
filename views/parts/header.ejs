@@ -13,14 +13,14 @@
 <body>
   <header class="header">
     <a href="/" class="nav-button home-btn">
-      <img src="boiled.png" alt="Home" />
+      <img src="/boiled.png" alt="Home" />
     </a>
     <h1 class="page-name">
       <%= pageName || 'egg' %>
     </h1>
     <div class="header-right">
       <% if (locals.user) { %>
-        <span class="welcome-msg">Hi, <%= user.username %>!</span>
+        <!--span class="welcome-msg">Hi, <%= user.username %>!</span-->
         <a href="/logout" class="nav-button logout-btn" target="_top">Logout</a>
         <% } else { %>
           <!-- optional: login button or just leave empty if login is on home -->
