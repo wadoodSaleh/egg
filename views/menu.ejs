@@ -1,15 +1,26 @@
 <!DOCTYPE html>
-<%- include('parts/header', { pageName: 'Menu', pageTitle: 'MENU' }) %>
+<%- include('parts/header', { pageName: 'Menu' , pageTitle: 'MENU' }) %>
+
 	<body>
 		<% if (message) { %>
-			<div class="message"><%= message %></div>
-		<% } %>
-		<ul>
-			<li class="pixel_egg"><a href="/recipe/boiled"><img src="/boiled.png" alt="egg pixel art"></a></li>
-			<li><a href="/recipe/sunny-side"><img src="/sunnysideup.png" alt="egg pixel art"></a></li>
-			<li><a href="/recipe/scrambled"><img src="/scrumbeled.png" alt="egg pixel art"></a></li>
-			<li><a href="/recipe/omelet"><img src="/omelet.png" alt="egg pixel art"></a></li>
-		</ul>
+			<div class="message">
+				<%= message %>
+			</div>
+			<% } %>
+				<ul>
+					<% if (locals.recipes) { %>
+						<% recipes.forEach(function(recipe) { %>
+							<li class="pixel_egg">
+								<a href="/recipe/<%= recipe.slug %>">
+									<img src="<%= recipe.image_path %>" alt="<%= recipe.name %>">
+								</a>
+							</li>
+							<% }); %>
+								<% } else { %>
+									<li>No recipes found.</li>
+									<% } %>
+				</ul>
 	</body>
-<%- include('parts/footer') %>
-</html>
+	<%- include('parts/footer') %>
+
+		</html>
