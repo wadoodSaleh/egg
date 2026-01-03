@@ -4,7 +4,6 @@ const path = require('path');
 
 async function initDb() {
   // Try connecting without database first to create it
-  // Note: 'password' is a placeholder. If this fails, we'll need user input.
   const connectionConfig = {
     host: 'localhost',
     user: 'root',

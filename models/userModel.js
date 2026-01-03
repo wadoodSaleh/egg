@@ -10,19 +10,19 @@ const defaultRecipes = [
     animation: 'boiling_egg.html', losing_minute: 1
   },
   {
-    slug: 'sunny-side', name: 'Sunny Side Up Egg', image_path: '/sunnysideup.jpg',
+    slug: 'sunny-side', name: 'Sunny Side Up Egg', image_path: '/sunnysideup.png',
     ingredients: JSON.stringify(["1 egg", "Butter", "Salt and pepper to taste"]),
     instructions: JSON.stringify(["Heat a non-stick skillet over medium heat and add butter.", "Crack the egg into the skillet and cook until the whites are set.", "Season with salt and pepper.", "Slide onto a plate and serve immediately."]),
     animation: 'sunny_side_up_egg.html', losing_minute: 1
   },
   {
-    slug: 'omelet', name: 'Omelet', image_path: '/omelete.jpg',
+    slug: 'omelet', name: 'Omelet', image_path: '/omelet.png',
     ingredients: JSON.stringify(["2 eggs", "Salt and pepper to taste", "Butter or oil", "Cheese (optional)", "Vegetables (optional)"]),
     instructions: JSON.stringify(["In a bowl, whisk the eggs with salt and pepper.", "Heat butter or oil in a skillet over medium heat.", "Pour the egg mixture into the skillet.", "Add cheese and vegetables if desired.", "Fold the omelet in half and cook.", "Slide onto a plate and serve hot."]),
     animation: 'omelet.html', losing_minute: 1
   },
   {
-    slug: 'scrambled', name: 'Scrambled Eggs', image_path: '/scrambled.jpg',
+    slug: 'scrambled', name: 'Scrambled Eggs', image_path: '/scrumbeled.png',
     ingredients: JSON.stringify(["2 eggs", "Salt and pepper to taste", "Butter or oil", "Milk or cream (optional)"]),
     instructions: JSON.stringify(["Whisk eggs with salt, pepper, and milk.", "Heat butter in skillet.", "Pour egg mixture.", "Gently stir eggs.", "Cook until set.", "Remove from heat."]),
     animation: 'scrambled_eggs.html', losing_minute: 1
