@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<%- include('parts/header', { pageName: 'Add Recipe' , pageTitle: 'Add Recipe' , bodyClass: 'body_menu' }) %>
+
+    <div class="leaderboard-container" style="max-width: 600px;">
+        <div class="leaderboard-inner">
+            <h1 class="leaderboard-title">New Recipe</h1>
+
+            <form action="/add-recipe" method="POST" enctype="multipart/form-data" class="add-recipe-form">
+
+                <div class="form-group">
+                    <label for="name">Recipe Name</label>
+                    <input type="text" id="name" name="name" required placeholder="e.g. Grandma's Secret Egg">
+                </div>
+
+                <div class="form-group">
+                    <label for="ingredients">Ingredients (one per line)</label>
+                    <textarea id="ingredients" name="ingredients" rows="5" required
+                        placeholder="1 egg&#10;Salt&#10;Pepper"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="instructions">Instructions (one per line)</label>
+                    <textarea id="instructions" name="instructions" rows="5" required
+                        placeholder="Crack egg.&#10;Cook egg.&#10;Eat egg."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="losing_minute">Burn Time (minutes)</label>
+                    <input type="number" id="losing_minute" name="losing_minute" value="1" min="1" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Image Source</label>
+                    <div class="radio-group">
+                        <label>
+                            <input type="radio" name="imageSource" value="default" checked
+                                onchange="toggleImageInput()"> Default
+                        </label>
+                        <label>
+                            <input type="radio" name="imageSource" value="upload" onchange="toggleImageInput()"> Upload
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group" id="defaultImageGroup">
+                    <label for="defaultImage">Select Image</label>
+                    <select id="defaultImage" name="defaultImage">
+                        <option value="/boiled.png">Boiled Egg</option>
+                        <option value="/sunnysideup.png">Sunny Side Up</option>
+                        <option value="/omelet.png">Omelet</option>
+                        <option value="/scrumbeled.png">Scrambled</option>
+                    </select>
+                </div>
+
+                <div class="form-group" id="uploadImageGroup" style="display: none;">
+                    <label for="uploadImage">Upload Image (Max 2MB)</label>
+                    <input type="file" id="uploadImage" name="uploadImage" accept="image/*">
+                </div>
+
+                <div class="form-group">
+                    <label for="animation">Timer Animation</label>
+                    <select id="animation" name="animation">
+                        <option value="boiling_egg.html">Boiling Water</option>
+                        <option value="sunny_side_up_egg.html">Frying Pan</option>
+                        <option value="omelet.html">Omelet Pan</option>
+                        <option value="scrambled_eggs.html">Scrambling Pan</option>
+                    </select>
+                </div>
+
+                <div class="form-group checkbox-group">
+                    <label>
+                        <input type="checkbox" name="is_shared" value="true"> Share with others?
+                    </label>
+                </div>
+
+                <button type="submit" class="submit-btn" style="margin-top: 20px;">Create Recipe</button>
+            </form>
+
+            <a href="/menu" class="back-btn">Back to Menu</a>
+        </div>
+    </div>
+
+    <script>
+        function toggleImageInput() {
+            const source = document.querySelector('input[name="imageSource"]:checked').value;
+            const defaultGroup = document.getElementById('defaultImageGroup');
+            const uploadGroup = document.getElementById('uploadImageGroup');
+
+            if (source === 'default') {
+                defaultGroup.style.display = 'block';
+                uploadGroup.style.display = 'none';
+            } else {
+                defaultGroup.style.display = 'none';
+                uploadGroup.style.display = 'block';
+            }
+        }
+    </script>
+
+    <style>
+        .add-recipe-form {
+            text-align: left;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #EC8784;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+        }
+
+        .form-group input[type="text"],
+        .form-group input[type="number"],
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 3px solid #EC8784;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 1rem;
+            background: white;
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 20px;
+        }
+
+        .submit-btn {
+            width: 100%;
+            background: linear-gradient(180deg, #F8E769 0%, #f9d948 100%);
+            border: 4px solid #EC8784;
+            border-radius: 40px;
+            padding: 1rem;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #EC8784;
+            text-transform: uppercase;
+            letter-spacing: 0.2rem;
+            cursor: pointer;
+            box-shadow: 0 6px 0 #e96b73;
+            transition: all 0.15s ease;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 9px 0 #e96b73;
+        }
+
+        .submit-btn:active {
+            transform: translateY(3px);
+            box-shadow: 0 3px 0 #e96b73;
+        }
+    </style>
+
+    <%- include('parts/footer') %>

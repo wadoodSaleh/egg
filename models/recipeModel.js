@@ -26,7 +26,33 @@ async function getAllRecipes(userId) {
   }
 }
 
+async function createRecipe(data) {
+  try {
+    const query = `
+      INSERT INTO recipes 
+      (user_id, slug, name, image_path, ingredients, instructions, animation, losing_minute, is_shared)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+    `;
+    const [result] = await db.execute(query, [
+      data.userId,
+      data.slug,
+      data.name,
+      data.imagePath,
+      JSON.stringify(data.ingredients),
+      JSON.stringify(data.instructions),
+      data.animation,
+      data.losingMinute,
+      data.isShared
+    ]);
+    return result.insertId;
+  } catch (err) {
+    console.error("Error in createRecipe:", err);
+    throw err;
+  }
+}
+
 module.exports = {
   getRecipeBySlug,
-  getAllRecipes
+  getAllRecipes,
+  createRecipe
 };
