@@ -1,6 +1,59 @@
-<div>
-  <h2>You burned the egg 🔥</h2>
-  <img src="/fire.png" alt="burned egg" />
-  <p>The egg is overcooked.</p>
-  <a href="/menu">Try again</a>
+<div class="popup-overlay" style="z-index: 2000;">
+  <div class="popup-content" style="text-align: center; max-width: 400px;">
+    <button class="close-btn" onclick="document.getElementById('losePopup').style.display='none'">X</button>
+    <h2>You burned the egg 🔥</h2>
+    <div style="margin: 1.5rem 0;">
+      <img src="/fire.png" alt="burned egg" class="pixel_egg" style="width: 120px; animation: shake 0.5s infinite;" />
+    </div>
+    <p style="font-size: 1.1rem; color: #666; margin-bottom: 2rem;">The egg is overcooked.</p>
+    <a href="/menu" class="action-btn" style="display: inline-block;">Try again</a>
+  </div>
 </div>
+
+<style>
+  @keyframes shake {
+    0% {
+      transform: translate(1px, 1px) rotate(0deg);
+    }
+
+    10% {
+      transform: translate(-1px, -2px) rotate(-1deg);
+    }
+
+    20% {
+      transform: translate(-3px, 0px) rotate(1deg);
+    }
+
+    30% {
+      transform: translate(3px, 2px) rotate(0deg);
+    }
+
+    40% {
+      transform: translate(1px, -1px) rotate(1deg);
+    }
+
+    50% {
+      transform: translate(-1px, 2px) rotate(-1deg);
+    }
+
+    60% {
+      transform: translate(-3px, 1px) rotate(0deg);
+    }
+
+    70% {
+      transform: translate(3px, 1px) rotate(-1deg);
+    }
+
+    80% {
+      transform: translate(-1px, -1px) rotate(1deg);
+    }
+
+    90% {
+      transform: translate(1px, 2px) rotate(0deg);
+    }
+
+    100% {
+      transform: translate(1px, -2px) rotate(-1deg);
+    }
+  }
+</style>

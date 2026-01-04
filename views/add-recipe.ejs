@@ -5,78 +5,86 @@
         <div class="panel-inner">
             <h1 class="panel-title">New Recipe</h1>
 
-            <form action="/add-recipe" method="POST" enctype="multipart/form-data" class="add-recipe-form">
-
-                <div class="form-group">
-                    <label for="name">Recipe Name</label>
-                    <input type="text" id="name" name="name" required placeholder="e.g. Grandma's Secret Egg">
+            <% if (locals.error) { %>
+                <div
+                    style="background: #FFE5F0; color: #EC8784; padding: 1rem; margin-bottom: 1.5rem; border-radius: 8px; border: 3px solid #EC8784; font-weight: bold; text-transform: uppercase;">
+                    <%= error %>
                 </div>
+                <% } %>
 
-                <div class="form-group">
-                    <label for="ingredients">Ingredients (one per line)</label>
-                    <textarea id="ingredients" name="ingredients" rows="5" required
-                        placeholder="1 egg&#10;Salt&#10;Pepper"></textarea>
-                </div>
+                    <form action="/add-recipe" method="POST" enctype="multipart/form-data" class="add-recipe-form">
 
-                <div class="form-group">
-                    <label for="instructions">Instructions (one per line)</label>
-                    <textarea id="instructions" name="instructions" rows="5" required
-                        placeholder="Crack egg.&#10;Cook egg.&#10;Eat egg."></textarea>
-                </div>
+                        <div class="form-group">
+                            <label for="name">Recipe Name</label>
+                            <input type="text" id="name" name="name" required placeholder="e.g. Grandma's Secret Egg">
+                        </div>
 
-                <div class="form-group">
-                    <label for="losing_minute">Burn Time (minutes)</label>
-                    <input type="number" id="losing_minute" name="losing_minute" value="1" min="1" required>
-                </div>
+                        <div class="form-group">
+                            <label for="ingredients">Ingredients (one per line)</label>
+                            <textarea id="ingredients" name="ingredients" rows="5" required
+                                placeholder="1 egg&#10;Salt&#10;Pepper"></textarea>
+                        </div>
 
-                <div class="form-group">
-                    <label>Image Source</label>
-                    <div class="radio-group">
-                        <label>
-                            <input type="radio" name="imageSource" value="default" checked
-                                onchange="toggleImageInput()"> Default
-                        </label>
-                        <label>
-                            <input type="radio" name="imageSource" value="upload" onchange="toggleImageInput()"> Upload
-                        </label>
-                    </div>
-                </div>
+                        <div class="form-group">
+                            <label for="instructions">Instructions (one per line)</label>
+                            <textarea id="instructions" name="instructions" rows="5" required
+                                placeholder="Crack egg.&#10;Cook egg.&#10;Eat egg."></textarea>
+                        </div>
 
-                <div class="form-group" id="defaultImageGroup">
-                    <label for="defaultImage">Select Image</label>
-                    <select id="defaultImage" name="defaultImage">
-                        <option value="/boiled.png">Boiled Egg</option>
-                        <option value="/sunnysideup.png">Sunny Side Up</option>
-                        <option value="/omelet.png">Omelet</option>
-                        <option value="/scrumbeled.png">Scrambled</option>
-                    </select>
-                </div>
+                        <div class="form-group">
+                            <label for="losing_minute">Burn Time (minutes)</label>
+                            <input type="number" id="losing_minute" name="losing_minute" value="1" min="1" required>
+                        </div>
 
-                <div class="form-group" id="uploadImageGroup" style="display: none;">
-                    <label for="uploadImage">Upload Image (Max 2MB)</label>
-                    <input type="file" id="uploadImage" name="uploadImage" accept="image/*">
-                </div>
+                        <div class="form-group">
+                            <label>Image Source</label>
+                            <div class="radio-group">
+                                <label>
+                                    <input type="radio" name="imageSource" value="default" checked
+                                        onchange="toggleImageInput()"> Default
+                                </label>
+                                <label>
+                                    <input type="radio" name="imageSource" value="upload" onchange="toggleImageInput()">
+                                    Upload
+                                </label>
+                            </div>
+                        </div>
 
-                <div class="form-group">
-                    <label for="animation">Timer Animation</label>
-                    <select id="animation" name="animation">
-                        <option value="boiling_egg.html">Boiling Water</option>
-                        <option value="sunny_side_up_egg.html">Frying Pan</option>
-                        <option value="omelet.html">Omelet Pan</option>
-                        <option value="scrambled_eggs.html">Scrambling Pan</option>
-                    </select>
-                </div>
+                        <div class="form-group" id="defaultImageGroup">
+                            <label for="defaultImage">Select Image</label>
+                            <select id="defaultImage" name="defaultImage">
+                                <option value="/boiled.png">Boiled Egg</option>
+                                <option value="/sunnysideup.png">Sunny Side Up</option>
+                                <option value="/omelet.png">Omelet</option>
+                                <option value="/scrumbeled.png">Scrambled</option>
+                            </select>
+                        </div>
 
-                <div class="form-group checkbox-group">
-                    <label>
-                        <input type="checkbox" name="is_shared" value="true"> Share with others?
-                    </label>
-                </div>
+                        <div class="form-group" id="uploadImageGroup" style="display: none;">
+                            <label for="uploadImage">Upload Image (Max 2MB)</label>
+                            <input type="file" id="uploadImage" name="uploadImage" accept="image/*">
+                        </div>
 
-                <button type="submit" class="submit-btn" style="margin-top: 20px;">Create Recipe</button>
-            </form>
+                        <div class="form-group">
+                            <label for="animation">Timer Animation</label>
+                            <select id="animation" name="animation">
+                                <option value="boiling_egg.html">Boiling Water</option>
+                                <option value="sunny_side_up_egg.html">Frying Pan</option>
+                                <option value="omelet.html">Omelet Pan</option>
+                                <option value="scrambled_eggs.html">Scrambling Pan</option>
+                            </select>
+                        </div>
 
-            <a href="/menu" class="back-btn">Back to Menu</a>
+                        <div class="form-group checkbox-group">
+                            <label>
+                                <input type="checkbox" name="is_shared" value="true"> Share with others?
+                            </label>
+                        </div>
+
+                        <button type="submit" class="submit-btn" style="margin-top: 20px;">Create Recipe</button>
+                    </form>
+
+                    <a href="/menu" class="back-btn">Back to Menu</a>
         </div>
     </div>
 
