@@ -105,7 +105,8 @@ body {
   display: none;
 }
 
-.logout-btn:hover {
+.logout-btn:hover,
+.leaderboard-btn:hover {
   background: #de6666;
   transform: scale(1.05);
 }
@@ -126,26 +127,6 @@ body {
   background-repeat: no-repeat;
   padding: 2rem;
   position: relative;
-}
-
-.body_home {
-  background-image: url('/bakground 1.png');
-  image-rendering: pixelated;
-}
-
-.body_leaderboard {
-  background-image: url('/bakground 1.png');
-  image-rendering: pixelated;
-}
-
-.body_menu {
-  background-image: url('/bakground 1.png');
-  image-rendering: pixelated;
-}
-
-.body_recipe {
-  background-image: url('/bakground 1.png');
-  image-rendering: pixelated;
 }
 
 /* Container for main button */
@@ -402,6 +383,15 @@ body {
 }
 
 /* Leaderboard Styles */
+
+body.body_leaderboard {
+  background-image: url('/bakground 1.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  image-rendering: pixelated;
+}
+
 .leaderboard-container {
   max-width: 900px;
   width: 95%;
@@ -576,6 +566,126 @@ body {
   image-rendering: pixelated;
   image-rendering: -moz-crisp-edges;
   image-rendering: crisp-edges;
+}
+
+/* Menu Page Styles */
+.body_menu {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-image:
+    repeating-linear-gradient(0deg,
+      transparent,
+      transparent 35px,
+      rgba(236, 135, 132, 0.27) 35px,
+      rgba(236, 135, 132, 0.27) 65px),
+    repeating-linear-gradient(90deg,
+      transparent,
+      transparent 35px,
+      #FCCAA7 35px,
+      #FCCAA7 70px);
+}
+
+/* Override .content behavior for menu page */
+.body_menu .content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  flex: 1; /* takes remaining space */
+  padding: 2rem;
+}
+
+.message {
+  text-align: center;
+  font-size: 18px;
+  margin-top: 20px;
+  color: #F25A4A;
+  font-weight: bold;
+  display: flex;
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 100px;
+  z-index: 60;
+  justify-content: center;
+  padding: 0 12px; 
+}
+
+/* UL as flex grid */
+.body_menu ul {
+  list-style: none;
+  padding: 0;
+  margin: 20px 0;
+  width: 90%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: left;
+  gap: 20px;
+}
+
+.body_menu ul li img {
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  transition: transform 0.2s ease;
+  cursor: pointer;
+}
+
+.body_menu ul li img:hover {
+  transform: scale(1.05);
+}
+
+/* buttons bottom */
+.menu_buttons {
+  display: flex;
+  gap: 20%;
+  position: fixed;
+  transform: translateX(-50%);
+  left: 50%;
+  bottom: 24px; /* space below the buttons */
+  z-index: 60;
+  justify-content: center;
+  padding: 0 12px; /* prevent touching screen edges on small viewports */
+  max-width: calc(100% - 32px);
+}
+
+.menu_buttons button {
+  padding: 10px 18px;
+  font-size: 16px;
+  cursor: pointer;
+  font-family: inherit;
+  background: linear-gradient(180deg, #FFEB3B 0%, #FDD835 100%);
+  border: 6px solid #EC8784;
+  border-radius: 25px;
+  font-weight: bold;
+  color: #EC8784;
+  text-transform: uppercase;
+  letter-spacing: 0.5rem;
+  cursor: pointer;
+  box-shadow:
+    0 8px 0 #de6666,
+    0 12px 20px rgba(0, 0, 0, 0.3);
+  transition: all 0.15s ease;
+  position: relative;
+  text-shadow: 2px 2px 0px rgba(255, 255, 255, 0.3);
+}
+
+.menu_buttons button:hover {
+  transform: translateY(-4px);
+  box-shadow:
+    0 12px 0 #de6666,
+    0 16px 25px rgba(0, 0, 0, 0.4);
+}
+
+.menu_buttons button:active {
+  transform: translateY(4px);
+  box-shadow:
+    0 4px 0 #de6666,
+    0 8px 15px rgba(0, 0, 0, 0.3);
 }
 
 /* Responsive Design */
