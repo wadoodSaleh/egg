@@ -3,10 +3,11 @@
   let interval = null;
 
   const timerArea = document.getElementById("timerArea");
-  if (!timerArea) return; // Guard clause in case script runs on a page without timer
+  if (!timerArea) return; // Guard clause
 
   const cookMinutes = Number(timerArea.dataset.cook);
   const losingMinute = Number(timerArea.dataset.lose);
+  const recipeId = timerArea.dataset.recipeId;
 
   const timerDisplay = document.getElementById("timer");
   const startBtn = document.getElementById("startBtn");
@@ -15,6 +16,19 @@
   const losePopup = document.getElementById("losePopup");
 
   const animationFrame = document.getElementById("animationFrame");
+
+  async function recordStat(outcome) {
+    if (!recipeId) return;
+    try {
+      await fetch('/api/stats', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ recipeId, outcome })
+      });
+    } catch (err) {
+      console.error("Error recording stat:", err);
+    }
+  }
 
   function updateDisplay() {
     const mins = Math.floor(seconds / 60);
@@ -45,7 +59,6 @@
 
   function startTimer() {
     if (interval) return; // already running
-    // hide lose popup if present when restarting
     if (losePopup) losePopup.style.display = "none";
 
     interval = setInterval(() => {
@@ -65,16 +78,16 @@
         interval = null;
         if (losePopup) losePopup.style.display = "block";
         setButtonStates();
+        recordStat('burned'); // Record BURNT egg
       }
 
       setButtonStates();
     }, 1000);
 
     setButtonStates();
-    // Start pan animation in iframe (if available) and set faster speed
     if (animationFrame && animationFrame.contentWindow) {
       if (animationFrame.contentWindow.setPanAnimationSpeed) {
-        animationFrame.contentWindow.setPanAnimationSpeed(300); // faster default
+        animationFrame.contentWindow.setPanAnimationSpeed(300);
       }
       if (animationFrame.contentWindow.startPanAnimation) {
         animationFrame.contentWindow.startPanAnimation();
@@ -87,13 +100,17 @@
     clearInterval(interval);
     interval = null;
     setButtonStates();
-    // pause animation
     if (animationFrame && animationFrame.contentWindow?.stopPanAnimation) {
       animationFrame.contentWindow.stopPanAnimation();
     }
   }
 
   function stopTimer() {
+    if (seconds > 0 && seconds < losingMinute * 60) {
+       // Started but stopped before burning -> SUCCESS/COOKED
+       recordStat('cooked');
+    }
+
     if (interval) {
       clearInterval(interval);
       interval = null;

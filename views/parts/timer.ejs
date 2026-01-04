@@ -1,5 +1,6 @@
 <%console.log("Rendering timer for recipe:", recipe);%>
-  <div id="timerArea" data-cook="<%= recipe.cook_minutes %>" data-lose="<%= recipe.losing_minute %>">
+  <div id="timerArea" data-cook="<%= recipe.cook_minutes %>" data-lose="<%= recipe.losing_minute %>"
+    data-recipe-id="<%= recipe.id %>">
 
     <iframe id="animationFrame" src="/animations/<%= recipe.animation %>"></iframe>
 
