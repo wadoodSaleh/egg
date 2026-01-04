@@ -5,7 +5,43 @@
     <div class="leaderboard-inner">
         <h1 class="leaderboard-title">🥚 Egg Leaders 🍳</h1>
         <p class="leaderboard-subtitle">WHO IS THE ULTIMATE EGG MASTER?</p>
-
+        <% if (locals.user) { const myRankIndex=leaderboard.findIndex(u=> u.user_id === locals.user.id);
+            if (myRankIndex !== -1) {
+            const myStats = leaderboard[myRankIndex];
+            %>
+            <div class="personal-stats">
+                <h2>Your Stats</h2>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <span>Rank</span>
+                        <strong style="color: #EC8784;">#<%= myRankIndex + 1 %></strong>
+                    </div>
+                    <div class="stat-item">
+                        <span>Cooked</span>
+                        <strong style="color: green;">
+                            <%= myStats.total_cooked %>
+                        </strong>
+                    </div>
+                    <div class="stat-item">
+                        <span>Burnt</span>
+                        <strong style="color: red;">
+                            <%= myStats.total_burned %>
+                        </strong>
+                    </div>
+                    <div class="stat-item">
+                        <span>Total</span>
+                        <strong>
+                            <%= myStats.total_eggs %>
+                        </strong>
+                    </div>
+                </div>
+            </div>
+            <% } else { %>
+                <div class="personal-stats">
+                    <h2>Your Stats</h2>
+                    <p>You haven't cooked any eggs yet! Get cracking to see your rank.</p>
+                </div>
+                <% } } %>
         <div style="overflow-x: auto;">
             <table class="leaderboard-table">
                 <thead>
@@ -46,44 +82,6 @@
                 </tbody>
             </table>
         </div>
-
-        <% if (locals.user) { const myRankIndex=leaderboard.findIndex(u=> u.user_id === locals.user.id);
-            if (myRankIndex !== -1) {
-            const myStats = leaderboard[myRankIndex];
-            %>
-            <div class="personal-stats">
-                <h2>Your Stats</h2>
-                <div class="stats-grid">
-                    <div class="stat-item">
-                        <span>Rank</span>
-                        <strong style="color: #EC8784;">#<%= myRankIndex + 1 %></strong>
-                    </div>
-                    <div class="stat-item">
-                        <span>Cooked</span>
-                        <strong style="color: green;">
-                            <%= myStats.total_cooked %>
-                        </strong>
-                    </div>
-                    <div class="stat-item">
-                        <span>Burnt</span>
-                        <strong style="color: red;">
-                            <%= myStats.total_burned %>
-                        </strong>
-                    </div>
-                    <div class="stat-item">
-                        <span>Total</span>
-                        <strong>
-                            <%= myStats.total_eggs %>
-                        </strong>
-                    </div>
-                </div>
-            </div>
-            <% } else { %>
-                <div class="personal-stats">
-                    <h2>Your Stats</h2>
-                    <p>You haven't cooked any eggs yet! Get cracking to see your rank.</p>
-                </div>
-                <% } } %>
 
                     <a href="/menu" class="back-btn">Back to Menu</a>
     </div>
