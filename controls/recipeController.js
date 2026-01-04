@@ -71,8 +71,21 @@ async function addRecipe(req, res) {
     await recipeModel.createRecipe(recipeData);
     res.redirect('/menu?msg=' + encodeURIComponent('Recipe created successfully!'));
   } catch (err) {
+    // Check for duplicate entry error (MySQL error code 1062)
+    // We check code, message, and toString() to be safe
+    if (
+      err.code === 'ER_DUP_ENTRY' || 
+      (err.message && err.message.includes('Duplicate entry')) ||
+      err.toString().includes('Duplicate entry')
+    ) {
+       // Log a clean message instead of a stack trace
+       // console.log("Duplicate recipe creation attempt blocked.");
+       return res.render("add-recipe", { error: "A recipe with this name already exists! Please choose a different name." });
+    }
+
+    // Only log unexpected errors
     console.error("Error adding recipe:", err);
-    res.render("add-recipe", { error: "Failed to create recipe." });
+    res.render("add-recipe", { error: "Failed to create recipe. Please try again." });
   }
 }
 

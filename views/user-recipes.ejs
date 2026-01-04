@@ -1,40 +1,40 @@
 <!DOCTYPE html>
 <%- include('parts/header', { pageName: 'Community' , pageTitle: 'Community Recipes' , bodyClass: 'body_menu' }) %>
 
-    <!-- Content Wrapper matching menu structure -->
-    <div class="content">
-        <% if (recipes && recipes.length> 0) { %>
-            <ul class="recipe-grid">
-                <% recipes.forEach(function(recipe) { %>
-                    <li class="recipe-card">
-                        <a href="/recipe/<%= recipe.slug %>" class="recipe-link">
-                            <div class="recipe-image-container">
-                                <img src="<%= recipe.image_path %>" alt="<%= recipe.name %>" class="recipe-image">
-                            </div>
-                            <div class="recipe-info">
-                                <h3 class="recipe-name">
-                                    <%= recipe.name %>
-                                </h3>
-                                <p class="recipe-chef">Chef: <%= recipe.username %>
-                                </p>
-                            </div>
-                        </a>
-                    </li>
-                    <% }); %>
-            </ul>
-            <% } else { %>
-                <div class="no-recipes panel-inner" style="margin-top: 2rem; max-width: 600px;">
-                    <h2 style="color: #EC8784;">No community recipes yet!</h2>
-                    <p>Be the first to share your culinary masterpiece.</p>
+    <!-- Content Wrapper removed to match menu structure -->
+    <% if (recipes && recipes.length> 0) { %>
+        <ul class="recipe-grid">
+            <% recipes.forEach(function(recipe) { %>
+                <li class="recipe-card">
+                    <a href="/recipe/<%= recipe.slug %>" class="recipe-link">
+                        <div class="recipe-image-container">
+                            <img src="<%= recipe.image_path %>" alt="<%= recipe.name %>" class="recipe-image">
+                        </div>
+                        <div class="recipe-info">
+                            <h3 class="recipe-name">
+                                <%= recipe.name %>
+                            </h3>
+                            <p class="recipe-chef">Chef: <%= recipe.user_name || recipe.username %>
+                            </p>
+                        </div>
+                    </a>
+                </li>
+                <% }); %>
+        </ul>
+        <% } else { %>
+            <div class="no-recipes panel-inner"
+                style="margin-top: 2rem; max-width: 600px; margin-left: auto; margin-right: auto;">
+                <h2 style="color: #EC8784;">No community recipes yet!</h2>
+                <p>Be the first to share your culinary masterpiece.</p>
+            </div>
+            <% } %>
+
+                <div class="menu_buttons">
+                    <a href="/add-recipe"><button>Share Recipe</button></a>
+                    <a href="/menu"><button>Back to Menu</button></a>
                 </div>
-                <% } %>
 
-                    <div class="menu_buttons">
-                        <a href="/add-recipe"><button>Share Recipe</button></a>
-                        <a href="/menu"><button>Back to Menu</button></a>
-                    </div>
-    </div>
 
-    <%- include('parts/footer') %>
+                <%- include('parts/footer') %>
 
-        </html>
+                    </html>

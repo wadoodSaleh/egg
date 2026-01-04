@@ -559,8 +559,9 @@ body.body_leaderboard {
 }
 
 /* Pixel egg image */
+/* Pixel egg image */
 .pixel_egg {
-  width: 100%;
+  /* Width handled by li container now */
   height: auto;
   image-rendering: pixelated;
   image-rendering: -moz-crisp-edges;
@@ -667,21 +668,31 @@ body.body_leaderboard {
   padding: 0;
   margin: 20px 0;
   width: 90%;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  display: flex;
+  /* FLEXBOX */
+  flex-wrap: wrap;
+  /* WRAP */
+  justify-content: center;
+  /* CENTER */
   gap: 20px;
-  justify-items: center;
 }
 
 .body_menu ul li {
   display: flex;
   justify-content: center;
   align-items: center;
+  /* Graceful scaling */
+  flex-grow: 1;
+  flex-basis: clamp(150px, 20vw, 220px);
+  max-width: 300px;
+  width: clamp(150px, 20vw, 220px);
+  /* Enforce clamp width */
+  transition: all 0.3s ease;
+  /* Smooth scaling transition */
 }
 
 .body_menu ul li img {
   width: 100%;
-  max-width: 180px;
   height: auto;
   border-radius: 12px;
   transition: transform 0.2s ease;
@@ -798,28 +809,11 @@ body.body_leaderboard {
     font-size: 1.3rem;
   }
 
-  .popup-content {
-    padding: 1.5rem;
-    border-width: 6px;
-  }
 
-  .popup-content h2 {
-    font-size: 1.6rem;
-    letter-spacing: 0.2rem;
-  }
 
-  .close-btn {
-    width: 38px;
-    height: 38px;
-    font-size: 1.6rem;
-    top: 1rem;
-    right: 1rem;
-  }
-
-  .popup-content button[type="submit"] {
-    font-size: 1.1rem;
-    padding: 0.9rem 2.5rem;
-    letter-spacing: 0.2rem;
+  .body_menu ul li img {
+    min-width: 0;
+    /* Allow shrinking */
   }
 }
 
@@ -864,240 +858,114 @@ body.body_leaderboard {
     width: 35px;
   }
 
-  /* Hide button text on mobile */
+  #mainBtn {
+    padding: 1rem 2.5rem;
+    font-size: 1.5rem;
+    letter-spacing: 0.3rem;
+    border-width: 4px;
+    border-radius: 40px;
+  }
+
+  .logout-btn {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.9rem;
+  }
+
+  .popup-content {
+    padding: 1rem;
+    border-width: 3px;
+    border-radius: 20px;
+  }
+
+  .close-btn {
+    width: 30px;
+    height: 30px;
+    font-size: 1.2rem;
+    top: 0.5rem;
+    right: 0.5rem;
+  }
+
+  .popup-content {
+    padding: 1rem;
+    border-width: 5px;
+    border-radius: 2px;
+  }
+
+  .popup-content h2 {
+    font-size: 1.3rem;
+    letter-spacing: 0.15rem;
+    margin-bottom: 1rem;
+  }
+
+  .close-btn {
+    width: 35px;
+    height: 35px;
+    font-size: 1.4rem;
+    top: 0.75rem;
+    right: 0.75rem;
+  }
+
+  .popup-content input[type="email"],
+  .popup-content input[type="password"],
+  .popup-content input[type="text"] {
+    padding: 0.8rem;
+    font-size: 0.9rem;
+  }
+
+  .popup-content button[type="submit"] {
+    font-size: 1rem;
+    padding: 0.8rem 2rem;
+    letter-spacing: 0.15rem;
+  }
+
+  .popup-content label {
+    font-size: 0.8rem;
+  }
+
+  .popup-inerr-content {
+    padding: 1rem;
+  }
+
+
+
+  /* Restore full width for grid items on mobile to fit the 2-column layout */
+  .pixel_egg {
+    /* width: 100%;  <-- Removed to let clamp() work */
+    min-width: 0;
+  }
+
+  /* Switch buttons from text to icon-only at small screens */
+  .nav-button,
+  .logout-btn,
+  .leaderboard-btn,
+  .music-btn {
+    font-size: 0;
+    /* hide inline text while keeping images visible */
+    padding: 0.25rem;
+    width: 48px;
+    height: 48px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .logout-btn,
+  .leaderboard-btn {
+    border-radius: 50px;
+  }
+
+  /* hide the text span but keep it accessible to screen readers */
   .nav-button .btn-text {
     display: none;
   }
 
-  margin: 20px auto;
-  width: 98%;
+  .logout-btn img,
+  .leaderboard-btn img {
+    width: 28px;
+    height: auto;
+    display: block;
+  }
 }
-
-/* Improve required items (inputs/lists) on mobile */
-.panel-inner ul,
-.panel-inner ol {
-  padding-left: 1rem !important;
-}
-
-.panel-inner li {
-  font-size: 1rem !important;
-  margin-bottom: 0.8rem !important;
-}
-
-/* Make grid items smaller on mobile to fit 2 per row if possible */
-.body_menu ul,
-.recipe-grid {
-  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
-  gap: 10px;
-}
-}
-}
-
-/* User Recipes / Community Page Styles */
-.recipe-grid {
-  list-style: none;
-  padding: 0;
-  margin: 20px 0;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 20px;
-}
-
-.recipe-card {
-  background: white;
-  border: 3px solid #EC8784;
-  border-radius: 8px;
-  overflow: hidden;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.recipe-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 5px 15px rgba(236, 135, 132, 0.4);
-}
-
-.recipe-link {
-  text-decoration: none;
-  color: inherit;
-  display: block;
-}
-
-.recipe-image-container {
-  width: 100%;
-  height: 150px;
-  background: #fff9e6;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-bottom: 2px solid #EC8784;
-  overflow: hidden;
-}
-
-.recipe-image {
-  max-width: 100%;
-  max-height: 100%;
-  object-fit: contain;
-  image-rendering: pixelated;
-}
-
-.recipe-info {
-  padding: 10px;
-  text-align: left;
-}
-
-.recipe-name {
-  font-size: 1.1rem;
-  color: #333;
-  margin-bottom: 5px;
-  font-weight: bold;
-  text-transform: capitalize;
-}
-
-.recipe-chef {
-  font-size: 0.8rem;
-  color: #EC8784;
-  font-weight: bold;
-  text-transform: uppercase;
-}
-
-.no-recipes {
-  padding: 2rem;
-  text-align: center;
-  color: #666;
-}
-
-.action-btn {
-  display: inline-block;
-  margin-top: 1rem;
-  background: #F8E769;
-  border: 2px solid #EC8784;
-  padding: 0.5rem 1rem;
-  border-radius: 20px;
-  color: #EC8784;
-  font-weight: bold;
-  text-decoration: none;
-  text-transform: uppercase;
-  transition: all 0.2s ease;
-}
-
-.action-btn:hover {
-  background: #FFEB3B;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 0 #EC8784;
-}
-
-.nav-button img {
-  width: 28px;
-}
-
-.music-btn img {
-  width: 35px;
-}
-
-#mainBtn {
-  padding: 1rem 2.5rem;
-  font-size: 1.5rem;
-  letter-spacing: 0.3rem;
-  border-width: 4px;
-  border-radius: 40px;
-}
-
-.logout-btn {
-  padding: 0.4rem 0.8rem;
-  font-size: 0.9rem;
-}
-
-.popup-content {
-  padding: 1rem;
-  border-width: 3px;
-  border-radius: 20px;
-}
-
-.close-btn {
-  width: 30px;
-  height: 30px;
-  font-size: 1.2rem;
-  top: 0.5rem;
-  right: 0.5rem;
-}
-
-.popup-content {
-  padding: 1rem;
-  border-width: 5px;
-  border-radius: 2px;
-}
-
-.popup-content h2 {
-  font-size: 1.3rem;
-  letter-spacing: 0.15rem;
-  margin-bottom: 1rem;
-}
-
-.close-btn {
-  width: 35px;
-  height: 35px;
-  font-size: 1.4rem;
-  top: 0.75rem;
-  right: 0.75rem;
-}
-
-.popup-content input[type="email"],
-.popup-content input[type="password"],
-.popup-content input[type="text"] {
-  padding: 0.8rem;
-  font-size: 0.9rem;
-}
-
-.popup-content button[type="submit"] {
-  font-size: 1rem;
-  padding: 0.8rem 2rem;
-  letter-spacing: 0.15rem;
-}
-
-.popup-content label {
-  font-size: 0.8rem;
-}
-
-.popup-inerr-content {
-  padding: 2rem;
-}
-
-.pixel_egg {
-  width: 150px;
-}
-
-/* Switch buttons from text to icon-only at small screens */
-.nav-button,
-.logout-btn,
-.leaderboard-btn,
-.music-btn {
-  font-size: 0;
-  /* hide inline text while keeping images visible */
-  padding: 0.25rem;
-  width: 48px;
-  height: 48px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.logout-btn,
-.leaderboard-btn {
-  border-radius: 50px;
-}
-
-/* hide the text span but keep it accessible to screen readers */
-.nav-button .btn-text {
-  display: none;
-}
-
-.logout-btn img,
-.leaderboard-btn img {
-  width: 28px;
-  height: auto;
-  display: block;
-}
-
 
 /* Very small devices */
 @media (max-width: 360px) {
@@ -1163,8 +1031,12 @@ body.body_leaderboard {
     width: 20px;
   }
 
-
+  .body_menu ul {
+    gap: 10px;
+  }
 }
+
+/* --- ADDED / PRESERVED STYLES BELOW --- */
 
 /* Responsive Typography & Recipe Alignment */
 .panel-title {
@@ -1310,4 +1182,106 @@ body.body_leaderboard {
   text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.1);
   letter-spacing: 0.2rem;
   margin: 1rem 0;
+}
+
+/* User Recipes / Community Page Styles - FLEXBOX (Desktop) */
+.recipe-grid {
+  list-style: none;
+  padding: 0;
+  margin: 20px 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  width: 90%;
+  max-width: 1200px;
+}
+
+.recipe-card {
+  background: white;
+  border: 3px solid #EC8784;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, flex-basis 0.3s ease, width 0.3s ease;
+  /* Smooth transition */
+  /* Graceful scaling matched to menu */
+  flex-grow: 1;
+  flex-basis: clamp(150px, 20vw, 220px);
+  max-width: 300px;
+  width: clamp(150px, 20vw, 220px);
+}
+
+.recipe-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(236, 135, 132, 0.4);
+}
+
+.recipe-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+.recipe-image-container {
+  width: 100%;
+  height: 150px;
+  background: #fff9e6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 2px solid #EC8784;
+  overflow: hidden;
+}
+
+.recipe-image {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  image-rendering: pixelated;
+}
+
+.recipe-info {
+  padding: 10px;
+  text-align: left;
+}
+
+.recipe-name {
+  font-size: 1.1rem;
+  color: #333;
+  margin-bottom: 5px;
+  font-weight: bold;
+  text-transform: capitalize;
+}
+
+.recipe-chef {
+  font-size: 0.8rem;
+  color: #EC8784;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.no-recipes {
+  padding: 2rem;
+  text-align: center;
+  color: #666;
+}
+
+.action-btn {
+  display: inline-block;
+  margin-top: 1rem;
+  background: #F8E769;
+  border: 2px solid #EC8784;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  color: #EC8784;
+  font-weight: bold;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: all 0.2s ease;
+}
+
+.action-btn:hover {
+  background: #FFEB3B;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 0 #EC8784;
 }

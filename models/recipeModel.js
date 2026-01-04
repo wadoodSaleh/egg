@@ -46,7 +46,7 @@ async function createRecipe(data) {
     ]);
     return result.insertId;
   } catch (err) {
-    console.error("Error in createRecipe:", err);
+    // console.error("Error in createRecipe:", err);
     throw err;
   }
 }
