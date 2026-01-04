@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<%- include('parts/header', { pageName: 'Add Recipe' , pageTitle: 'Add Recipe' , bodyClass: 'body_menu' }) %>
+<%- include('parts/header', { pageName: 'Add Recipe' , pageTitle: 'Add Recipe' , bodyClass: 'body_leaderboard' }) %>
 
-    <div class="leaderboard-container" style="max-width: 600px;">
-        <div class="leaderboard-inner">
-            <h1 class="leaderboard-title">New Recipe</h1>
+    <div class="panel-container" style="max-width: 600px;">
+        <div class="panel-inner">
+            <h1 class="panel-title">New Recipe</h1>
 
             <form action="/add-recipe" method="POST" enctype="multipart/form-data" class="add-recipe-form">
 

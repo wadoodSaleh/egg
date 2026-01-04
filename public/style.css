@@ -382,8 +382,6 @@ body {
   font-weight: 600;
 }
 
-/* Leaderboard Styles */
-
 body.body_leaderboard {
   background-image: url('/bakground 1.png');
   background-repeat: no-repeat;
@@ -392,7 +390,8 @@ body.body_leaderboard {
   image-rendering: pixelated;
 }
 
-.leaderboard-container {
+/* Panel Styles (Shared by Leaderboard, Add Recipe, etc.) */
+.panel-container {
   max-width: 900px;
   width: 95%;
   margin: 40px auto;
@@ -406,14 +405,14 @@ body.body_leaderboard {
     0 12px 40px rgba(0, 0, 0, 0.4);
 }
 
-.leaderboard-inner {
+.panel-inner {
   background: #FDF0C3;
   border: 4px solid #EC8784;
   padding: 2rem;
   border-radius: 4px;
 }
 
-.leaderboard-title {
+.panel-title {
   color: #EC8784;
   font-size: 2.5rem;
   font-weight: bold;
@@ -423,7 +422,7 @@ body.body_leaderboard {
   text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.1);
 }
 
-.leaderboard-subtitle {
+.panel-subtitle {
   color: #666;
   font-size: 1.1rem;
   margin-bottom: 2rem;
@@ -595,7 +594,8 @@ body.body_leaderboard {
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  flex: 1; /* takes remaining space */
+  flex: 1;
+  /* takes remaining space */
   padding: 2rem;
 }
 
@@ -612,7 +612,7 @@ body.body_leaderboard {
   top: 100px;
   z-index: 60;
   justify-content: center;
-  padding: 0 12px; 
+  padding: 0 12px;
 }
 
 /* UL as flex grid */
@@ -646,10 +646,12 @@ body.body_leaderboard {
   position: fixed;
   transform: translateX(-50%);
   left: 50%;
-  bottom: 24px; /* space below the buttons */
+  bottom: 24px;
+  /* space below the buttons */
   z-index: 60;
   justify-content: center;
-  padding: 0 12px; /* prevent touching screen edges on small viewports */
+  padding: 0 12px;
+  /* prevent touching screen edges on small viewports */
   max-width: calc(100% - 32px);
 }
 
