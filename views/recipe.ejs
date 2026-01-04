@@ -1,7 +1,6 @@
 <!DOCTYPE html>
-<%- include('parts/header', { pageName: recipe.name , pageTitle: recipe.name}) %>
+<%- include('parts/header', { pageName: recipe.name , pageTitle: recipe.name, bodyClass: 'body_recipy'}) %>
 
-  <body>
     <h2>Ingredients</h2>
     <ul>
       <% recipe.ingredients.forEach(item=> { %>
@@ -22,8 +21,6 @@
 
     <!-- Timer -->
     <%- include("parts/timer", { recipe }) %>
-
-  </body>
   <%- include('parts/footer') %>
 
     </html>

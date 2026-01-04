@@ -1,7 +1,6 @@
 <!DOCTYPE html>
-<%- include('parts/header', { pageName: 'Menu' , pageTitle: 'MENU' }) %>
+<%- include('parts/header', { pageName: 'Menu' , pageTitle: 'MENU', bodyClass: 'body_menu' }) %>
 
-	<body class="body_menu">
 		<% if (message) { %>
 			<div class="message">
 				<%= message %>
@@ -20,9 +19,10 @@
 									<li>No recipes found.</li>
 									<% } %>
 				</ul>
-		<button onclick="location.href='/add-recipe'" class="add-recipe">add recipe</button>
-		<button onclick="location.href='/user-recipy'" class="user-recipy">user recipes</button>
-	</body>
+				<div class="menu_buttons">
+					<button onclick="location.href='/add-recipe'" class="add-recipe">add recipe</button>
+					<button onclick="location.href='/user-recipy'" class="user-recipy">user recipes</button>
+				</div>
 	<%- include('parts/footer') %>
 
 		</html>

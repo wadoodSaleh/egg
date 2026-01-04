@@ -6,7 +6,9 @@
 }
 
 /* Global custom cursor */
-html, body, * {
+html,
+body,
+* {
   cursor: url('/cursor.png') 16 16, auto;
 }
 
@@ -46,7 +48,8 @@ body {
   transform: translateX(-50%);
 }
 
-.header-right, .header-left{
+.header-right,
+.header-left {
   display: flex;
   align-items: center;
   gap: 1rem;
@@ -86,7 +89,8 @@ body {
   transform: scale(1.15);
 }
 
-.logout-btn, .leaderboard-btn {
+.logout-btn,
+.leaderboard-btn {
   background: #EC8784;
   color: white;
   padding: 0.5rem 1rem;
@@ -101,7 +105,8 @@ body {
   display: none;
 }
 
-.logout-btn:hover {
+.logout-btn:hover,
+.leaderboard-btn:hover {
   background: #de6666;
   transform: scale(1.05);
 }
@@ -124,10 +129,11 @@ body {
   position: relative;
 }
 
-.body_home{
+.body_home {
   background-image: url('/bakground 1.png');
   image-rendering: pixelated;
 }
+
 /* Container for main button */
 .container {
   display: flex;
@@ -140,7 +146,7 @@ body {
 
 /* Main EGG Button */
 #mainBtn {
-  font-family: inherit; 
+  font-family: inherit;
   background: linear-gradient(180deg, #FFEB3B 0%, #FDD835 100%);
   border: 6px solid #EC8784;
   border-radius: 50px;
@@ -151,7 +157,7 @@ body {
   text-transform: uppercase;
   letter-spacing: 1rem;
   cursor: pointer;
-  box-shadow: 
+  box-shadow:
     0 8px 0 #de6666,
     0 12px 20px rgba(0, 0, 0, 0.3);
   transition: all 0.15s ease;
@@ -161,14 +167,14 @@ body {
 
 #mainBtn:hover {
   transform: translateY(-4px);
-  box-shadow: 
+  box-shadow:
     0 12px 0 #de6666,
     0 16px 25px rgba(0, 0, 0, 0.4);
 }
 
 #mainBtn:active {
   transform: translateY(4px);
-  box-shadow: 
+  box-shadow:
     0 4px 0 #de6666,
     0 8px 15px rgba(0, 0, 0, 0.3);
 }
@@ -211,6 +217,7 @@ body {
   background: #de6666;
   transform: rotate(90deg) scale(1.1);
 }
+
 /* Popup Overlay */
 .popup-overlay {
   position: fixed;
@@ -233,18 +240,18 @@ body {
   padding-left: 1rem;
   padding-right: 1rem;
   padding-bottom: 1rem;
-  padding-top:2.5rem ;
+  padding-top: 2.5rem;
   max-width: 450px;
   width: 90%;
   max-height: 90vh;
   overflow-y: auto;
   position: relative;
-  box-shadow: 
+  box-shadow:
     0 0 0 4px #EC8784,
     0 12px 40px rgba(0, 0, 0, 0.4);
 }
 
-.popup-inerr-content{
+.popup-inerr-content {
   background: #FDF0C3;
   border: 3px solid #EC8784;
   padding: 2.5rem;
@@ -299,7 +306,7 @@ body {
   flex-direction: column;
 }
 
-.popup-content form > div {
+.popup-content form>div {
   margin-bottom: 1rem;
 }
 
@@ -348,7 +355,7 @@ body {
   letter-spacing: 0.3rem;
   cursor: pointer;
   margin-top: 1rem;
-  box-shadow: 
+  box-shadow:
     0 6px 0 #e96b73,
     0 10px 20px rgba(0, 0, 0, 0.2);
   transition: all 0.15s ease;
@@ -357,14 +364,14 @@ body {
 
 .popup-content button[type="submit"]:hover {
   transform: translateY(-3px);
-  box-shadow: 
+  box-shadow:
     0 9px 0 #e96b73,
     0 13px 25px rgba(0, 0, 0, 0.3);
 }
 
 .popup-content button[type="submit"]:active {
   transform: translateY(3px);
-  box-shadow: 
+  box-shadow:
     0 3px 0 #e96b73,
     0 7px 15px rgba(0, 0, 0, 0.2);
 }
@@ -379,6 +386,7 @@ body {
   border: 3px solid #EC8784 !important;
   font-weight: 600;
 }
+
 /* Pixel egg image */
 .pixel_egg {
   width: 200px;
@@ -388,25 +396,124 @@ body {
   image-rendering: crisp-edges;
 }
 
-.body_menu{
+/* Menu Page Styles */
+.body_menu {
   margin: 0;
   padding: 0;
-  height: 100vh;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   background-image:
-      repeating-linear-gradient(
-        0deg,
-        transparent,
-        transparent 35px,
-        rgba(236, 135, 132, 0.27) 35px,
-        rgba(236, 135, 132, 0.27) 65px
-      ),
-      repeating-linear-gradient(
-        90deg,
-        transparent,
-        transparent 35px,
-        #FCCAA7 35px,
-        #FCCAA7 70px
-      );
+    repeating-linear-gradient(0deg,
+      transparent,
+      transparent 35px,
+      rgba(236, 135, 132, 0.27) 35px,
+      rgba(236, 135, 132, 0.27) 65px),
+    repeating-linear-gradient(90deg,
+      transparent,
+      transparent 35px,
+      #FCCAA7 35px,
+      #FCCAA7 70px);
+}
+
+/* Override .content behavior for menu page */
+body.body_menu .content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  flex: 1; /* takes remaining space */
+  padding: 2rem;
+}
+
+.message {
+  text-align: center;
+  font-size: 18px;
+  margin-top: 20px;
+  color: #F25A4A;
+  font-weight: bold;
+  display: flex;
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 100px;
+  z-index: 60;
+  justify-content: center;
+  padding: 0 12px; 
+}
+
+/* UL as flex grid */
+.body_menu ul {
+  list-style: none;
+  padding: 0;
+  margin: 20px 0;
+  width: 90%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: left;
+  gap: 20px;
+}
+
+.body_menu ul li img {
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  transition: transform 0.2s ease;
+  cursor: pointer;
+}
+
+.body_menu ul li img:hover {
+  transform: scale(1.05);
+}
+
+/* buttons bottom */
+.menu_buttons {
+  display: flex;
+  gap: 20%;
+  position: fixed;
+  transform: translateX(-50%);
+  left: 50%;
+  bottom: 24px; /* space below the buttons */
+  z-index: 60;
+  justify-content: center;
+  padding: 0 12px; /* prevent touching screen edges on small viewports */
+  max-width: calc(100% - 32px);
+}
+
+.menu_buttons button {
+  padding: 10px 18px;
+  font-size: 16px;
+  cursor: pointer;
+  font-family: inherit;
+  background: linear-gradient(180deg, #FFEB3B 0%, #FDD835 100%);
+  border: 6px solid #EC8784;
+  border-radius: 25px;
+  font-weight: bold;
+  color: #EC8784;
+  text-transform: uppercase;
+  letter-spacing: 0.5rem;
+  cursor: pointer;
+  box-shadow:
+    0 8px 0 #de6666,
+    0 12px 20px rgba(0, 0, 0, 0.3);
+  transition: all 0.15s ease;
+  position: relative;
+  text-shadow: 2px 2px 0px rgba(255, 255, 255, 0.3);
+}
+
+.menu_buttons button:hover {
+  transform: translateY(-4px);
+  box-shadow:
+    0 12px 0 #de6666,
+    0 16px 25px rgba(0, 0, 0, 0.4);
+}
+
+.menu_buttons button:active {
+  transform: translateY(4px);
+  box-shadow:
+    0 4px 0 #de6666,
+    0 8px 15px rgba(0, 0, 0, 0.3);
 }
 
 /* Responsive Design */
@@ -592,7 +699,7 @@ body {
     font-size: 0.8rem;
   }
 
-  .popup-inerr-content{
+  .popup-inerr-content {
     padding: 2rem;
   }
 
@@ -605,7 +712,8 @@ body {
   .logout-btn,
   .leaderboard-btn,
   .music-btn {
-    font-size: 0; /* hide inline text while keeping images visible */
+    font-size: 0;
+    /* hide inline text while keeping images visible */
     padding: 0.25rem;
     width: 48px;
     height: 48px;
@@ -618,6 +726,7 @@ body {
   .leaderboard-btn {
     border-radius: 50px;
   }
+
   /* hide the text span but keep it accessible to screen readers */
   .nav-button .btn-text {
     display: none;
@@ -643,6 +752,7 @@ body {
     font-size: 1.3rem;
     letter-spacing: 0.2rem;
   }
+
   .popup-content {
     padding: 0.5rem;
     border-width: 2px;
@@ -675,7 +785,7 @@ body {
     font-size: 0.8rem;
   }
 
-  .popup-inerr-content{
+  .popup-inerr-content {
     padding: 1rem;
   }
 
