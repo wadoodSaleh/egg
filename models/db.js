@@ -3,7 +3,7 @@ const mysql = require('mysql2');
 const pool = mysql.createPool({
   host: 'localhost',
   user: 'root', // Assuming default root user for local dev 
-  password: '', 
+  password: '1234', 
   database: 'egg_db',
   waitForConnections: true,
   connectionLimit: 10,

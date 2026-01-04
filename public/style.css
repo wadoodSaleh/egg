@@ -129,26 +129,6 @@ body {
   position: relative;
 }
 
-.body_home {
-  background-image: url('/bakground 1.png');
-  image-rendering: pixelated;
-}
-
-.body_leaderboard {
-  background-image: url('/bakground 1.png');
-  image-rendering: pixelated;
-}
-
-.body_menu {
-  background-image: url('/bakground 1.png');
-  image-rendering: pixelated;
-}
-
-.body_recipe {
-  background-image: url('/bakground 1.png');
-  image-rendering: pixelated;
-}
-
 /* Container for main button */
 .container {
   display: flex;
@@ -403,6 +383,15 @@ body {
 }
 
 /* Leaderboard Styles */
+
+body.body_leaderboard {
+  background-image: url('/bakground 1.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  image-rendering: pixelated;
+}
+
 .leaderboard-container {
   max-width: 900px;
   width: 95%;
@@ -601,7 +590,7 @@ body {
 }
 
 /* Override .content behavior for menu page */
-body.body_menu .content {
+.body_menu .content {
   display: flex;
   flex-direction: column;
   align-items: center;
