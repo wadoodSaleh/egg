@@ -2,6 +2,8 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const path = require("path");
+require('dotenv').config();
+
 console.log(__dirname);
 const { login, logout } = require( __dirname + "/controls/authController");
 const recipeController = require(__dirname +"/controls/recipeController");
@@ -13,7 +15,7 @@ const app = express();
 app.use(express.static(path.join(__dirname, "public")));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json()); // Needed for API JSON requests
-app.use(cookieParser("super_secret_egg_timer_key"));
+app.use(cookieParser(process.env.SESSION_SECRET));
 
 // Make 'user' available to all views if cookie is present
 app.use(async (req, res, next) => {
@@ -62,7 +64,7 @@ app.get("/recipe/:id", recipeController.showRecipe);
 app.post("/api/stats", statsController.recordStat);
 app.get("/leaderboard", statsController.showLeaderboard);
 // ---------- server ----------
-const PORT = process.env.PORT || 9000;
+const PORT = process.env.PORT;
 app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);
 });

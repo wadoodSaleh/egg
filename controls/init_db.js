@@ -1,13 +1,14 @@
 const mysql = require('mysql2/promise');
 const fs = require('fs');
 const path = require('path');
+require('dotenv').config();
 
 async function initDb() {
   // Try connecting without database first to create it
   const connectionConfig = {
-    host: 'localhost',
-    user: 'root',
-    password: '', 
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
     multipleStatements: true
   };
 
