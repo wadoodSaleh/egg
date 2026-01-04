@@ -1,42 +1,40 @@
 <!DOCTYPE html>
-<%- include('parts/header', { pageName: 'Community' , pageTitle: 'Community Recipes' , bodyClass: 'body_leaderboard' })
-    %>
+<%- include('parts/header', { pageName: 'Community' , pageTitle: 'Community Recipes' , bodyClass: 'body_menu' }) %>
 
-    <div class="panel-container" style="max-width: 1000px;">
-        <div class="panel-inner">
-            <h1 class="panel-title">Community Recipes</h1>
-            <p class="panel-subtitle">RECIPES SHARED BY EGG ENTHUSIASTS</p>
+    <!-- Content Wrapper matching menu structure -->
+    <div class="content">
+        <% if (recipes && recipes.length> 0) { %>
+            <ul class="recipe-grid">
+                <% recipes.forEach(function(recipe) { %>
+                    <li class="recipe-card">
+                        <a href="/recipe/<%= recipe.slug %>" class="recipe-link">
+                            <div class="recipe-image-container">
+                                <img src="<%= recipe.image_path %>" alt="<%= recipe.name %>" class="recipe-image">
+                            </div>
+                            <div class="recipe-info">
+                                <h3 class="recipe-name">
+                                    <%= recipe.name %>
+                                </h3>
+                                <p class="recipe-chef">Chef: <%= recipe.username %>
+                                </p>
+                            </div>
+                        </a>
+                    </li>
+                    <% }); %>
+            </ul>
+            <% } else { %>
+                <div class="no-recipes panel-inner" style="margin-top: 2rem; max-width: 600px;">
+                    <h2 style="color: #EC8784;">No community recipes yet!</h2>
+                    <p>Be the first to share your culinary masterpiece.</p>
+                </div>
+                <% } %>
 
-            <% if (recipes && recipes.length> 0) { %>
-                <ul class="recipe-grid">
-                    <% recipes.forEach(function(recipe) { %>
-                        <li class="recipe-card">
-                            <a href="/recipe/<%= recipe.slug %>" class="recipe-link">
-                                <div class="recipe-image-container">
-                                    <img src="<%= recipe.image_path %>" alt="<%= recipe.name %>" class="recipe-image">
-                                </div>
-                                <div class="recipe-info">
-                                    <h3 class="recipe-name">
-                                        <%= recipe.name %>
-                                    </h3>
-                                    <p class="recipe-chef">Chef: <%= recipe.username %>
-                                    </p>
-                                </div>
-                            </a>
-                        </li>
-                        <% }); %>
-                </ul>
-                <% } else { %>
-                    <div class="no-recipes">
-                        <p>No community recipes yet. Be the first to share one!</p>
-                        <a href="/add-recipe" class="action-btn">Share a Recipe</a>
+                    <div class="menu_buttons">
+                        <a href="/add-recipe"><button>Share Recipe</button></a>
+                        <a href="/menu"><button>Back to Menu</button></a>
                     </div>
-                    <% } %>
-
-                        <a href="/menu" class="back-btn">Back to Menu</a>
-        </div>
     </div>
 
-
-
     <%- include('parts/footer') %>
+
+        </html>

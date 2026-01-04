@@ -1242,3 +1242,72 @@ body.body_leaderboard {
     font-size: 1.5rem;
   }
 }
+
+/* Timer Styles */
+#timerArea {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 2rem auto;
+  gap: 1.5rem;
+  text-align: center;
+}
+
+#animationFrame {
+  border: 4px solid #EC8784;
+  border-radius: 8px;
+  box-shadow: 4px 4px 0 rgba(236, 135, 132, 0.4);
+  background: white;
+  max-width: 100%;
+}
+
+#timerControls {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+  justify-content: center;
+}
+
+.timer-btn {
+  background: #F8E769;
+  border: 3px solid #EC8784;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #EC8784;
+  transition: all 0.15s ease;
+  box-shadow: 0 4px 0 #c05555;
+  padding: 0;
+}
+
+.timer-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 0 #c05555;
+  background: #FFEB3B;
+}
+
+.timer-btn:active {
+  transform: translateY(2px);
+  box-shadow: 0 2px 0 #c05555;
+}
+
+.timer-btn svg {
+  width: 32px;
+  height: 32px;
+  fill: currentColor;
+  display: block;
+}
+
+#timer {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #EC8784;
+  text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.1);
+  letter-spacing: 0.2rem;
+  margin: 1rem 0;
+}
