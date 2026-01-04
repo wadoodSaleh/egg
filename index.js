@@ -87,6 +87,8 @@ if (!fs.existsSync(uploadDir)){
 app.get("/add-recipe", recipeController.showAddRecipeForm);
 app.post("/add-recipe", upload.single('uploadImage'), recipeController.addRecipe);
 
+app.get("/user-recipy", recipeController.showUserRecipes);
+
 // ---------- server ----------
 const PORT = process.env.PORT;
 app.listen(PORT, () => {

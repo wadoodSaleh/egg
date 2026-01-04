@@ -1,10 +1,10 @@
 const db = require("./db");
 
-async function getRecipeBySlug(slug, userId) {
+async function getRecipeBySlug(slug) {
   try {
     const [rows] = await db.execute(
-      'SELECT * FROM recipes WHERE slug = ? AND user_id = ?', 
-      [slug, userId]
+      'SELECT * FROM recipes WHERE slug = ?', 
+      [slug]
     );
     return rows[0]; 
   } catch (err) {
@@ -51,8 +51,26 @@ async function createRecipe(data) {
   }
 }
 
+async function getSharedRecipes() {
+  try {
+    const query = `
+      SELECT r.*, u.username 
+      FROM recipes r 
+      JOIN users u ON r.user_id = u.id 
+      WHERE r.is_shared = 1
+      ORDER BY r.created_at DESC
+    `;
+    const [rows] = await db.execute(query);
+    return rows;
+  } catch (err) {
+    console.error("Error in getSharedRecipes:", err);
+    return [];
+  }
+}
+
 module.exports = {
   getRecipeBySlug,
   getAllRecipes,
-  createRecipe
+  createRecipe,
+  getSharedRecipes
 };

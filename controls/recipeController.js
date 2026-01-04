@@ -8,10 +8,16 @@ async function showRecipe(req, res) {
     return res.redirect("/"); // Enforce login
   }
 
-  const recipe = await recipeModel.getRecipeBySlug(recipeSlug, user.id);
+  // Get recipe strictly by slug first
+  const recipe = await recipeModel.getRecipeBySlug(recipeSlug);
 
   if (!recipe) {
     return res.status(404).send("Recipe not found");
+  }
+
+  // Check access: Must be owner OR recipe must be shared
+  if (recipe.user_id !== user.id && !recipe.is_shared) {
+    return res.status(403).send("You do not have permission to view this recipe.");
   }
 
   res.render("recipe", { recipe });
@@ -70,9 +76,15 @@ async function addRecipe(req, res) {
   }
 }
 
+async function showUserRecipes(req, res) {
+  const recipes = await recipeModel.getSharedRecipes();
+  res.render("user-recipes", { recipes });
+}
+
 module.exports = {
   showRecipe,
   getAllRecipes,
   showAddRecipeForm,
-  addRecipe
+  addRecipe,
+  showUserRecipes
 };
