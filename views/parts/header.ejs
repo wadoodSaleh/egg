@@ -12,16 +12,17 @@
 
 <body class="<%= bodyClass || '' %>">
   <header class="header">
+
     <div class="header-left">
-    <a href="/" class="nav-button home-btn">
-      <img src="/boiled.png" alt="Home" />
-    </a>
-    <% if (locals.user) { %>
-    <a href="/leaderboard" class="nav-button leaderboard-btn">
-     <img src="/leaderboard.png" alt="Leaderboard" />
-     <span class="btn-text">Leaderboard</span>
-    </a>
-    <% } %>
+      <a href="/" class="nav-button home-btn">
+        <img src="/boiled.png" alt="Home" />
+      </a>
+      <% if (locals.user) { %>
+        <a href="/leaderboard" class="nav-button leaderboard-btn">
+          <img src="/leaderboard.png" alt="Leaderboard" />
+          <span class="btn-text">Leaderboard</span>
+        </a>
+        <% } %>
     </div>
     <h1 class="page-name">
       <%= pageName || 'egg' %>
