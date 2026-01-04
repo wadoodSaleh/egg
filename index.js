@@ -63,6 +63,32 @@ app.get("/recipe/:id", recipeController.showRecipe);
 // Stats & Leaderboard
 app.post("/api/stats", statsController.recordStat);
 app.get("/leaderboard", statsController.showLeaderboard);
+
+// Add Recipe
+const multer = require('multer');
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, path.join(__dirname, 'public/uploads'));
+  },
+  filename: function (req, file, cb) {
+    // Basic sanitization
+    cb(null, Date.now() + '-' + file.originalname.replace(/[^a-zA-Z0-9.]/g, '_'));
+  }
+});
+const upload = multer({ storage: storage });
+
+// Ensure uploads dir exists (optional check, but good practice)
+const fs = require('fs');
+const uploadDir = path.join(__dirname, 'public/uploads');
+if (!fs.existsSync(uploadDir)){
+    fs.mkdirSync(uploadDir, { recursive: true });
+}
+
+app.get("/add-recipe", recipeController.showAddRecipeForm);
+app.post("/add-recipe", upload.single('uploadImage'), recipeController.addRecipe);
+
+app.get("/user-recipy", recipeController.showUserRecipes);
+
 // ---------- server ----------
 const PORT = process.env.PORT;
 app.listen(PORT, () => {
