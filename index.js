@@ -5,12 +5,14 @@ const path = require("path");
 console.log(__dirname);
 const { login, logout } = require( __dirname + "/controls/authController");
 const recipeController = require(__dirname +"/controls/recipeController");
+const statsController = require(__dirname + "/controls/statsController");
 const userModel = require("./models/userModel"); // needed to lookup user by cookie
 const app = express();
 
 // ---------- middleware ----------
 app.use(express.static(path.join(__dirname, "public")));
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json()); // Needed for API JSON requests
 app.use(cookieParser("super_secret_egg_timer_key"));
 
 // Make 'user' available to all views if cookie is present
@@ -55,6 +57,10 @@ app.get("/menu", async (req, res) => {
 });
 
 app.get("/recipe/:id", recipeController.showRecipe);
+
+// Stats & Leaderboard
+app.post("/api/stats", statsController.recordStat);
+app.get("/leaderboard", statsController.showLeaderboard);
 // ---------- server ----------
 const PORT = process.env.PORT || 9000;
 app.listen(PORT, () => {

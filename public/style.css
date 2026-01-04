@@ -134,6 +134,21 @@ body {
   image-rendering: pixelated;
 }
 
+.body_leaderboard {
+  background-image: url('/bakground 1.png');
+  image-rendering: pixelated;
+}
+
+.body_menu {
+  background-image: url('/bakground 1.png');
+  image-rendering: pixelated;
+}
+
+.body_recipe {
+  background-image: url('/bakground 1.png');
+  image-rendering: pixelated;
+}
+
 /* Container for main button */
 .container {
   display: flex;
@@ -385,6 +400,174 @@ body {
   border-radius: 12px !important;
   border: 3px solid #EC8784 !important;
   font-weight: 600;
+}
+
+/* Leaderboard Styles */
+.leaderboard-container {
+  max-width: 900px;
+  width: 95%;
+  margin: 40px auto;
+  text-align: center;
+  background: #F8E769;
+  border: 4px solid #EC8784;
+  border-radius: 4px;
+  padding: 2rem;
+  box-shadow:
+    0 0 0 4px #EC8784,
+    0 12px 40px rgba(0, 0, 0, 0.4);
+}
+
+.leaderboard-inner {
+  background: #FDF0C3;
+  border: 4px solid #EC8784;
+  padding: 2rem;
+  border-radius: 4px;
+}
+
+.leaderboard-title {
+  color: #EC8784;
+  font-size: 2.5rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.3rem;
+  margin-bottom: 0.5rem;
+  text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.1);
+}
+
+.leaderboard-subtitle {
+  color: #666;
+  font-size: 1.1rem;
+  margin-bottom: 2rem;
+  font-family: 'Courier New', monospace;
+  font-weight: bold;
+}
+
+.leaderboard-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin-top: 1rem;
+  font-size: 1.2rem;
+}
+
+.leaderboard-table th {
+  background: #EC8784;
+  color: white;
+  padding: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1rem;
+  font-size: 1rem;
+  border: 2px solid #EC8784;
+}
+
+.leaderboard-table td {
+  padding: 1rem;
+  border-bottom: 2px solid #EC8784;
+  border-right: 2px solid #EC8784;
+  border-left: 2px solid #EC8784;
+  background: white;
+  color: #333;
+}
+
+.leaderboard-table tr:first-child td {
+  border-top: none;
+}
+
+.leaderboard-table tr:nth-child(even) td {
+  background: #fff9e6;
+}
+
+.rank-cell {
+  font-weight: bold;
+  color: #EC8784;
+}
+
+.chef-cell {
+  font-weight: bold;
+}
+
+.cooked-cell {
+  color: #4CAF50;
+  font-weight: bold;
+}
+
+.burned-cell {
+  color: #FF5252;
+  font-weight: bold;
+}
+
+.total-cell {
+  font-weight: bold;
+  color: #333;
+}
+
+.back-btn {
+  display: inline-block;
+  margin-top: 2rem;
+  background: #EC8784;
+  color: white;
+  padding: 1rem 2rem;
+  border-radius: 30px;
+  text-decoration: none;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.1rem;
+  transition: all 0.2s ease;
+  border: none;
+  box-shadow: 0 4px 0 #c05555;
+}
+
+.back-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 0 #c05555;
+  background: #e96b73;
+}
+
+.back-btn:active {
+  transform: translateY(2px);
+  box-shadow: 0 2px 0 #c05555;
+}
+
+.personal-stats {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  background-color: #fff9e6;
+  border: 3px dashed #EC8784;
+  border-radius: 8px;
+}
+
+.personal-stats h2 {
+  color: #EC8784;
+  text-transform: uppercase;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  text-align: center;
+}
+
+.stat-item span {
+  display: block;
+  font-size: 0.9rem;
+  color: #666;
+  text-transform: uppercase;
+}
+
+.stat-item strong {
+  display: block;
+  font-size: 1.5rem;
+  color: #333;
+}
+
+@media (max-width: 600px) {
+  .stats-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
 }
 
 /* Pixel egg image */

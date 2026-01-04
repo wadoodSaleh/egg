@@ -7,7 +7,7 @@ async function initDb() {
   const connectionConfig = {
     host: 'localhost',
     user: 'root',
-    password: '1234', 
+    password: '', 
     multipleStatements: true
   };
 

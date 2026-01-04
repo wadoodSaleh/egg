@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<%- include('parts/header', { pageName: 'Leaderboard' , pageTitle: 'Egg Leaderboard' , bodyClass: 'body_leaderboard' })
+    %>
+
+    <div class="leaderboard-inner">
+        <h1 class="leaderboard-title">🥚 Egg Leaders 🍳</h1>
+        <p class="leaderboard-subtitle">WHO IS THE ULTIMATE EGG MASTER?</p>
+
+        <div style="overflow-x: auto;">
+            <table class="leaderboard-table">
+                <thead>
+                    <tr>
+                        <th>Rank</th>
+                        <th>Chef</th>
+                        <th>Cooked</th>
+                        <th>Burnt</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% if (leaderboard.length===0) { %>
+                        <tr>
+                            <td colspan="5" style="padding: 20px;">No stats recorded yet! Start cooking!</td>
+                        </tr>
+                        <% } else { %>
+                            <% leaderboard.forEach((u, index)=> { %>
+                                <tr>
+                                    <td class="rank-cell">
+                                        #<%= index + 1 %>
+                                    </td>
+                                    <td class="chef-cell">
+                                        <%= u.username %>
+                                    </td>
+                                    <td class="cooked-cell">
+                                        <%= u.total_cooked %>
+                                    </td>
+                                    <td class="burned-cell">
+                                        <%= u.total_burned %>
+                                    </td>
+                                    <td class="total-cell">
+                                        <%= u.total_eggs %>
+                                    </td>
+                                </tr>
+                                <% }) %>
+                                    <% } %>
+                </tbody>
+            </table>
+        </div>
+
+        <% if (locals.user) { const myRankIndex=leaderboard.findIndex(u=> u.user_id === locals.user.id);
+            if (myRankIndex !== -1) {
+            const myStats = leaderboard[myRankIndex];
+            %>
+            <div class="personal-stats">
+                <h2>Your Stats</h2>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <span>Rank</span>
+                        <strong style="color: #EC8784;">#<%= myRankIndex + 1 %></strong>
+                    </div>
+                    <div class="stat-item">
+                        <span>Cooked</span>
+                        <strong style="color: green;">
+                            <%= myStats.total_cooked %>
+                        </strong>
+                    </div>
+                    <div class="stat-item">
+                        <span>Burnt</span>
+                        <strong style="color: red;">
+                            <%= myStats.total_burned %>
+                        </strong>
+                    </div>
+                    <div class="stat-item">
+                        <span>Total</span>
+                        <strong>
+                            <%= myStats.total_eggs %>
+                        </strong>
+                    </div>
+                </div>
+            </div>
+            <% } else { %>
+                <div class="personal-stats">
+                    <h2>Your Stats</h2>
+                    <p>You haven't cooked any eggs yet! Get cracking to see your rank.</p>
+                </div>
+                <% } } %>
+
+                    <a href="/menu" class="back-btn">Back to Menu</a>
+    </div>
+    </div>
+    <%- include('parts/footer') %>
