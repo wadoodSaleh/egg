@@ -41,6 +41,9 @@
       // update title
       if (doc.title) document.title = doc.title;
 
+      // update body class (for background changes etc.)
+      document.body.className = doc.body.className;
+
       // run scripts found in new content
       const scripts = newContent.querySelectorAll('script');
       scripts.forEach(old => {
