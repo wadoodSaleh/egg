@@ -56,6 +56,7 @@ body {
   position: fixed;
   top: 0;
   left: 0;
+  right: 0;
   width: 100%;
   justify-content: space-between;
   align-items: center;
@@ -713,6 +714,7 @@ body.body_leaderboard {
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
   /* Bigger items - roughly 3 per row */
   flex-grow: 1;
   flex-basis: calc(33.333% - 20px); /* 3 items per row accounting for gap */
@@ -730,8 +732,11 @@ body.body_leaderboard {
   min-width: 150px; /* Increased minimum size */
 }
 
-.body_menu ul li img:hover {
-  transform: scale(1.05);
+.body_menu ul li:hover {
+  transform: translateY(-2px);
+  img{
+    transform: scale(1.05);
+  }
 }
 
 /* buttons bottom */
@@ -795,24 +800,24 @@ body.body_leaderboard {
   }
 
   .page-name {
-    font-size: 1.8rem;
+    font-size: 1.6rem;
     letter-spacing: 0.3rem;
     position: static;
     transform: none;
   }
 
   .nav-button img {
-    width: 32px;
+    width: 30px;
   }
 
   /* Smaller button text on medium screens */
   .nav-button .btn-text {
-    font-size: 0.85rem;
+    font-size: 0.8rem;
   }
 
   .logout-btn,
   .leaderboard-btn {
-    font-size: 0.85rem;
+    font-size: 0.8rem;
   }
 
   .music-btn img {
@@ -1023,7 +1028,7 @@ body.body_leaderboard {
 /* Very small devices */
 @media (max-width: 360px) {
   .page-name {
-    font-size: 1.2rem;
+    font-size: 1rem;
     letter-spacing: 0.15rem;
   }
 
@@ -1074,8 +1079,8 @@ body.body_leaderboard {
   .logout-btn,
   .leaderboard-btn,
   .music-btn {
-    width: 40px;
-    height: 40px;
+    width: 35px;
+    height: 35px;
     padding: 0.2rem;
   }
 
@@ -1337,4 +1342,15 @@ body.body_leaderboard {
   background: #FFEB3B;
   transform: translateY(-2px);
   box-shadow: 0 4px 0 #EC8784;
+}
+
+/* Text under menu images (ul li p) — improved design */
+.body_menu ul li p {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+  color: #333;
+  font-weight: bold;
+  text-align: center;
+  text-shadow: 2px 2px 0px rgba(255, 255, 255, 0.3);
 }
