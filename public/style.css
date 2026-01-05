@@ -700,14 +700,12 @@ body.body_leaderboard {
 .body_menu ul {
   list-style: none;
   padding: 0;
-  margin: 20px 0;
+  margin: 20px auto; /* Center the ul */
   width: 90%;
+  max-width: 1200px; /* Optional: limit maximum width */
   display: flex;
-  /* FLEXBOX */
   flex-wrap: wrap;
-  /* WRAP */
-  justify-content: center;
-  /* CENTER */
+  justify-content: flex-start; /* Align items from left */
   gap: 20px;
 }
 
@@ -715,14 +713,12 @@ body.body_leaderboard {
   display: flex;
   justify-content: center;
   align-items: center;
-  /* Graceful scaling */
+  /* Bigger items - roughly 3 per row */
   flex-grow: 1;
-  flex-basis: clamp(150px, 20vw, 220px);
-  max-width: 300px;
-  width: clamp(150px, 20vw, 220px);
-  /* Enforce clamp width */
+  flex-basis: calc(33.333% - 20px); /* 3 items per row accounting for gap */
+  max-width: calc(33.333% - 20px);
+  width: clamp(200px, 30vw, 400px); /* Increased from 150px/220px */
   transition: all 0.3s ease;
-  /* Smooth scaling transition */
 }
 
 .body_menu ul li img {
@@ -731,8 +727,7 @@ body.body_leaderboard {
   border-radius: 12px;
   transition: transform 0.2s ease;
   cursor: pointer;
-  /* Ensure they don't get too small */
-  min-width: 100px;
+  min-width: 150px; /* Increased minimum size */
 }
 
 .body_menu ul li img:hover {
@@ -790,6 +785,9 @@ body.body_leaderboard {
     0 8px 15px rgba(0, 0, 0, 0.3);
 }
 
+.menu_buttons img{
+  display: none;
+}
 /* Responsive Design */
 @media (max-width: 768px) {
   .header {
@@ -843,12 +841,21 @@ body.body_leaderboard {
     font-size: 1.3rem;
   }
 
-
-
-  .body_menu ul li img {
-    min-width: 100%;
-    /* Allow shrinking */
+  .body_menu ul {
+    gap: 12px;
   }
+
+  /* Two columns on medium / tablet screens */
+  .body_menu ul li {
+    flex: 0 0 calc(50% - 12px);
+    max-width: calc(50% - 12px);
+  }
+  
+  .menu_buttons button {
+    width: 100%;
+    max-width: 300px;
+  }
+
 }
 
 @media (max-width: 480px) {
@@ -960,14 +967,21 @@ body.body_leaderboard {
     padding: 1rem;
   }
 
-
-
   /* Restore full width for grid items on mobile to fit the 2-column layout */
   .pixel_egg {
     /* width: 100%;  <-- Removed to let clamp() work */
     min-width: 0;
   }
 
+  .menu_buttons .btn-text{
+    display: none;
+  }
+
+  .menu_buttons img{
+    display: block;
+    width: 40px;
+    height: auto;
+  }
   /* Switch buttons from text to icon-only at small screens */
   .nav-button,
   .logout-btn,
@@ -998,6 +1012,11 @@ body.body_leaderboard {
     width: 28px;
     height: auto;
     display: block;
+  }
+
+  .body_menu ul li {
+    flex: 0 0 calc(100% - 20px);
+    max-width: calc(100% - 20px);
   }
 }
 
@@ -1065,8 +1084,8 @@ body.body_leaderboard {
     width: 20px;
   }
 
-  .body_menu ul {
-    gap: 10px;
+  .menu_buttons img{
+    width: 20px;
   }
 }
 
