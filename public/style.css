@@ -12,6 +12,7 @@ body,
   cursor: url('/cursor.png') 16 16, auto;
 }
 
+
 /* Header height variable used to push page content below fixed header */
 :root {
   --header-height: 110px; /* tuned to match header content */
@@ -408,6 +409,10 @@ body {
   border-radius: 12px !important;
   border: 3px solid #EC8784 !important;
   font-weight: 600;
+}
+
+.body_home{
+  background-image: url('/bakground 1.png');
 }
 
 body.body_leaderboard {
