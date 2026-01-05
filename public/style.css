@@ -15,7 +15,8 @@ body,
 
 /* Header height variable used to push page content below fixed header */
 :root {
-  --header-height: 110px; /* tuned to match header content */
+  --header-height: 110px;
+  /* tuned to match header content */
 }
 
 /* Responsive adjustments for header height */
@@ -412,7 +413,7 @@ body {
   font-weight: 600;
 }
 
-.body_home{
+.body_home {
   background-image: url('/bakground 1.png');
 }
 
@@ -606,7 +607,8 @@ body.body_leaderboard {
 .body_menu {
   margin: 0;
   padding: 0;
-  padding-top: var(--header-height); /* ensure header space on body_menu pages */
+  padding-top: var(--header-height);
+  /* ensure header space on body_menu pages */
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -701,12 +703,15 @@ body.body_leaderboard {
 .body_menu ul {
   list-style: none;
   padding: 0;
-  margin: 20px auto; /* Center the ul */
+  margin: 20px auto;
+  /* Center the ul */
   width: 90%;
-  max-width: 1200px; /* Optional: limit maximum width */
+  max-width: 1200px;
+  /* Optional: limit maximum width */
   display: flex;
   flex-wrap: wrap;
-  justify-content: flex-start; /* Align items from left */
+  justify-content: flex-start;
+  /* Align items from left */
   gap: 20px;
 }
 
@@ -717,9 +722,11 @@ body.body_leaderboard {
   flex-direction: column;
   /* Bigger items - roughly 3 per row */
   flex-grow: 1;
-  flex-basis: calc(33.333% - 20px); /* 3 items per row accounting for gap */
+  flex-basis: calc(33.333% - 20px);
+  /* 3 items per row accounting for gap */
   max-width: calc(33.333% - 20px);
-  width: clamp(200px, 30vw, 400px); /* Increased from 150px/220px */
+  width: clamp(200px, 30vw, 400px);
+  /* Increased from 150px/220px */
   transition: all 0.3s ease;
 }
 
@@ -729,12 +736,14 @@ body.body_leaderboard {
   border-radius: 12px;
   transition: transform 0.2s ease;
   cursor: pointer;
-  min-width: 150px; /* Increased minimum size */
+  min-width: 150px;
+  /* Increased minimum size */
 }
 
 .body_menu ul li:hover {
   transform: translateY(-2px);
-  img{
+
+  img {
     transform: scale(1.05);
   }
 }
@@ -790,9 +799,10 @@ body.body_leaderboard {
     0 8px 15px rgba(0, 0, 0, 0.3);
 }
 
-.menu_buttons img{
+.menu_buttons img {
   display: none;
 }
+
 /* Responsive Design */
 @media (max-width: 768px) {
   .header {
@@ -855,7 +865,7 @@ body.body_leaderboard {
     flex: 0 0 calc(50% - 12px);
     max-width: calc(50% - 12px);
   }
-  
+
   .menu_buttons button {
     width: 100%;
     max-width: 300px;
@@ -978,15 +988,16 @@ body.body_leaderboard {
     min-width: 0;
   }
 
-  .menu_buttons .btn-text{
+  .menu_buttons .btn-text {
     display: none;
   }
 
-  .menu_buttons img{
+  .menu_buttons img {
     display: block;
     width: 40px;
     height: auto;
   }
+
   /* Switch buttons from text to icon-only at small screens */
   .nav-button,
   .logout-btn,
@@ -1089,7 +1100,7 @@ body.body_leaderboard {
     width: 20px;
   }
 
-  .menu_buttons img{
+  .menu_buttons img {
     width: 20px;
   }
 }
@@ -1353,4 +1364,76 @@ body.body_leaderboard {
   font-weight: bold;
   text-align: center;
   text-shadow: 2px 2px 0px rgba(255, 255, 255, 0.3);
+}/* Recipe Action Buttons */
+.recipe-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    align-items: center;
+    margin-top: 2rem;
+}
+
+.btn-action {
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: inherit;
+    font-size: 1rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.1rem;
+    padding: 0.8rem 1.5rem;
+    border-radius: 25px;
+    cursor: pointer;
+    border: 4px solid;
+    transition: all 0.15s ease;
+    min-width: 150px;
+    /* Pixel shadow */
+    box-shadow: 0 6px 0, 0 10px 10px rgba(0, 0, 0, 0.2);
+}
+
+.btn-action:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 9px 0, 0 13px 15px rgba(0, 0, 0, 0.3);
+}
+
+.btn-action:active {
+    transform: translateY(3px);
+    box-shadow: 0 3px 0, 0 6px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Specific Colors */
+
+/* Edit Button (Yellow/Standard) */
+.btn-edit {
+    background: linear-gradient(180deg, #F8E769 0%, #f9d948 100%);
+    border-color: #EC8784;
+    color: #EC8784;
+    box-shadow: 0 6px 0 #e96b73, 0 10px 10px rgba(0, 0, 0, 0.2);
+}
+
+.btn-edit:hover {
+    box-shadow: 0 9px 0 #e96b73, 0 13px 15px rgba(0, 0, 0, 0.3);
+}
+
+.btn-edit:active {
+    box-shadow: 0 3px 0 #e96b73, 0 6px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Delete Button (Red/Danger) */
+.btn-delete {
+    background: linear-gradient(180deg, #ff8a80 0%, #ff5252 100%);
+    border-color: #d32f2f;
+    color: #b71c1c;
+    box-shadow: 0 6px 0 #c62828, 0 10px 10px rgba(0, 0, 0, 0.2);
+}
+
+.btn-delete:hover {
+    background: linear-gradient(180deg, #ff5252 0%, #ff1744 100%);
+    box-shadow: 0 9px 0 #c62828, 0 13px 15px rgba(0, 0, 0, 0.3);
+}
+
+.btn-delete:active {
+    box-shadow: 0 3px 0 #c62828, 0 6px 5px rgba(0, 0, 0, 0.2);
 }

@@ -16,11 +16,12 @@ async function showRecipe(req, res) {
   }
 
   // Check access: Must be owner OR recipe must be shared
-  if (recipe.user_id !== user.id && !recipe.is_shared) {
+  const isOwner = recipe.user_id === user.id;
+  if (!isOwner && !recipe.is_shared) {
     return res.status(403).send("You do not have permission to view this recipe.");
   }
 
-  res.render("recipe", { recipe });
+  res.render("recipe", { recipe, isOwner });
 }
 
 async function getAllRecipes(userId) {
@@ -89,9 +90,104 @@ async function addRecipe(req, res) {
   }
 }
 
+async function showEditRecipeForm(req, res) {
+  const user = res.locals.user;
+  if (!user) {
+    return res.redirect("/");
+  }
+
+  const recipeSlug = req.params.id;
+  const recipe = await recipeModel.getRecipeBySlug(recipeSlug);
+
+  if (!recipe) {
+    return res.status(404).send("Recipe not found");
+  }
+
+  if (recipe.user_id !== user.id) {
+    return res.status(403).send("You cannot edit this recipe.");
+  }
+
+  res.render("add-recipe", { recipe, isEdit: true });
+}
+
+async function updateRecipe(req, res) {
+  const user = res.locals.user;
+  if (!user) {
+    return res.status(401).send("Unauthorized");
+  }
+
+  const recipeSlug = req.params.id;
+  const oldRecipe = await recipeModel.getRecipeBySlug(recipeSlug);
+
+  if (!oldRecipe || oldRecipe.user_id !== user.id) {
+    return res.status(403).send("Unauthorized");
+  }
+
+  const { name, ingredients, instructions, losing_minute, imageSource, defaultImage, animation, is_shared } = req.body;
+  
+  // Handle image path
+  let imagePath = oldRecipe.image_path;
+  if (imageSource === 'upload' && req.file) {
+    imagePath = '/uploads/' + req.file.filename;
+  } else if (imageSource === 'default') {
+     imagePath = defaultImage;
+  }
+
+  // Generate slug (keep old slug if name hasn't changed to avoid URL breaking, or update it?)
+  // For simplicity and better URLs, let's update it if name changes, but append user ID to keep unique
+  const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '-') + '-' + user.id;
+
+  const ingredientsArray = ingredients.split('\r\n').filter(line => line.trim() !== '');
+  const instructionsArray = instructions.split('\r\n').filter(line => line.trim() !== '');
+
+  const recipeData = {
+    slug: slug,
+    name: name,
+    imagePath: imagePath,
+    ingredients: ingredientsArray,
+    instructions: instructionsArray,
+    animation: animation,
+    losingMinute: parseInt(losing_minute) || 1,
+    isShared: is_shared === 'true' ? 1 : 0
+  };
+
+  try {
+    await recipeModel.updateRecipe(oldRecipe.id, recipeData);
+    res.redirect('/recipe/' + slug);
+  } catch (err) {
+     if (
+      err.code === 'ER_DUP_ENTRY' || 
+      (err.message && err.message.includes('Duplicate entry')) ||
+      err.toString().includes('Duplicate entry')
+    ) {
+       return res.render("add-recipe", { recipe: { ...recipeData, id: oldRecipe.id }, isEdit: true, error: "A recipe with this name already exists! Please choose a different name." });
+    }
+    console.error("Error updating recipe:", err);
+    res.render("add-recipe", { recipe: oldRecipe, isEdit: true, error: "Failed to update recipe." });
+  }
+}
+
+async function deleteRecipe(req, res) {
+  const user = res.locals.user;
+  if (!user) {
+    return res.status(401).send("Unauthorized");
+  }
+
+  const recipeSlug = req.params.id;
+  const recipe = await recipeModel.getRecipeBySlug(recipeSlug);
+
+  if (!recipe || recipe.user_id !== user.id) {
+    return res.status(403).send("Unauthorized");
+  }
+
+  await recipeModel.deleteRecipe(recipe.id);
+  res.redirect("/menu?msg=" + encodeURIComponent("Recipe deleted successfully."));
+}
+
 async function showUserRecipes(req, res) {
   const recipes = await recipeModel.getSharedRecipes();
   res.render("user-recipes", { recipes });
+
 }
 
 module.exports = {
@@ -99,5 +195,9 @@ module.exports = {
   getAllRecipes,
   showAddRecipeForm,
   addRecipe,
+  addRecipe,
+  showEditRecipeForm,
+  updateRecipe,
+  deleteRecipe,
   showUserRecipes
 };

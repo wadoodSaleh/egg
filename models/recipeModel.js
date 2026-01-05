@@ -68,9 +68,46 @@ async function getSharedRecipes() {
   }
 }
 
+async function updateRecipe(id, data) {
+  try {
+    const query = `
+      UPDATE recipes 
+      SET name = ?, image_path = ?, ingredients = ?, instructions = ?, animation = ?, losing_minute = ?, is_shared = ?, slug = ?
+      WHERE id = ?
+    `;
+    const [result] = await db.execute(query, [
+      data.name,
+      data.imagePath,
+      JSON.stringify(data.ingredients),
+      JSON.stringify(data.instructions),
+      data.animation,
+      data.losingMinute,
+      data.isShared,
+      data.slug,
+      id
+    ]);
+    return result.affectedRows > 0;
+  } catch (err) {
+    // console.error("Error in updateRecipe:", err);
+    throw err;
+  }
+}
+
+async function deleteRecipe(id) {
+  try {
+    const [result] = await db.execute('DELETE FROM recipes WHERE id = ?', [id]);
+    return result.affectedRows > 0;
+  } catch (err) {
+    console.error("Error in deleteRecipe:", err);
+    throw err;
+  }
+}
+
 module.exports = {
   getRecipeBySlug,
   getAllRecipes,
   createRecipe,
-  getSharedRecipes
+  getSharedRecipes,
+  updateRecipe,
+  deleteRecipe
 };
