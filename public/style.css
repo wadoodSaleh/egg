@@ -12,6 +12,30 @@ body,
   cursor: url('/cursor.png') 16 16, auto;
 }
 
+/* Header height variable used to push page content below fixed header */
+:root {
+  --header-height: 110px; /* tuned to match header content */
+}
+
+/* Responsive adjustments for header height */
+@media (max-width: 768px) {
+  :root {
+    --header-height: 92px;
+  }
+}
+
+@media (max-width: 480px) {
+  :root {
+    --header-height: 76px;
+  }
+}
+
+@media (max-width: 360px) {
+  :root {
+    --header-height: 68px;
+  }
+}
+
 
 body {
   font-family: 'Pixelify Sans', 'Press Start 2P', 'Courier New', monospace;
@@ -22,17 +46,21 @@ body {
   image-rendering: crisp-edges;
   display: flex;
   flex-direction: column;
+  padding-top: var(--header-height);
 }
 
 /* Header Styles */
 .header {
   display: flex;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
   justify-content: space-between;
   align-items: center;
   padding: 1rem 2rem;
   background: #FFE130;
   box-shadow: 0 4px 6px rgba(84, 3, 3, 0.371);
-  position: relative;
   z-index: 100;
 }
 
@@ -572,6 +600,7 @@ body.body_leaderboard {
 .body_menu {
   margin: 0;
   padding: 0;
+  padding-top: var(--header-height); /* ensure header space on body_menu pages */
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -812,7 +841,7 @@ body.body_leaderboard {
 
 
   .body_menu ul li img {
-    min-width: 0;
+    min-width: 100%;
     /* Allow shrinking */
   }
 }
