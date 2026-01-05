@@ -2,20 +2,23 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const path = require("path");
-require('dotenv').config();
+
+require('dotenv').config({ path: path.join(__dirname, '../.env') });
+const methodOverride = require('method-override');
 
 console.log(__dirname);
-const { login, logout } = require( __dirname + "/controls/authController");
-const recipeController = require(__dirname +"/controls/recipeController");
-const statsController = require(__dirname + "/controls/statsController");
+const { login, logout } = require( "./controls/authController");
+const recipeController = require("./controls/recipeController");
+const statsController = require("./controls/statsController");
 const userModel = require("./models/userModel"); // needed to lookup user by cookie
 const app = express();
 
 // ---------- middleware ----------
-app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(__dirname, "../frontend/public")));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json()); // Needed for API JSON requests
 app.use(cookieParser(process.env.SESSION_SECRET));
+app.use(methodOverride('_method'));
 
 // Make 'user' available to all views if cookie is present
 app.use(async (req, res, next) => {
@@ -36,7 +39,7 @@ app.use(async (req, res, next) => {
 
 // ---------- view engine ----------
 app.set("view engine", "ejs");
-app.set("views", path.join(__dirname, "views"));
+app.set("views", path.join(__dirname, "../frontend/views"));
 
 // ---------- routes ----------
 app.get("/", (req, res) => {
@@ -69,7 +72,7 @@ app.get("/leaderboard", statsController.showLeaderboard);
 const multer = require('multer');
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, path.join(__dirname, 'public/uploads'));
+    cb(null, path.join(__dirname, '../frontend/public/uploads'));
   },
   filename: function (req, file, cb) {
     // Basic sanitization
@@ -80,7 +83,7 @@ const upload = multer({ storage: storage });
 
 // Ensure uploads dir exists (optional check, but good practice)
 const fs = require('fs');
-const uploadDir = path.join(__dirname, 'public/uploads');
+const uploadDir = path.join(__dirname, '../frontend/public/uploads');
 if (!fs.existsSync(uploadDir)){
     fs.mkdirSync(uploadDir, { recursive: true });
 }
@@ -89,8 +92,8 @@ app.get("/add-recipe", recipeController.showAddRecipeForm);
 app.post("/add-recipe", upload.single('uploadImage'), recipeController.addRecipe);
 
 app.get("/recipe/:id/edit", recipeController.showEditRecipeForm);
-app.post("/recipe/:id/edit", upload.single('uploadImage'), recipeController.updateRecipe);
-app.post("/recipe/:id/delete", recipeController.deleteRecipe);
+app.put("/recipe/:id", upload.single('uploadImage'), recipeController.updateRecipe);
+app.delete("/recipe/:id", recipeController.deleteRecipe);
 
 app.get("/user-recipy", recipeController.showUserRecipes);
 

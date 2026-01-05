@@ -41,7 +41,7 @@
       <div class="menu_buttons" style="position: static; transform: none; margin-top: 2rem; padding: 0;">
         <a href="/recipe/<%= recipe.slug %>/edit" class="btn-action btn-edit">Edit</a>
 
-        <form action="/recipe/<%= recipe.slug %>/delete" method="POST"
+        <form action="/recipe/<%= recipe.slug %>?_method=DELETE" method="POST"
           onsubmit="return confirm('Are you sure you want to delete this recipe?');" style="display: inline;">
           <button type="submit" class="btn-action btn-delete">Delete</button>
         </form>
