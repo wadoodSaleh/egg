@@ -13,9 +13,10 @@ const recipeController = require(__dirname +"/controls/recipeController");
 const statsController = require(__dirname + "/controls/statsController");
 const userModel = require("./models/userModel"); // needed to lookup user by cookie
 const app = express();
-// Configure cache to skip when user is logged in
-const onlyStatus200 = (req, res) => res.statusCode === 200;
-const cacheSuccesses = cache('5 minutes', onlyStatus200);
+// Only cache for anonymous users (no auth cookie)
+const cacheAnonymousOnly = cache('5 minutes', (req, res) => {
+  return res.statusCode === 200 && !req.signedCookies.userId;
+});
 
 // ---------- middleware ----------
 app.use(express.static(path.join(__dirname, "public"), {
@@ -75,7 +76,7 @@ app.get("/menu", async (req, res) => {
   res.render("menu", { message: req.query.msg, recipes });
 });
 
-app.get("/recipe/:id", cacheSuccesses, recipeController.showRecipe);
+app.get("/recipe/:id", cachePublicOnly, recipeController.showRecipe);
 
 
 // Stats & Leaderboard
