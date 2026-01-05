@@ -1,9 +1,12 @@
 <!DOCTYPE html>
-<%- include('parts/header', { pageName: 'Add Recipe' , pageTitle: 'Add Recipe' , bodyClass: 'body_leaderboard' }) %>
+<%- include('parts/header', { pageName: locals.isEdit ? 'Edit Recipe' : 'Add Recipe' , pageTitle: locals.isEdit
+    ? 'Edit Recipe' : 'Add Recipe' , bodyClass: 'body_leaderboard' }) %>
 
     <div class="panel-container" style="max-width: 600px;">
         <div class="panel-inner">
-            <h1 class="panel-title">New Recipe</h1>
+            <h1 class="panel-title">
+                <%= locals.isEdit ? 'Edit Recipe' : 'New Recipe' %>
+            </h1>
 
             <% if (locals.error) { %>
                 <div
@@ -12,39 +15,48 @@
                 </div>
                 <% } %>
 
-                    <form action="/add-recipe" method="POST" enctype="multipart/form-data" class="add-recipe-form">
+
+
+                    <form action="<%= locals.isEdit ? '/recipe/' + recipe.slug + '/edit' : '/add-recipe' %>"
+                        method="POST" enctype="multipart/form-data" class="add-recipe-form">
 
                         <div class="form-group">
                             <label for="name">Recipe Name</label>
-                            <input type="text" id="name" name="name" required placeholder="e.g. Grandma's Secret Egg">
+                            <input type="text" id="name" name="name" required placeholder="e.g. Grandma's Secret Egg"
+                                value="<%= locals.recipe ? recipe.name : '' %>">
                         </div>
 
                         <div class="form-group">
                             <label for="ingredients">Ingredients (one per line)</label>
                             <textarea id="ingredients" name="ingredients" rows="5" required
-                                placeholder="1 egg&#10;Salt&#10;Pepper"></textarea>
+                                placeholder="1 egg&#10;Salt&#10;Pepper"><%= locals.recipe && recipe.ingredients ? (Array.isArray(recipe.ingredients) ? recipe.ingredients.join('\n') : JSON.parse(recipe.ingredients).join('\n')) : '' %></textarea>
                         </div>
 
                         <div class="form-group">
                             <label for="instructions">Instructions (one per line)</label>
                             <textarea id="instructions" name="instructions" rows="5" required
-                                placeholder="Crack egg.&#10;Cook egg.&#10;Eat egg."></textarea>
+                                placeholder="Crack egg.&#10;Cook egg.&#10;Eat egg."><%= locals.recipe && recipe.instructions ? (Array.isArray(recipe.instructions) ? recipe.instructions.join('\n') : JSON.parse(recipe.instructions).join('\n')) : '' %></textarea>
                         </div>
 
                         <div class="form-group">
                             <label for="losing_minute">Burn Time (minutes)</label>
-                            <input type="number" id="losing_minute" name="losing_minute" value="1" min="1" required>
+                            <input type="number" id="losing_minute" name="losing_minute"
+                                value="<%= locals.recipe ? recipe.losing_minute : '1' %>" min="1" required>
                         </div>
 
                         <div class="form-group">
                             <label>Image Source</label>
                             <div class="radio-group">
                                 <label>
-                                    <input type="radio" name="imageSource" value="default" checked
-                                        onchange="toggleImageInput()"> Default
+                                    <input type="radio" name="imageSource" value="default" <%=(!locals.recipe ||
+                                        (recipe.image_path && !recipe.image_path.startsWith('/uploads/'))) ? 'checked'
+                                        : '' %>
+                                    onchange="toggleImageInput()"> Default
                                 </label>
                                 <label>
-                                    <input type="radio" name="imageSource" value="upload" onchange="toggleImageInput()">
+                                    <input type="radio" name="imageSource" value="upload" <%=(locals.recipe &&
+                                        recipe.image_path && recipe.image_path.startsWith('/uploads/')) ? 'checked' : ''
+                                        %> onchange="toggleImageInput()">
                                     Upload
                                 </label>
                             </div>
@@ -53,35 +65,57 @@
                         <div class="form-group" id="defaultImageGroup">
                             <label for="defaultImage">Select Image</label>
                             <select id="defaultImage" name="defaultImage">
-                                <option value="/boiled.png">Boiled Egg</option>
-                                <option value="/sunnysideup.png">Sunny Side Up</option>
-                                <option value="/omelet.png">Omelet</option>
-                                <option value="/scrumbeled.png">Scrambled</option>
+                                <option value="/boiled.png" <%=(locals.recipe && recipe.image_path==='/boiled.png' )
+                                    ? 'selected' : '' %>>Boiled Egg</option>
+                                <option value="/sunnysideup.png" <%=(locals.recipe &&
+                                    recipe.image_path==='/sunnysideup.png' ) ? 'selected' : '' %>>Sunny Side Up
+                                </option>
+                                <option value="/omelet.png" <%=(locals.recipe && recipe.image_path==='/omelet.png' )
+                                    ? 'selected' : '' %>>Omelet</option>
+                                <option value="/scrumbeled.png" <%=(locals.recipe &&
+                                    recipe.image_path==='/scrumbeled.png' ) ? 'selected' : '' %>>Scrambled</option>
                             </select>
                         </div>
 
                         <div class="form-group" id="uploadImageGroup" style="display: none;">
                             <label for="uploadImage">Upload Image (Max 2MB)</label>
-                            <input type="file" id="uploadImage" name="uploadImage" accept="image/*">
+                            <% if (locals.recipe && recipe.image_path && recipe.image_path.startsWith('/uploads/')) { %>
+                                <div style="margin-bottom: 10px;">
+                                    <img src="<%= recipe.image_path %>" style="max-height: 100px; display: block;">
+                                    <small>Current Image (Upload new to replace)</small>
+                                </div>
+                                <% } %>
+                                    <input type="file" id="uploadImage" name="uploadImage" accept="image/*">
                         </div>
 
                         <div class="form-group">
                             <label for="animation">Timer Animation</label>
                             <select id="animation" name="animation">
-                                <option value="boiling_egg.html">Boiling Water</option>
-                                <option value="sunny_side_up_egg.html">Frying Pan</option>
-                                <option value="omelet.html">Omelet Pan</option>
-                                <option value="scrambled_eggs.html">Scrambling Pan</option>
+                                <option value="boiling_egg.html" <%=(locals.recipe &&
+                                    recipe.animation==='boiling_egg.html' ) ? 'selected' : '' %>>Boiling Water
+                                </option>
+                                <option value="sunny_side_up_egg.html" <%=(locals.recipe &&
+                                    recipe.animation==='sunny_side_up_egg.html' ) ? 'selected' : '' %>>Frying Pan
+                                </option>
+                                <option value="omelet.html" <%=(locals.recipe && recipe.animation==='omelet.html' )
+                                    ? 'selected' : '' %>>Omelet Pan</option>
+                                <option value="scrambled_eggs.html" <%=(locals.recipe &&
+                                    recipe.animation==='scrambled_eggs.html' ) ? 'selected' : '' %>>Scrambling Pan
+                                </option>
                             </select>
                         </div>
 
                         <div class="form-group checkbox-group">
                             <label>
-                                <input type="checkbox" name="is_shared" value="true"> Share with others?
+                                <input type="checkbox" name="is_shared" value="true" <%=(locals.recipe &&
+                                    (recipe.is_shared===1 || recipe.is_shared===true)) ? 'checked' : '' %>> Share
+                                with others?
                             </label>
                         </div>
 
-                        <button type="submit" class="submit-btn" style="margin-top: 20px;">Create Recipe</button>
+                        <button type="submit" class="submit-btn" style="margin-top: 20px;">
+                            <%= locals.isEdit ? 'Update Recipe' : 'Create Recipe' %>
+                        </button>
                     </form>
 
                     <a href="/menu" class="back-btn">Back to Menu</a>
@@ -102,6 +136,8 @@
                 uploadGroup.style.display = 'block';
             }
         }
+        // Run on load to set initial state (for edit mode)
+        document.addEventListener('DOMContentLoaded', toggleImageInput);
     </script>
 
     <style>

@@ -60,6 +60,7 @@ app.get("/menu", async (req, res) => {
 
 app.get("/recipe/:id", recipeController.showRecipe);
 
+
 // Stats & Leaderboard
 app.post("/api/stats", statsController.recordStat);
 app.get("/leaderboard", statsController.showLeaderboard);
@@ -86,6 +87,10 @@ if (!fs.existsSync(uploadDir)){
 
 app.get("/add-recipe", recipeController.showAddRecipeForm);
 app.post("/add-recipe", upload.single('uploadImage'), recipeController.addRecipe);
+
+app.get("/recipe/:id/edit", recipeController.showEditRecipeForm);
+app.post("/recipe/:id/edit", upload.single('uploadImage'), recipeController.updateRecipe);
+app.post("/recipe/:id/delete", recipeController.deleteRecipe);
 
 app.get("/user-recipy", recipeController.showUserRecipes);
 
