@@ -76,7 +76,7 @@ app.get("/menu", async (req, res) => {
   res.render("menu", { message: req.query.msg, recipes });
 });
 
-app.get("/recipe/:id", cachePublicOnly, recipeController.showRecipe);
+app.get("/recipe/:id", recipeController.showRecipe);
 
 
 // Stats & Leaderboard
