@@ -56,7 +56,6 @@ app.set("views", path.join(__dirname, "views"));
 
 // ---------- routes ----------
 app.get("/", (req, res) => {
-  res.set('Cache-Control', 'public, max-age=3600'); // 1 hour
   // If already logged in, redirect to menu
   if (res.locals.user) {
     return res.redirect("/menu");
