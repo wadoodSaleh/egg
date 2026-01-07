@@ -76,7 +76,7 @@
       if (mins >= losingMinute) {
         clearInterval(interval);
         interval = null;
-        if (losePopup) losePopup.style.display = "block";
+        if (losePopup) losePopup.style.display = "flex";
         setButtonStates();
         recordStat('burned'); // Record BURNT egg
       }
