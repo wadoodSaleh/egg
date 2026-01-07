@@ -1,23 +1,55 @@
 <!DOCTYPE html>
-<%- include('parts/header', { pageName: recipe.egg , pageTitle: recipe.egg}) %>
-<body>
-  <h2>Ingredients</h2>
-  <ul>
-    <% recipe.ingredients.forEach(item => { %>
-      <li><%= item %></li>
-    <% }) %>
-  </ul>
+<%- include('parts/header', { pageName: recipe.name , pageTitle: recipe.name, bodyClass: 'body_recipy' }) %>
+  <div class="recipe-container">
+    <div class="columens-container">
+      <!-- Left Column: Ingredients + Timer -->
+      <div class="left-column">
+        <div class="ingredients-section">
+          <h2 class="panel-title" style="font-size: 1.8rem; text-align: center;">Ingredients</h2>
+          <ul class="styled-list">
+            <% recipe.ingredients.forEach(item=> { %>
+              <li><span class="pixel-bullet">></span>
+                <%= item %>
+              </li>
+              <% }) %>
+          </ul>
+        </div>
+        <div class="instructions-section">
+          <h2 class="panel-title" style="font-size: 1.8rem; text-align: center;">Instructions</h2>
+          <ol class="styled-list">
+            <% recipe.instructions.forEach((step, index)=> { %>
+              <li><span class="pixel-number">
+                  <%= index + 1 %>
+                </span>
+                <%= step %>
+              </li>
+              <% }) %>
+          </ol>
+        </div>
+      </div>
 
-  <h2>Instructions</h2>
-  <ol>
-    <% recipe.instructions.forEach(step => { %>
-      <li><%= step %></li>
-    <% }) %>
-  </ol>
+      <!-- Right Column: Instructions -->
+      <div class="right-column">
+        <!-- Timer -->
+        <img src="<%= recipe.image_path %>" alt="<%= recipe.name %>" class="recipe-detail-image">
+        <%- include("parts/timer", { recipe }) %>
+      </div>
+    </div>
+    <!-- Owner Actions -->
+    <% if (locals.isOwner) { %>
+      <div class="menu_buttons">
+        <a href="/recipes/<%= recipe.slug %>/edit" class="btn-action btn-edit"><img src="/edit icon.png"
+            alt="edit" /><span class="btn-text">edit</span></a>
 
-  <!-- Timer -->
-  <%- include("parts/timer", { recipe }) %>
+        <form action="/recipes/<%= recipe.slug %>?_method=DELETE" method="POST"
+          onsubmit="return confirm('Are you sure you want to delete this recipe?');" style="display: inline;">
+          <button type="submit" class="btn-action btn-delete"><img src="/delete icon.png" alt="delete" /><span
+              class="btn-text">delete</span></button>
+        </form>
+      </div>
+      <% } %>
 
-</body>
-<%- include('parts/footer') %>
-</html>
+        <%- include('parts/footer') %>
+  </div>
+
+  </html>

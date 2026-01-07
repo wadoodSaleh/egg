@@ -1,44 +1,43 @@
 <!DOCTYPE html>
-<%- include('parts/header', { pageName: 'egg', pageTitle: 'EGG' }) %>
-<body>
+<%- include('parts/header', { pageName: 'Egg Timer' , pageTitle: 'ET' , bodyClass: 'body_home' }) %>
 
   <div class="container">
-    <button id="mainBtn" onclick="openLogin()">egg</button>
+    <button id="mainBtn" onclick="openLogin()">start</button>
   </div>
 
   <!-- Login Popup -->
   <div id="loginPopup" class="popup-overlay" style="display: none;">
     <div class="popup-content">
+      <h2>Login ✿</h2>
       <button class="close-btn" onclick="closeLogin()">&times;</button>
-      <%- include("parts/login") %>
+      <div class="popup-inerr-content"><%- include("parts/login") %></div>
     </div>
   </div>
 
   <script>
     function openLogin() {
-      document.getElementById("loginPopup").style.display = "block";
+      document.getElementById("loginPopup").style.display = "flex";
     }
 
     function closeLogin() {
       document.getElementById("loginPopup").style.display = "none";
     }
 
+  </script>
+  <% if (typeof message !=="undefined" && message) { %>
+    <script>
+      window.addEventListener('load', function () { openLogin(); });
     </script>
-    <% if (typeof message !== "undefined" && message) { %>
-      <script>
-        window.addEventListener('load', function() { openLogin(); });
-      </script>
     <% } %>
 
-    <script>
-    // Close popup when clicking outside
-    document.getElementById("loginPopup").addEventListener("click", function(e) {
-      if (e.target === this) {
-        closeLogin();
-      }
-    });
-  </script>
+      <script>
+        // Close popup when clicking outside
+        document.getElementById("loginPopup").addEventListener("click", function (e) {
+          if (e.target === this) {
+            closeLogin();
+          }
+        });
+      </script>
+      <%- include('parts/footer') %>
 
-</body>
-<%- include('parts/footer') %>
-</html>
+        </html>

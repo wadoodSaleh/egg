@@ -1,2 +1,7 @@
 node_modules/
-cosy_music.mp3
+
+PROPOSAL.md
+Proposal1.md
+package.json
+package-lock.json
+.env

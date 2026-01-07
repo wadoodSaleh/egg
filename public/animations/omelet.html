@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Omelet Animation</title>
+  <style>
+    body {
+      margin: 0;
+      box-shadow: inset 4px 4px 1px #f9d7a8;
+      background: #FDF0C3;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      overflow: hidden;
+    }
+
+    canvas {
+      width: min(80vmin, 512px);
+      aspect-ratio: 1/1;
+      image-rendering: pixelated;
+      display: block;
+      background: transparent;
+      max-width: 100%;
+      max-height: 100%;
+    }
+  </style>
+</head>
+<body>
+
+<canvas id="omelet" width="128" height="128"></canvas>
+
+<script>
+const canvas = document.getElementById("omelet");
+const ctx = canvas.getContext("2d");
+ctx.imageSmoothingEnabled = false;
+
+// State remains controlled by parent
+let cookLevel = 0;
+
+const images = {};
+const ASSETS = [
+  "omelet.png",
+  "face_sleepy.png",
+  "face_happy.png",
+  "face_hard.png",
+  "face_sad.png",
+  "face_scream.png"
+];
+
+const STAGES = [
+  { max: 0.25, name: "raw", face: "sleepy" },
+  { max: 0.45, name: "light-yellow", face: "happy" },
+  { max: 0.725, name: "cooked-hard", face: "hard" },
+  { max: 0.95, name: "browning", face: "sad" },
+  { max: 1.0, name: "burnt", face: "scream" }
+];
+
+loadAssets().then(() => {
+  loop();
+});
+
+function loadAssets() {
+  return Promise.all(
+    ASSETS.map(src => new Promise(res => {
+      const img = new Image();
+      img.src = `/${src}`;
+      img.onload = () => {
+        const key = src.replace('.png', '');
+        images[key] = img;
+        res();
+      };
+      img.onerror = () => res();
+    }))
+  );
+}
+
+function getStage(level) {
+  return STAGES.find(s => level <= s.max) || STAGES[STAGES.length - 1];
+}
+
+function drawColorLayer(level) {
+  const tmp = document.createElement('canvas');
+  tmp.width = 128;
+  tmp.height = 128;
+  const tctx = tmp.getContext('2d');
+  tctx.imageSmoothingEnabled = false;
+
+  // Mask to omelet shape
+  if (images.omelet) {
+    tctx.drawImage(images.omelet, 0, 0, 128, 128);
+  }
+
+  // Radial gradient: Center (64,64), From Outer (Radius 64) to Inner (Radius 0)
+  const gradient = tctx.createRadialGradient(64, 64, 64, 64, 64, 0);
+
+  /**
+   * ANIMATION LOGIC: 
+   * We use 'progress' to determine where the "color front" is.
+   * As progress goes from 0 to 1, the stop moves from the edge to the center.
+   */
+  if (level <= 0.25) {
+    const progress = level / 0.25;
+    gradient.addColorStop(0, `rgb(255, 210, 80)`); // Cooked edge
+    gradient.addColorStop(progress, `rgb(255, 140, 40)`); // Transition line
+    gradient.addColorStop(1, `rgb(255, 100, 10)`); // Raw center
+  } else if (level <= 0.45) {
+    const progress = (level - 0.25) / 0.2;
+    gradient.addColorStop(0, `rgb(255, 245, 180)`); 
+    gradient.addColorStop(progress, `rgb(255, 220, 100)`);
+    gradient.addColorStop(1, `rgb(255, 180, 80)`);
+  } else if (level <= 0.725) {
+    const progress = (level - 0.45) / 0.275;
+    gradient.addColorStop(0, `rgb(170, 110, 50)`); // Brown crust
+    gradient.addColorStop(progress * 0.7, `rgb(255, 190, 60)`);
+    gradient.addColorStop(1, `rgb(255, 230, 140)`);
+  } else {
+    const progress = (level - 0.725) / 0.275;
+    gradient.addColorStop(0, `rgb(50, 30, 15)`); // Burnt edge
+    gradient.addColorStop(progress, `rgb(100, 60, 20)`); // Burnt spreading
+    gradient.addColorStop(Math.min(1, progress + 0.2), `rgb(160, 100, 40)`);
+  }
+
+  tctx.globalCompositeOperation = 'source-atop';
+  tctx.fillStyle = gradient;
+  tctx.fillRect(0, 0, 128, 128);
+
+  ctx.save();
+  ctx.globalAlpha = 0.6; 
+  ctx.drawImage(tmp, 0, 0);
+  ctx.restore();
+}
+
+function drawFace(faceType) {
+  const faceImg = images[`face_${faceType}`];
+  if (faceImg) {
+    ctx.drawImage(faceImg, 0, 0, 128, 128);
+    return;
+  }
+  // Fallback drawing logic removed for brevity but can be kept from original
+}
+
+function loop() {
+  ctx.clearRect(0, 0, 128, 128);
+
+  if (images.omelet) {
+    ctx.drawImage(images.omelet, 0, 0, 128, 128);
+  }
+
+  drawColorLayer(cookLevel);
+  const stage = getStage(cookLevel);
+  drawFace(stage.face);
+
+  requestAnimationFrame(loop);
+}
+
+// Parent timer still controls the level here
+window.setBurnLevel = function(level) {
+  cookLevel = Math.max(0, Math.min(1, level));
+};
+</script>
+</body>
+</html>

@@ -41,6 +41,16 @@
       // update title
       if (doc.title) document.title = doc.title;
 
+      // update body class (for background changes etc.)
+      document.body.className = doc.body.className;
+
+      // update page name (h1 in header)
+      const newPageName = doc.querySelector('.page-name');
+      const curPageName = document.querySelector('.page-name');
+      if (newPageName && curPageName) {
+        curPageName.innerHTML = newPageName.innerHTML;
+      }
+
       // run scripts found in new content
       const scripts = newContent.querySelectorAll('script');
       scripts.forEach(old => {

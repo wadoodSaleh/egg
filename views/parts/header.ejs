@@ -1,20 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title><%= pageTitle || 'egg' %></title>
- <link rel="stylesheet" href="/style.css" />
+  <title>
+    <%= pageTitle || 'egg' %>
+  </title>
+  <link rel="stylesheet" href="/style.css" />
 </head>
-<body>
+
+<body class="<%= bodyClass || '' %>">
   <header class="header">
-    <a href="/" class="nav-button home-btn">
-      <img src="boiled.png" alt="Home" />
-    </a>
-    <h1 class="page-name"><%= pageName || 'egg' %></h1>
-    <button class="nav-button music-btn" onclick="playMusic()">
-      <img id="musicIcon" src="/dancing egg 0.png" alt="Music" />
-    </button>
+
+    <div class="header-left">
+      <a href="/" class="nav-button home-btn">
+        <img src="/boiled.png" alt="Home" />
+      </a>
+      <% if (locals.user) { %>
+        <a href="/leaderboard" class="nav-button leaderboard-btn">
+          <img src="/leaderboard.png" alt="Leaderboard" />
+          <span class="btn-text">Leaderboard</span>
+        </a>
+        <% } %>
+    </div>
+    <h1 class="page-name">
+      <%= pageName || 'egg' %>
+    </h1>
+    <div class="header-right">
+      <% if (locals.user) { %>
+        <!--span class="welcome-msg">Hi, <%= user.username %>!</span-->
+        <a href="/logout" class="nav-button logout-btn" target="_top">
+          <img src="/Log out.png" alt="Logout" />
+          <span class="btn-text">Logout</span>
+        </a>
+        <% } else { %>
+          <!-- optional: login button or just leave empty if login is on home -->
+          <% } %>
+            <button class="nav-button music-btn" onclick="playMusic()">
+              <img id="musicIcon" src="/dancing egg 0.png" alt="Music" />
+            </button>
+    </div>
   </header>
 
   <div class="content">

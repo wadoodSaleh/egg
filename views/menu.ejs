@@ -1,15 +1,33 @@
 <!DOCTYPE html>
-<%- include('parts/header', { pageName: 'Menu', pageTitle: 'MENU' }) %>
-	<body>
-		<% if (message) { %>
-			<div class="message"><%= message %></div>
+<%- include('parts/header', { pageName: 'Menu' , pageTitle: 'MENU' , bodyClass: 'body_menu' }) %>
+
+	<% if (message) { %>
+		<div class="message">
+			<%= message %>
+		</div>
 		<% } %>
-		<ul>
-			<li class="pixel_egg"><a href="/recipe/boiled"><img src="/boiled.png" alt="egg pixel art"></a></li>
-			<li><a href="/recipe/sunny-side"><img src="/sunnysideup.jpg" alt="egg pixel art"></a></li>
-			<li><a href="/recipe/scrambled"><img src="/scrambled.jpg" alt="egg pixel art"></a></li>
-			<li><a href="/recipe/omelet"><img src="/omelete.jpg" alt="egg pixel art"></a></li>
-		</ul>
-	</body>
-<%- include('parts/footer') %>
-</html>
+			<ul>
+				<% if (locals.recipes) { %>
+					<% recipes.forEach(function(recipe) { %>
+						<li class="pixel_egg">
+							<a href="/recipes/<%= recipe.slug %>">
+								<img src="<%= recipe.image_path %>" alt="<%= recipe.name %>">
+							</a>
+							<p>
+								<%= recipe.name %>
+							</p>
+						</li>
+						<% }); %>
+							<% } else { %>
+								<li>No recipes found.</li>
+								<% } %>
+			</ul>
+			<div class="menu_buttons">
+				<a href="/recipes/new" class="add-recipe"><button><img src="/add.png" alt="Logout" />
+						<span class="btn-text">add recipe</span></button></a>
+				<a href="/recipes/shared" class="user-recipy"><button><img src="/comunity.png" alt="Logout" />
+						<span class="btn-text">user recipes</span></button></a>
+			</div>
+			<%- include('parts/footer') %>
+
+				</html>

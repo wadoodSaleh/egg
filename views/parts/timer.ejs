@@ -1,18 +1,39 @@
 <%console.log("Rendering timer for recipe:", recipe);%>
-<div id="timerArea"
-     data-cook="<%= recipe.cook_minutes %>"
-     data-lose="<%= recipe['losing minute'] %>">
-     
-  <iframe id="animationFrame" src="/animations/<%= recipe.animation %>"></iframe>
-  <button id="startBtn">Start Cooking</button>
+  <div id="timerArea" data-cook="<%= recipe.winning_minute %>" data-lose="<%= recipe.losing_minute %>"
+    data-recipe-id="<%= recipe.id %>">
 
-  <p id="timer">00:00</p>
+    <iframe id="animationFrame" src="/animations/<%= recipe.animation %>"></iframe>
+
+    <div id="timerControls">
+      <button id="startBtn" class="timer-btn" aria-label="Start" title="Start">
+        <!-- Play icon -->
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M8 5v14l11-7z" />
+        </svg>
+      </button>
+
+      <button id="pauseBtn" class="timer-btn" aria-label="Pause" title="Pause">
+        <!-- Pause icon -->
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" />
+        </svg>
+      </button>
+
+      <button id="stopBtn" class="timer-btn" aria-label="Stop" title="Stop">
+        <!-- Stop icon -->
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M6 6h12v12H6z" />
+        </svg>
+      </button>
+    </div>
+
+    <p id="timer">00:00</p>
+
+  </div>
 
   <!-- Lose Popup -->
-  <div id="losePopup" style="display:none;">
+  <div id="losePopup" class="popup-overlay" style="display: none;">
     <%- include("lose") %>
   </div>
 
-</div>
-
-<script src="/timer.js"></script>
+  <script src="/timer.js"></script>
