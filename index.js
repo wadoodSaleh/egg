@@ -89,9 +89,10 @@ app.get("/menu", (req, res) => res.redirect("/dashboard"));
 
 
 // Stats & Leaderboard
+// Stats & Leaderboard
 app.post("/api/stats", statsController.recordStat);
-app.get("/leaderboard", cache('10 seconds'), statsController.showLeaderboard);
-app.get("/api/leaderboard", cache('10 seconds'), statsController.getLeaderboardJson);
+app.get("/leaderboard", statsController.showLeaderboard);
+app.get("/api/leaderboard", statsController.getLeaderboardJson);
 
 // Helper for uploads (keep existing)
 const multer = require('multer');
