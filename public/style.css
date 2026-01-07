@@ -453,13 +453,13 @@ body.body_leaderboard {
 }
 
 .panel-title {
-  color: #FDF0C3;
+  color: #EC8784;
   font-size: 2.5rem;
   font-weight: bold;
   text-transform: uppercase;
   letter-spacing: 0.3rem;
   margin-bottom: 0.5rem;
-  text-shadow: -2px -2px 0px rgba(255, 255, 255, 0.232);
+  text-shadow: 2px 2px 0px #e96b7357;
 }
 
 .panel-subtitle {
