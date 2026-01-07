@@ -81,6 +81,7 @@ app.get("/recipe/:id", recipeController.showRecipe);
 // Stats & Leaderboard
 app.post("/api/stats", statsController.recordStat);
 app.get("/leaderboard", cache('10 seconds'), statsController.showLeaderboard);
+app.get("/api/leaderboard", cache('10 seconds'), statsController.getLeaderboardJson);
 
 // Add Recipe
 const multer = require('multer');

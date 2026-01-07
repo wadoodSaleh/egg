@@ -30,8 +30,8 @@ async function createRecipe(data) {
   try {
     const query = `
       INSERT INTO recipes 
-      (user_id, slug, name, image_path, ingredients, instructions, animation, losing_minute, is_shared)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+      (user_id, slug, name, image_path, ingredients, instructions, animation, winning_minute, losing_minute, is_shared)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `;
     const [result] = await db.execute(query, [
       data.userId,
@@ -41,6 +41,7 @@ async function createRecipe(data) {
       JSON.stringify(data.ingredients),
       JSON.stringify(data.instructions),
       data.animation,
+      data.winningMinute,
       data.losingMinute,
       data.isShared
     ]);
@@ -72,7 +73,7 @@ async function updateRecipe(id, data) {
   try {
     const query = `
       UPDATE recipes 
-      SET name = ?, image_path = ?, ingredients = ?, instructions = ?, animation = ?, losing_minute = ?, is_shared = ?, slug = ?
+      SET name = ?, image_path = ?, ingredients = ?, instructions = ?, animation = ?, winning_minute = ?, losing_minute = ?, is_shared = ?, slug = ?
       WHERE id = ?
     `;
     const [result] = await db.execute(query, [
@@ -81,6 +82,7 @@ async function updateRecipe(id, data) {
       JSON.stringify(data.ingredients),
       JSON.stringify(data.instructions),
       data.animation,
+      data.winningMinute,
       data.losingMinute,
       data.isShared,
       data.slug,

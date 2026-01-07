@@ -88,4 +88,84 @@
                         <a href="/menu" class="back-btn">Back to Menu</a>
         </div>
     </div>
+    <script>
+        (function () {
+            async function updateLeaderboard() {
+                try {
+                    const res = await fetch('/api/leaderboard');
+                    if (!res.ok) return;
+                    const data = await res.json();
+
+                    const leaderboard = data.leaderboard;
+                    const currentUser = data.currentUser;
+                    const currentUserId = currentUser ? currentUser.id : null;
+
+                    // 1. Update Personal Stats
+                    const personalStatsContainer = document.querySelector('.personal-stats');
+                    if (currentUserId && leaderboard.length > 0) {
+                        const myRankIndex = leaderboard.findIndex(u => u.user_id === currentUserId);
+
+                        if (myRankIndex !== -1) {
+                            const myStats = leaderboard[myRankIndex];
+                            // If user has stats, ensure the "stats-grid" is shown
+                            // We can completely rebuild the innerHTML to be safe
+                            personalStatsContainer.innerHTML = `
+                                <h2>Your Stats</h2>
+                                <div class="stats-grid">
+                                    <div class="stat-item">
+                                        <span>Rank</span>
+                                        <strong style="color: #EC8784;">#${myRankIndex + 1}</strong>
+                                    </div>
+                                    <div class="stat-item">
+                                        <span>Cooked</span>
+                                        <strong style="color: green;">${myStats.total_cooked}</strong>
+                                    </div>
+                                    <div class="stat-item">
+                                        <span>Burnt</span>
+                                        <strong style="color: red;">${myStats.total_burned}</strong>
+                                    </div>
+                                    <div class="stat-item">
+                                        <span>Total</span>
+                                        <strong>${myStats.total_eggs}</strong>
+                                    </div>
+                                </div>
+                            `;
+                        } else {
+                            // Valid user but no stats yet
+                            personalStatsContainer.innerHTML = `
+                                <h2>Your Stats</h2>
+                                <p>You haven't cooked any eggs yet! Get cracking to see your rank.</p>
+                            `;
+                        }
+                    }
+
+                    // 2. Update Table
+                    const tbody = document.querySelector('.leaderboard-table tbody');
+                    if (leaderboard.length === 0) {
+                        tbody.innerHTML = `
+                            <tr>
+                                <td colspan="5" style="padding: 20px;">No stats recorded yet! Start cooking!</td>
+                            </tr>
+                        `;
+                    } else {
+                        tbody.innerHTML = leaderboard.map((u, index) => `
+                            <tr>
+                                <td class="rank-cell">#${index + 1}</td>
+                                <td class="chef-cell">${u.username}</td>
+                                <td class="cooked-cell">${u.total_cooked}</td>
+                                <td class="burned-cell">${u.total_burned}</td>
+                                <td class="total-cell">${u.total_eggs}</td>
+                            </tr>
+                        `).join('');
+                    }
+
+                } catch (err) {
+                    console.error("Failed to update leaderboard:", err);
+                }
+            }
+
+            // Poll every 10 seconds
+            setInterval(updateLeaderboard, 10000);
+        })();
+    </script>
     <%- include('parts/footer') %>

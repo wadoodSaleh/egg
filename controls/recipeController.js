@@ -41,7 +41,7 @@ async function addRecipe(req, res) {
     return res.status(401).send("Unauthorized");
   }
 
-  const { name, ingredients, instructions, losing_minute, imageSource, defaultImage, animation, is_shared } = req.body;
+  const { name, ingredients, instructions, winning_minute, losing_minute, imageSource, defaultImage, animation, is_shared } = req.body;
   
   // Handle image path
   let imagePath = defaultImage;
@@ -64,6 +64,7 @@ async function addRecipe(req, res) {
     ingredients: ingredientsArray,
     instructions: instructionsArray,
     animation: animation,
+    winningMinute: parseFloat(winning_minute) || 0.5,
     losingMinute: parseInt(losing_minute) || 1,
     isShared: is_shared === 'true' ? 1 : 0
   };
@@ -123,7 +124,7 @@ async function updateRecipe(req, res) {
     return res.status(403).send("Unauthorized");
   }
 
-  const { name, ingredients, instructions, losing_minute, imageSource, defaultImage, animation, is_shared } = req.body;
+  const { name, ingredients, instructions, winning_minute, losing_minute, imageSource, defaultImage, animation, is_shared } = req.body;
   
   // Handle image path
   let imagePath = oldRecipe.image_path;
@@ -147,6 +148,7 @@ async function updateRecipe(req, res) {
     ingredients: ingredientsArray,
     instructions: instructionsArray,
     animation: animation,
+    winningMinute: parseFloat(winning_minute) || 0.5,
     losingMinute: parseInt(losing_minute) || 1,
     isShared: is_shared === 'true' ? 1 : 0
   };
