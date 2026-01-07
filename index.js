@@ -29,9 +29,12 @@ app.use('/uploads', express.static(path.join(__dirname, "public/uploads"), {
   immutable: true
 }));
 
+const methodOverride = require('method-override');
+
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json()); // Needed for API JSON requests
+app.use(bodyParser.json());
 app.use(cookieParser(process.env.SESSION_SECRET));
+app.use(methodOverride('_method')); // Support PUT/DELETE via ?_method=
 
 // Make 'user' available to all views if cookie is present
 app.use(async (req, res, next) => {
@@ -56,9 +59,8 @@ app.set("views", path.join(__dirname, "views"));
 
 // ---------- routes ----------
 app.get("/", (req, res) => {
-  // If already logged in, redirect to menu
   if (res.locals.user) {
-    return res.redirect("/menu");
+    return res.redirect("/dashboard");
   }
   res.render("home");
 });
@@ -66,7 +68,8 @@ app.get("/", (req, res) => {
 app.post("/login", login);
 app.get("/logout", logout);
 
-app.get("/menu", async (req, res) => {
+// Dashboard (formerly /menu)
+app.get("/dashboard", async (req, res) => {
   res.set('Cache-Control', 'private, no-cache');
   if (!res.locals.user) {
     return res.redirect("/");
@@ -75,7 +78,8 @@ app.get("/menu", async (req, res) => {
   res.render("menu", { message: req.query.msg, recipes });
 });
 
-app.get("/recipe/:id", recipeController.showRecipe);
+// redirect old /menu to /dashboard for backward compatibility (optional, but good)
+app.get("/menu", (req, res) => res.redirect("/dashboard"));
 
 
 // Stats & Leaderboard
@@ -83,34 +87,53 @@ app.post("/api/stats", statsController.recordStat);
 app.get("/leaderboard", cache('10 seconds'), statsController.showLeaderboard);
 app.get("/api/leaderboard", cache('10 seconds'), statsController.getLeaderboardJson);
 
-// Add Recipe
+// Helper for uploads (keep existing)
 const multer = require('multer');
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, path.join(__dirname, 'public/uploads'));
   },
   filename: function (req, file, cb) {
-    // Basic sanitization
     cb(null, Date.now() + '-' + file.originalname.replace(/[^a-zA-Z0-9.]/g, '_'));
   }
 });
 const upload = multer({ storage: storage });
 
-// Ensure uploads dir exists (optional check, but good practice)
 const fs = require('fs');
 const uploadDir = path.join(__dirname, 'public/uploads');
 if (!fs.existsSync(uploadDir)){
     fs.mkdirSync(uploadDir, { recursive: true });
 }
 
-app.get("/add-recipe", recipeController.showAddRecipeForm);
-app.post("/add-recipe", upload.single('uploadImage'), recipeController.addRecipe);
+// RESTful Recipe Routes
+// GET  /recipes        -> Check shared recipes? No, current design separates user recipes vs shared.
+// GET  /recipes/custom -> Maybe? Let's stick to existing logic mapping.
 
-app.get("/recipe/:id/edit", recipeController.showEditRecipeForm);
-app.post("/recipe/:id/edit", upload.single('uploadImage'), recipeController.updateRecipe);
-app.post("/recipe/:id/delete", recipeController.deleteRecipe);
+// 1. List Shared Recipes
+app.get("/recipes/shared", recipeController.showUserRecipes);
 
-app.get("/user-recipy", recipeController.showUserRecipes);
+// 2. New Recipe Form
+app.get("/recipes/new", recipeController.showAddRecipeForm);
+
+// 3. Create Recipe
+app.post("/recipes", upload.single('uploadImage'), recipeController.addRecipe);
+
+// 4. Show Single Recipe
+app.get("/recipes/:id", recipeController.showRecipe);
+
+// 5. Edit Recipe Form
+app.get("/recipes/:id/edit", recipeController.showEditRecipeForm);
+
+// 6. Update Recipe
+app.put("/recipes/:id", upload.single('uploadImage'), recipeController.updateRecipe);
+
+// 7. Delete Recipe
+app.delete("/recipes/:id", recipeController.deleteRecipe);
+
+// Legacy Redirects (to prevent breaking if user hits back button or old link)
+app.get("/add-recipe", (req, res) => res.redirect("/recipes/new"));
+app.get("/recipe/:id", (req, res) => res.redirect(`/recipes/${req.params.id}`));
+app.get("/user-recipy", (req, res) => res.redirect("/recipes/shared"));
 
 // ---------- server ----------
 const PORT = process.env.PORT;

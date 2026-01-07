@@ -10,10 +10,12 @@
 				<% if (locals.recipes) { %>
 					<% recipes.forEach(function(recipe) { %>
 						<li class="pixel_egg">
-							<a href="/recipe/<%= recipe.slug %>">
+							<a href="/recipes/<%= recipe.slug %>">
 								<img src="<%= recipe.image_path %>" alt="<%= recipe.name %>">
 							</a>
-							<p><%= recipe.name %></p>
+							<p>
+								<%= recipe.name %>
+							</p>
 						</li>
 						<% }); %>
 							<% } else { %>
@@ -21,10 +23,10 @@
 								<% } %>
 			</ul>
 			<div class="menu_buttons">
-				<a href="/add-recipe" class="add-recipe"><button><img src="/add.png" alt="Logout" />
-          <span class="btn-text">add recipe</span></button></a>
-				<a href="/user-recipy" class="user-recipy"><button><img src="/comunity.png" alt="Logout" />
-          <span class="btn-text">user recipes</span></button></a>
+				<a href="/recipes/new" class="add-recipe"><button><img src="/add.png" alt="Logout" />
+						<span class="btn-text">add recipe</span></button></a>
+				<a href="/recipes/shared" class="user-recipy"><button><img src="/comunity.png" alt="Logout" />
+						<span class="btn-text">user recipes</span></button></a>
 			</div>
 			<%- include('parts/footer') %>
 

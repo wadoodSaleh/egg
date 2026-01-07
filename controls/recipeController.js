@@ -71,16 +71,15 @@ async function addRecipe(req, res) {
 
   try {
     await recipeModel.createRecipe(recipeData);
-    res.redirect('/menu?msg=' + encodeURIComponent('Recipe created successfully!'));
+    res.redirect('/dashboard?msg=' + encodeURIComponent('Recipe created successfully!'));
   } catch (err) {
     // Check for duplicate entry error (MySQL error code 1062)
-    // We check code, message, and toString() to be safe
+    // ... (rest of error handling)
     if (
       err.code === 'ER_DUP_ENTRY' || 
       (err.message && err.message.includes('Duplicate entry')) ||
       err.toString().includes('Duplicate entry')
     ) {
-       // Log a clean message instead of a stack trace
        // console.log("Duplicate recipe creation attempt blocked.");
        return res.render("add-recipe", { error: "A recipe with this name already exists! Please choose a different name." });
     }
@@ -155,7 +154,7 @@ async function updateRecipe(req, res) {
 
   try {
     await recipeModel.updateRecipe(oldRecipe.id, recipeData);
-    res.redirect('/recipe/' + slug);
+    res.redirect('/recipes/' + slug);
   } catch (err) {
      if (
       err.code === 'ER_DUP_ENTRY' || 
@@ -183,7 +182,7 @@ async function deleteRecipe(req, res) {
   }
 
   await recipeModel.deleteRecipe(recipe.id);
-  res.redirect("/menu?msg=" + encodeURIComponent("Recipe deleted successfully."));
+  res.redirect("/dashboard?msg=" + encodeURIComponent("Recipe deleted successfully."));
 }
 
 async function showUserRecipes(req, res) {

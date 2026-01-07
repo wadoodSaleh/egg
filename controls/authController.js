@@ -25,16 +25,16 @@ async function login(req, res) {
 
     if (result.status === "login_success") {
       const msg = `Welcome back, ${result.user.username}!`;
-      console.log("[authController] login success, redirecting to /menu");
+      console.log("[authController] login success, redirecting to /dashboard");
       setCookie(result.user);
-      return res.redirect(`/menu?msg=${encodeURIComponent(msg)}`);
+      return res.redirect(`/dashboard?msg=${encodeURIComponent(msg)}`);
     }
 
     if (result.status === "user_created") {
       const msg = `Account created! Welcome, ${result.user.username}!`;
-      console.log("[authController] user created, redirecting to /menu");
+      console.log("[authController] user created, redirecting to /dashboard");
       setCookie(result.user);
-      return res.redirect(`/menu?msg=${encodeURIComponent(msg)}`);
+      return res.redirect(`/dashboard?msg=${encodeURIComponent(msg)}`);
     }
 
     return res.render("home", { message: "An error occurred" });

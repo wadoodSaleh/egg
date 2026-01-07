@@ -17,7 +17,7 @@
 
 
 
-                    <form action="<%= locals.isEdit ? '/recipe/' + recipe.slug + '/edit' : '/add-recipe' %>"
+                    <form action="<%= locals.isEdit ? '/recipes/' + recipe.slug + '?_method=PUT' : '/recipes' %>"
                         method="POST" enctype="multipart/form-data" class="add-recipe-form">
 
                         <div class="form-group">
@@ -125,7 +125,7 @@
                         </button>
                     </form>
 
-                    <a href="/menu" class="back-btn">Back to Menu</a>
+                    <a href="/dashboard" class="back-btn">Back to Menu</a>
         </div>
     </div>
 
