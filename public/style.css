@@ -26,7 +26,7 @@ body,
   }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 499px) {
   :root {
     --header-height: 76px;
   }
@@ -429,12 +429,18 @@ body.body_leaderboard {
   image-rendering: pixelated;
 }
 @media(max-width: 570px) {
-  .body_leaderboard .page-name {
+  .page-name {
     font-size: 1.2rem;
     letter-spacing: 0.2rem;
   }
   .nav-button{
     padding: 0.25rem;
+  }
+}
+
+@media(max-width: 272px){
+  .page-name {
+    display : none;
   }
 }
 
@@ -954,7 +960,7 @@ body.body_leaderboard {
 }
 
 
-@media (max-width: 480px) {
+@media (max-width: 499px) {
  .body_recipy .recipe-detail-image{
   display: none;
  }
@@ -1137,8 +1143,8 @@ body.body_leaderboard {
     font-size: 0;
     /* hide inline text while keeping images visible */
     padding: 0.25rem;
-    width: 48px;
-    height: 48px;
+    width: 40px;
+    height: 40px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -1214,7 +1220,7 @@ body.body_leaderboard {
 }
 
 /* Very small devices */
-@media (max-width: 360px) {
+@media (max-width: 370px) {
   .body_leaderboard.add-recipe-form input[type="text"],
   .body_leaderboard.add-recipe-form input[type="number"],
   .body_leaderboard.add-recipe-form textarea,
@@ -1299,9 +1305,13 @@ body.body_leaderboard {
   .logout-btn,
   .leaderboard-btn,
   .music-btn {
-    width: 35px;
-    height: 35px;
+    width: 30px;
+    height: 30px;
     padding: 0.2rem;
+  }
+
+  .nav-button .logout-btn, .nav-button .leaderboard-btn img {
+    width: 15px;
   }
 
   .logout-btn img,
