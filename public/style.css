@@ -156,7 +156,6 @@ body {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  padding: 2rem;
   position: relative;
 }
 
@@ -947,6 +946,9 @@ body.body_leaderboard {
 
 
 @media (max-width: 480px) {
+ .body_recipy .recipe-detail-image{
+  display: none;
+ }
   .columens-container{
     flex-direction: column;
   }
