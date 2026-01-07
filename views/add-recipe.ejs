@@ -47,8 +47,8 @@
 
                         <div class="form-group">
                             <label for="losing_minute">Burn Time (minutes)</label>
-                            <input type="number" id="losing_minute" name="losing_minute"
-                                value="<%= locals.recipe ? recipe.losing_minute : '1' %>" min="1" required>
+                            <input type="number" id="losing_minute" name="losing_minute" step="0.1"
+                                value="<%= locals.recipe ? recipe.losing_minute : '1' %>" min="0.1" required>
                         </div>
 
                         <div class="form-group">
@@ -143,8 +143,29 @@
                 uploadGroup.style.display = 'block';
             }
         }
+
+        function validateTimers(event) {
+            const winningTime = parseFloat(document.getElementById('winning_minute').value);
+            const losingTime = parseFloat(document.getElementById('losing_minute').value);
+
+            if (losingTime <= winningTime) {
+                event.preventDefault();
+                alert('Burn Time must be greater than Cook Time!');
+                return false;
+            }
+            return true;
+        }
+
         // Run on load to set initial state (for edit mode)
-        document.addEventListener('DOMContentLoaded', toggleImageInput);
+        document.addEventListener('DOMContentLoaded', () => {
+            toggleImageInput();
+
+            // Attach validation to form
+            const form = document.querySelector('.add-recipe-form');
+            if (form) {
+                form.addEventListener('submit', validateTimers);
+            }
+        });
     </script>
 
     <style>

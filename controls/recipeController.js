@@ -65,9 +65,16 @@ async function addRecipe(req, res) {
     instructions: instructionsArray,
     animation: animation,
     winningMinute: parseFloat(winning_minute) || 0.5,
-    losingMinute: parseInt(losing_minute) || 1,
+    losingMinute: parseFloat(losing_minute) || 1,
     isShared: is_shared === 'true' ? 1 : 0
   };
+
+  if (recipeData.losingMinute <= recipeData.winningMinute) {
+      return res.render("add-recipe", { 
+          error: "Burn Time must be greater than Cook Time!",
+          recipe: recipeData // Preserve user input
+      });
+  }
 
   try {
     await recipeModel.createRecipe(recipeData);
@@ -148,9 +155,17 @@ async function updateRecipe(req, res) {
     instructions: instructionsArray,
     animation: animation,
     winningMinute: parseFloat(winning_minute) || 0.5,
-    losingMinute: parseInt(losing_minute) || 1,
+    losingMinute: parseFloat(losing_minute) || 1,
     isShared: is_shared === 'true' ? 1 : 0
   };
+
+  if (recipeData.losingMinute <= recipeData.winningMinute) {
+      return res.render("add-recipe", { 
+          recipe: { ...recipeData, id: oldRecipe.id }, 
+          isEdit: true, 
+          error: "Burn Time must be greater than Cook Time!" 
+      });
+  }
 
   try {
     await recipeModel.updateRecipe(oldRecipe.id, recipeData);
