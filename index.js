@@ -2,6 +2,9 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const path = require("path");
+// http caching middleware
+const apicache = require('apicache');
+const cache = apicache.middleware;
 require('dotenv').config();
 
 console.log(__dirname);
@@ -10,9 +13,22 @@ const recipeController = require(__dirname +"/controls/recipeController");
 const statsController = require(__dirname + "/controls/statsController");
 const userModel = require("./models/userModel"); // needed to lookup user by cookie
 const app = express();
+// Only cache for anonymous users (no auth cookie)
+const cacheAnonymousOnly = cache('5 minutes', (req, res) => {
+  return res.statusCode === 200 && !req.signedCookies.userId;
+});
 
 // ---------- middleware ----------
-app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(__dirname, "public"), {
+  maxAge: '1d', // Cache for 1 day
+  etag: true
+}));
+
+app.use('/uploads', express.static(path.join(__dirname, "public/uploads"), {
+  maxAge: '7d',
+  immutable: true
+}));
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json()); // Needed for API JSON requests
 app.use(cookieParser(process.env.SESSION_SECRET));
@@ -51,6 +67,7 @@ app.post("/login", login);
 app.get("/logout", logout);
 
 app.get("/menu", async (req, res) => {
+  res.set('Cache-Control', 'private, no-cache');
   if (!res.locals.user) {
     return res.redirect("/");
   }
@@ -63,7 +80,7 @@ app.get("/recipe/:id", recipeController.showRecipe);
 
 // Stats & Leaderboard
 app.post("/api/stats", statsController.recordStat);
-app.get("/leaderboard", statsController.showLeaderboard);
+app.get("/leaderboard", cache('10 seconds'), statsController.showLeaderboard);
 
 // Add Recipe
 const multer = require('multer');
