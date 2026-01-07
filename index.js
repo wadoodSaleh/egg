@@ -8,8 +8,8 @@ const cache = apicache.middleware;
 require('dotenv').config();
 
 console.log(__dirname);
-const { login, logout } = require( __dirname + "/controls/authController");
-const recipeController = require(__dirname +"/controls/recipeController");
+const { login, logout } = require(__dirname + "/controls/authController");
+const recipeController = require(__dirname + "/controls/recipeController");
 const statsController = require(__dirname + "/controls/statsController");
 const userModel = require("./models/userModel"); // needed to lookup user by cookie
 const app = express();
@@ -58,6 +58,12 @@ app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
 // ---------- routes ----------
+
+app.get("/test-500", (req, res, next) => {
+  console.log("HIT TEST 500");
+  throw new Error("Test error");
+});
+
 app.get("/", (req, res) => {
   if (res.locals.user) {
     return res.redirect("/dashboard");
@@ -101,8 +107,8 @@ const upload = multer({ storage: storage });
 
 const fs = require('fs');
 const uploadDir = path.join(__dirname, 'public/uploads');
-if (!fs.existsSync(uploadDir)){
-    fs.mkdirSync(uploadDir, { recursive: true });
+if (!fs.existsSync(uploadDir)) {
+  fs.mkdirSync(uploadDir, { recursive: true });
 }
 
 // RESTful Recipe Routes

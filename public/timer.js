@@ -18,7 +18,7 @@
   const losePopup = document.getElementById("losePopup");
 
   const animationFrame = document.getElementById("animationFrame");
-  const alarmSound = new Audio('/Alarm.mp3');
+  const alarmSound = new Audio('/alarm1.mp3');
 
   async function recordStat(outcome) {
     if (!recipeId) return;
