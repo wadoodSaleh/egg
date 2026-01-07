@@ -17,7 +17,7 @@
 
 
 
-                    <form action="<%= locals.isEdit ? '/recipe/' + recipe.slug + '/edit' : '/add-recipe' %>"
+                    <form action="<%= locals.isEdit ? '/recipes/' + recipe.slug + '?_method=PUT' : '/recipes' %>"
                         method="POST" enctype="multipart/form-data" class="add-recipe-form">
 
                         <div class="form-group">
@@ -36,6 +36,13 @@
                             <label for="instructions">Instructions (one per line)</label>
                             <textarea id="instructions" name="instructions" rows="5" required
                                 placeholder="Crack egg.&#10;Cook egg.&#10;Eat egg."><%= locals.recipe && recipe.instructions ? (Array.isArray(recipe.instructions) ? recipe.instructions.join('\n') : JSON.parse(recipe.instructions).join('\n')) : '' %></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="winning_minute">Cook Time (minutes)</label>
+                            <input type="number" id="winning_minute" name="winning_minute" step="0.1"
+                                value="<%= locals.recipe ? recipe.winning_minute : '0.5' %>" min="0.1" required>
+                            <small style="color: grey;">Time to perfectly cook the egg (e.g. 1.5, 0.5)</small>
                         </div>
 
                         <div class="form-group">
@@ -118,7 +125,7 @@
                         </button>
                     </form>
 
-                    <a href="/menu" class="back-btn">Back to Menu</a>
+                    <a href="/dashboard" class="back-btn">Back to Menu</a>
         </div>
     </div>
 

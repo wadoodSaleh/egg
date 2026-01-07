@@ -428,6 +428,15 @@ body.body_leaderboard {
   background-position: center;
   image-rendering: pixelated;
 }
+@media(max-width: 570px) {
+  .body_leaderboard .page-name {
+    font-size: 1.2rem;
+    letter-spacing: 0.2rem;
+  }
+  .nav-button{
+    padding: 0.25rem;
+  }
+}
 
 /* Panel Styles (Shared by Leaderboard, Add Recipe, etc.) */
 .panel-container {

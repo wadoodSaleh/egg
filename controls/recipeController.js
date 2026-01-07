@@ -12,13 +12,13 @@ async function showRecipe(req, res) {
   const recipe = await recipeModel.getRecipeBySlug(recipeSlug);
 
   if (!recipe) {
-    return res.status(404).send("Recipe not found");
+    return res.status(404).render("errors/404", { message: "Recipe not found" });
   }
 
   // Check access: Must be owner OR recipe must be shared
   const isOwner = recipe.user_id === user.id;
   if (!isOwner && !recipe.is_shared) {
-    return res.status(403).send("You do not have permission to view this recipe.");
+    return res.status(403).render("errors/403", { message: "You do not have permission to view this recipe." });
   }
 
   res.render("recipe", { recipe, isOwner });
@@ -41,7 +41,7 @@ async function addRecipe(req, res) {
     return res.status(401).send("Unauthorized");
   }
 
-  const { name, ingredients, instructions, losing_minute, imageSource, defaultImage, animation, is_shared } = req.body;
+  const { name, ingredients, instructions, winning_minute, losing_minute, imageSource, defaultImage, animation, is_shared } = req.body;
   
   // Handle image path
   let imagePath = defaultImage;
@@ -64,22 +64,22 @@ async function addRecipe(req, res) {
     ingredients: ingredientsArray,
     instructions: instructionsArray,
     animation: animation,
+    winningMinute: parseFloat(winning_minute) || 0.5,
     losingMinute: parseInt(losing_minute) || 1,
     isShared: is_shared === 'true' ? 1 : 0
   };
 
   try {
     await recipeModel.createRecipe(recipeData);
-    res.redirect('/menu?msg=' + encodeURIComponent('Recipe created successfully!'));
+    res.redirect('/dashboard?msg=' + encodeURIComponent('Recipe created successfully!'));
   } catch (err) {
     // Check for duplicate entry error (MySQL error code 1062)
-    // We check code, message, and toString() to be safe
+    // ... (rest of error handling)
     if (
       err.code === 'ER_DUP_ENTRY' || 
       (err.message && err.message.includes('Duplicate entry')) ||
       err.toString().includes('Duplicate entry')
     ) {
-       // Log a clean message instead of a stack trace
        // console.log("Duplicate recipe creation attempt blocked.");
        return res.render("add-recipe", { error: "A recipe with this name already exists! Please choose a different name." });
     }
@@ -100,11 +100,11 @@ async function showEditRecipeForm(req, res) {
   const recipe = await recipeModel.getRecipeBySlug(recipeSlug);
 
   if (!recipe) {
-    return res.status(404).send("Recipe not found");
+    return res.status(404).render("errors/404", { message: "Recipe not found" });
   }
 
   if (recipe.user_id !== user.id) {
-    return res.status(403).send("You cannot edit this recipe.");
+    return res.status(403).render("errors/403", { message: "You cannot edit this recipe." });
   }
 
   res.render("add-recipe", { recipe, isEdit: true });
@@ -120,10 +120,10 @@ async function updateRecipe(req, res) {
   const oldRecipe = await recipeModel.getRecipeBySlug(recipeSlug);
 
   if (!oldRecipe || oldRecipe.user_id !== user.id) {
-    return res.status(403).send("Unauthorized");
+    return res.status(403).render("errors/403", { message: "You cannot edit this recipe." });
   }
 
-  const { name, ingredients, instructions, losing_minute, imageSource, defaultImage, animation, is_shared } = req.body;
+  const { name, ingredients, instructions, winning_minute, losing_minute, imageSource, defaultImage, animation, is_shared } = req.body;
   
   // Handle image path
   let imagePath = oldRecipe.image_path;
@@ -147,13 +147,14 @@ async function updateRecipe(req, res) {
     ingredients: ingredientsArray,
     instructions: instructionsArray,
     animation: animation,
+    winningMinute: parseFloat(winning_minute) || 0.5,
     losingMinute: parseInt(losing_minute) || 1,
     isShared: is_shared === 'true' ? 1 : 0
   };
 
   try {
     await recipeModel.updateRecipe(oldRecipe.id, recipeData);
-    res.redirect('/recipe/' + slug);
+    res.redirect('/recipes/' + slug);
   } catch (err) {
      if (
       err.code === 'ER_DUP_ENTRY' || 
@@ -177,11 +178,11 @@ async function deleteRecipe(req, res) {
   const recipe = await recipeModel.getRecipeBySlug(recipeSlug);
 
   if (!recipe || recipe.user_id !== user.id) {
-    return res.status(403).send("Unauthorized");
+    return res.status(403).render("errors/403", { message: "You cannot delete this recipe." });
   }
 
   await recipeModel.deleteRecipe(recipe.id);
-  res.redirect("/menu?msg=" + encodeURIComponent("Recipe deleted successfully."));
+  res.redirect("/dashboard?msg=" + encodeURIComponent("Recipe deleted successfully."));
 }
 
 async function showUserRecipes(req, res) {

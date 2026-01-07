@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<%- include('../parts/header', { pageName: '404' , pageTitle: 'Page Not Found' , bodyClass: 'body_menu' }) %>
+
+    <div class="panel-container" style="max-width: 600px; margin-top: 5rem;">
+        <div class="panel-inner" style="text-align: center;">
+            <h1 class="panel-title" style="font-size: 4rem;">404</h1>
+            <div style="font-size: 5rem; margin: 1rem 0;"><img src="/error 404.png" alt="🥚❓" style="width: 100%; max-width: 200px;"></div>
+            <h2 style="color: #EC8784; text-transform: uppercase;">Egg Not Found</h2>
+            <p style="margin-top: 1rem; color: #666; font-size: 1.2rem;">
+                <%= locals.message || "Oops! This egg seems to have rolled away." %>
+            </p>
+            <p style="color: #666;">We looked everywhere, but the nest is empty.</p>
+
+            <a href="/dashboard" class="back-btn" style="margin-top: 2rem;">Return to Safety</a>
+        </div>
+    </div>
+
+    <%- include('../parts/footer') %>

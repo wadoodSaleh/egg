@@ -6,7 +6,7 @@
         <ul class="recipe-grid">
             <% recipes.forEach(function(recipe) { %>
                 <li class="recipe-card">
-                    <a href="/recipe/<%= recipe.slug %>" class="recipe-link">
+                    <a href="/recipes/<%= recipe.slug %>" class="recipe-link">
                         <div class="recipe-image-container">
                             <img src="<%= recipe.image_path %>" alt="<%= recipe.name %>" class="recipe-image">
                         </div>
@@ -30,10 +30,10 @@
             <% } %>
 
                 <div class="menu_buttons">
-                    <a href="/add-recipe"><button><img src="/add.png" alt="Logout" />
-          <span class="btn-text">Share Recipe</span></button></a>
-                    <a href="/menu"><button><img src="/menu-icon.png" alt="Logout" />
-          <span class="btn-text">Back to Menu</span></button></a>
+                    <a href="/recipes/new"><button><img src="/add.png" alt="Logout" />
+                            <span class="btn-text">Share Recipe</span></button></a>
+                    <a href="/dashboard"><button><img src="/menu-icon.png" alt="Logout" />
+                            <span class="btn-text">Back to Menu</span></button></a>
                 </div>
 
 

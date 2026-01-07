@@ -32,7 +32,20 @@ async function showLeaderboard(req, res) {
   }
 }
 
+async function getLeaderboardJson(req, res) {
+  try {
+    const leaderboardData = await StatsModel.getLeaderboard();
+    // Also return current user info if logged in, to help frontend identify "me"
+    const currentUser = res.locals.user ? { id: res.locals.user.id } : null;
+    res.json({ leaderboard: leaderboardData, currentUser });
+  } catch (err) {
+    console.error("Error fetching leaderboard JSON:", err);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+}
+
 module.exports = {
   recordStat,
-  showLeaderboard
+  showLeaderboard,
+  getLeaderboardJson
 };
