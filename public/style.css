@@ -901,9 +901,17 @@ body.body_leaderboard {
 .body_recipy {
   margin: 0;
   min-height: 100vh;
-  background-image: 
-    linear-gradient(to right, #EC8784 1px, transparent 1px),
-    linear-gradient(to bottom, #EC8784 1px, transparent 1px);
+  background-image:
+    repeating-linear-gradient(0deg,
+      transparent,
+      transparent 35px,
+      rgba(236, 135, 132, 0.27) 35px,
+      rgba(236, 135, 132, 0.27) 65px),
+    repeating-linear-gradient(90deg,
+      transparent,
+      transparent 35px,
+      #FCCAA7 35px,
+      #FCCAA7 70px);
   background-size: 86px 86px;
 } 
 
@@ -924,24 +932,31 @@ body.body_leaderboard {
   gap: 20px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
 }
 
 #timerArea {
   padding: 20px 0px;
   font-size: 1.5rem;
   font-weight: bold;
-  background-color: #FCBC9C;
+  background-color: #F8E769;
   text-align: center;
-  border: 10px solid #EC8784;
+  border: 5px solid #EC8784;
   border-radius: 12px;
   box-shadow: 4px 4px 0 rgba(236, 135, 132, 0.4);
 }
 
 
 @media (max-width: 480px) {
+  .columens-container{
+    flex-direction: column;
+  }
+
   .body_leaderboard .add-recipe-form .form-group label {
     font-size: 0.8rem;
+  }
+
+  .right-column, .left-column {
+    width: 100%;
   }
 
   .body_leaderboard .add-recipe-form input[type="text"],
@@ -1315,6 +1330,7 @@ body.body_leaderboard {
 .instructions-section {
   background: #FCBC9C;
   border: 4px solid #EC8784;
+  box-shadow: 4px 4px 0 rgba(236, 135, 132, 0.4);
   border-radius: 8px;
   padding: 1.5rem;
   position: relative;
