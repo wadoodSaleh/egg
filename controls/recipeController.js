@@ -12,13 +12,13 @@ async function showRecipe(req, res) {
   const recipe = await recipeModel.getRecipeBySlug(recipeSlug);
 
   if (!recipe) {
-    return res.status(404).send("Recipe not found");
+    return res.status(404).render("errors/404", { message: "Recipe not found" });
   }
 
   // Check access: Must be owner OR recipe must be shared
   const isOwner = recipe.user_id === user.id;
   if (!isOwner && !recipe.is_shared) {
-    return res.status(403).send("You do not have permission to view this recipe.");
+    return res.status(403).render("errors/403", { message: "You do not have permission to view this recipe." });
   }
 
   res.render("recipe", { recipe, isOwner });
@@ -100,11 +100,11 @@ async function showEditRecipeForm(req, res) {
   const recipe = await recipeModel.getRecipeBySlug(recipeSlug);
 
   if (!recipe) {
-    return res.status(404).send("Recipe not found");
+    return res.status(404).render("errors/404", { message: "Recipe not found" });
   }
 
   if (recipe.user_id !== user.id) {
-    return res.status(403).send("You cannot edit this recipe.");
+    return res.status(403).render("errors/403", { message: "You cannot edit this recipe." });
   }
 
   res.render("add-recipe", { recipe, isEdit: true });
@@ -120,7 +120,7 @@ async function updateRecipe(req, res) {
   const oldRecipe = await recipeModel.getRecipeBySlug(recipeSlug);
 
   if (!oldRecipe || oldRecipe.user_id !== user.id) {
-    return res.status(403).send("Unauthorized");
+    return res.status(403).render("errors/403", { message: "You cannot edit this recipe." });
   }
 
   const { name, ingredients, instructions, winning_minute, losing_minute, imageSource, defaultImage, animation, is_shared } = req.body;
@@ -178,7 +178,7 @@ async function deleteRecipe(req, res) {
   const recipe = await recipeModel.getRecipeBySlug(recipeSlug);
 
   if (!recipe || recipe.user_id !== user.id) {
-    return res.status(403).send("Unauthorized");
+    return res.status(403).render("errors/403", { message: "You cannot delete this recipe." });
   }
 
   await recipeModel.deleteRecipe(recipe.id);

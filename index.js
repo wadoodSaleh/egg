@@ -136,6 +136,17 @@ app.get("/recipe/:id", (req, res) => res.redirect(`/recipes/${req.params.id}`));
 app.get("/user-recipy", (req, res) => res.redirect("/recipes/shared"));
 
 // ---------- server ----------
+// 404 Handler (Last Route)
+app.use((req, res, next) => {
+  res.status(404).render('errors/404');
+});
+
+// Global Error Handler
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).render('errors/500');
+});
+
 const PORT = process.env.PORT;
 app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);
