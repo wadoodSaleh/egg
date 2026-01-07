@@ -1,41 +1,39 @@
 <!DOCTYPE html>
 <%- include('parts/header', { pageName: recipe.name , pageTitle: recipe.name, bodyClass: 'body_recipy' }) %>
-
-  <div class="panel-container" style="max-width: 800px; text-align: left;">
-    <div class="panel-inner">
-      <div style="text-align: center;">
-        <img src="<%= recipe.image_path %>" alt="<%= recipe.name %>" class="recipe-detail-image">
-      </div>
-
-      <div class="recipe-content-grid">
-        <div class="ingredients-section">
-          <h2 class="panel-title" style="font-size: 1.8rem; text-align: center;">Ingredients</h2>
-          <ul class="styled-list">
-            <% recipe.ingredients.forEach(item=> { %>
-              <li><span class="pixel-bullet">></span>
-                <%= item %>
-              </li>
+ <div class="recipe-container">
+    <div class="columens-container">
+        <!-- Left Column: Ingredients + Timer -->
+        <div class="left-column">
+          <div class="ingredients-section">
+            <h2 class="panel-title" style="font-size: 1.8rem; text-align: center;">Ingredients</h2>
+            <ul class="styled-list">
+              <% recipe.ingredients.forEach(item=> { %>
+                <li><span class="pixel-bullet">></span>
+                  <%= item %>
+                </li>
               <% }) %>
-          </ul>
+            </ul>
+          </div>
+          <div class="instructions-section">
+            <h2 class="panel-title" style="font-size: 1.8rem; text-align: center;">Instructions</h2>
+            <ol class="styled-list">
+              <% recipe.instructions.forEach((step, index)=> { %>
+                <li><span class="pixel-number">
+                    <%= index + 1 %>
+                  </span>
+                  <%= step %>
+                </li>
+              <% }) %>
+            </ol>
+          </div>
         </div>
 
-        <div class="instructions-section">
-          <h2 class="panel-title" style="font-size: 1.8rem; text-align: center;">Instructions</h2>
-          <ol class="styled-list">
-            <% recipe.instructions.forEach((step, index)=> { %>
-              <li><span class="pixel-number">
-                  <%= index + 1 %>
-                </span>
-                <%= step %>
-              </li>
-              <% }) %>
-          </ol>
+        <!-- Right Column: Instructions -->
+        <div class="right-column">
+          <!-- Timer -->
+          <%- include("parts/timer", { recipe }) %>
         </div>
-      </div>
     </div>
-
-
-
     <!-- Owner Actions -->
     <% if (locals.isOwner) { %>
       <div class="menu_buttons" style="position: static; transform: none; margin-top: 2rem; padding: 0;">
@@ -46,10 +44,8 @@
           <button type="submit" class="btn-action btn-delete">Delete</button>
         </form>
       </div>
-      <% } %>
+    <% } %>
 
-        <!-- Timer -->
-        <%- include("parts/timer", { recipe }) %>
-          <%- include('parts/footer') %>
-
-            </html>
+    <%- include('parts/footer') %>
+</div>
+</html>

@@ -1,5 +1,4 @@
 -- Insert statements for default recipes
--- Note: Replace @userId with the actual user ID variable when running
 
 INSERT INTO recipes (user_id, slug, name, is_shared, image_path, ingredients, instructions, animation, losing_minute) VALUES
 (@userId, 'boiled', 'Boiled Egg', FALSE, '/boiled.png', 

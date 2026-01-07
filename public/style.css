@@ -453,13 +453,13 @@ body.body_leaderboard {
 }
 
 .panel-title {
-  color: #EC8784;
+  color: #FDF0C3;
   font-size: 2.5rem;
   font-weight: bold;
   text-transform: uppercase;
   letter-spacing: 0.3rem;
   margin-bottom: 0.5rem;
-  text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.1);
+  text-shadow: -2px -2px 0px rgba(255, 255, 255, 0.232);
 }
 
 .panel-subtitle {
@@ -685,8 +685,9 @@ body.body_leaderboard {
 
 /* Single Recipe View Styles */
 .recipe-detail-image {
+   text-align: center;
   width: 100%;
-  max-width: 400px;
+  max-width: 200px;
   height: auto;
   margin: 0 auto 2rem auto;
   display: block;
@@ -896,6 +897,47 @@ body.body_leaderboard {
     gap: 0.8rem;
   }
 }
+
+.body_recipy {
+  margin: 0;
+  min-height: 100vh;
+  background-image: 
+    linear-gradient(to right, #EC8784 1px, transparent 1px),
+    linear-gradient(to bottom, #EC8784 1px, transparent 1px);
+  background-size: 86px 86px;
+} 
+
+.recipe-container {
+  flex-direction: column;
+  padding: 20px;
+  display: flex;
+}
+
+.columens-container {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+}
+
+.right-column, .left-column {
+  width: 50%;
+  gap: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+#timerArea {
+  padding: 20px 0px;
+  font-size: 1.5rem;
+  font-weight: bold;
+  background-color: #FCBC9C;
+  text-align: center;
+  border: 10px solid #EC8784;
+  border-radius: 12px;
+  box-shadow: 4px 4px 0 rgba(236, 135, 132, 0.4);
+}
+
 
 @media (max-width: 480px) {
   .body_leaderboard .add-recipe-form .form-group label {
@@ -1271,8 +1313,8 @@ body.body_leaderboard {
 
 .ingredients-section,
 .instructions-section {
-  background: #fff9e6;
-  border: 3px dashed #EC8784;
+  background: #FCBC9C;
+  border: 4px solid #EC8784;
   border-radius: 8px;
   padding: 1.5rem;
   position: relative;
@@ -1280,9 +1322,13 @@ body.body_leaderboard {
 }
 
 .styled-list {
+  border: 2px dashed #EC8784;
+  border-radius: 8px;
   list-style: none;
   padding: 0;
   margin: 0;
+  background-color: #FDF0C3;
+  padding: 1rem;
 }
 
 .styled-list li {
@@ -1303,8 +1349,8 @@ body.body_leaderboard {
 }
 
 .pixel-number {
-  background: #EC8784;
-  color: white;
+  background: #FCBC9C;
+  color: #fffdf5;
   width: 28px;
   height: 28px;
   display: flex;
@@ -1315,7 +1361,7 @@ body.body_leaderboard {
   font-weight: bold;
   flex-shrink: 0;
   margin-top: 0px;
-  box-shadow: 2px 2px 0 #c05555;
+  box-shadow: 2px 2px 0 #EC8784;
 }
 
 @media (min-width: 768px) {
@@ -1341,9 +1387,10 @@ body.body_leaderboard {
 #animationFrame {
   border: 4px solid #EC8784;
   border-radius: 8px;
-  box-shadow: 4px 4px 0 rgba(236, 135, 132, 0.4);
+  box-shadow: inset 4px 4px 0 rgba(236, 135, 132, 0.4);
   background: white;
   max-width: 100%;
+  width: 80%;
 }
 
 #timerControls {
