@@ -136,6 +136,11 @@ app.get("/recipe/:id", (req, res) => res.redirect(`/recipes/${req.params.id}`));
 app.get("/user-recipy", (req, res) => res.redirect("/recipes/shared"));
 
 // ---------- server ----------
+// Temporary Debug Route for 500 Error
+app.get('/debug/error', (req, res) => {
+  throw new Error("This is a forced error for testing the 500 page!");
+});
+
 // 404 Handler (Last Route)
 app.use((req, res, next) => {
   res.status(404).render('errors/404');
