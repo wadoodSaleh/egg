@@ -1,23 +1,39 @@
 <div>
-  <% if (typeof message !== 'undefined' && message) { %>
-    <div style="color: #8b0000; background:#ffecec; padding:8px; margin-bottom:10px; border-radius:4px;"> <%= message %></div>
-  <% } %>
-
-  <form action="/login" method="POST">
-    <div>
-      <input type="email" name="email" required placeholder="Email" />
+  <% if (typeof message !=='undefined' && message) { %>
+    <div style="color: #8b0000; background:#ffecec; padding:8px; margin-bottom:10px; border-radius:4px;">
+      <%= message %>
     </div>
+    <% } %>
 
-    <div>
-      <input type="password" name="password" required placeholder="Password" />
-    </div>
+      <form action="/login" method="POST">
+        <div>
+          <input type="email" name="email" required placeholder="Email" />
+        </div>
 
-    <div>
-      <input type="text" name="username" placeholder="Username (optional)" />
-    </div>
+        <div style="position: relative;">
+          <input type="password" name="password" id="passwordInput" required placeholder="Password"
+            style="padding-right: 40px;" />
+          <button type="button" onclick="togglePassword()"
+            style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none; font-size: 1.2rem; cursor: pointer; color: #666; padding: 0; min-width: auto; width: auto; height: auto;"
+            title="Show Password">
+            👁️
+          </button>
+        </div>
 
-    <button type="submit">
-      Submit
-    </button>
-  </form>
+        <script>
+          function togglePassword() {
+            const passwordInput = document.getElementById('passwordInput');
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+          }
+        </script>
+
+        <div>
+          <input type="text" name="username" placeholder="Username (optional)" />
+        </div>
+
+        <button type="submit">
+          Submit
+        </button>
+      </form>
 </div>

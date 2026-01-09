@@ -37,6 +37,11 @@ async function login(req, res) {
       return res.redirect(`/dashboard?msg=${encodeURIComponent(msg)}`);
     }
 
+    if (result.status === "username_taken") {
+      console.log("[authController] username taken:", username);
+      return res.render("home", { message: "Username already exists" });
+    }
+
     return res.render("home", { message: "An error occurred" });
   } catch (err) {
     console.error("[authController] error:", err);

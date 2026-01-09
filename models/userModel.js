@@ -45,8 +45,15 @@ async function loginOrRegister(email, password, username = null) {
     }
 
     // NEW USER → REGISTER
-    const hashedPassword = bcrypt.hashSync(password, 10);
     const uname = username || email.split("@")[0];
+
+    // Check if username exists
+    const [existingUsernameRows] = await db.execute('SELECT * FROM users WHERE username = ?', [uname]);
+    if (existingUsernameRows.length > 0) {
+      return { status: "username_taken" };
+    }
+
+    const hashedPassword = bcrypt.hashSync(password, 10);
 
     const [result] = await db.execute(
       'INSERT INTO users (username, email, password) VALUES (?, ?, ?)',
