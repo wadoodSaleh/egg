@@ -44,8 +44,20 @@ async function getLeaderboardJson(req, res) {
   }
 }
 
+async function showEggMaster(req, res) {
+  try {
+    const leaderboard = await StatsModel.getLeaderboard();
+    const eggMaster = leaderboard.length > 0 ? leaderboard[0] : null;
+    res.render("egg-master", { eggMaster }); // We will create this view next
+  } catch (err) {
+    console.error("Error fetching Egg Master:", err);
+    res.status(500).render("errors/500");
+  }
+}
+
 module.exports = {
   recordStat,
   showLeaderboard,
-  getLeaderboardJson
+  getLeaderboardJson,
+  showEggMaster
 };

@@ -281,10 +281,10 @@ body {
   border: 3px solid #EC8784;
   padding: 2.5rem;
   border-radius: 2px;
-  text-align: center; 
-  display: flex; 
-  flex-direction: column; 
-  align-items: center; 
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   justify-content: center;
 }
 
@@ -428,19 +428,21 @@ body.body_leaderboard {
   background-position: center;
   image-rendering: pixelated;
 }
+
 @media(max-width: 570px) {
   .page-name {
     font-size: 1.2rem;
     letter-spacing: 0.2rem;
   }
-  .nav-button{
+
+  .nav-button {
     padding: 0.25rem;
   }
 }
 
-@media(max-width: 272px){
+@media(max-width: 272px) {
   .page-name {
-    display : none;
+    display: none;
   }
 }
 
@@ -699,7 +701,7 @@ body.body_leaderboard {
 
 /* Single Recipe View Styles */
 .recipe-detail-image {
-   text-align: center;
+  text-align: center;
   width: 100%;
   max-width: 200px;
   height: auto;
@@ -884,29 +886,29 @@ body.body_leaderboard {
     padding: 1rem;
     margin: 20px auto;
   }
-  
+
   .panel-inner {
     padding: 1rem;
   }
-  
+
   .panel-title {
     font-size: 1.8rem;
     letter-spacing: 0.2rem;
   }
-  
+
   .panel-subtitle {
     font-size: 0.9rem;
   }
-  
+
   .leaderboard-table {
     font-size: 0.9rem;
   }
-  
+
   .leaderboard-table th,
   .leaderboard-table td {
     padding: 0.6rem 0.4rem;
   }
-  
+
   .stats-grid {
     gap: 0.8rem;
   }
@@ -927,7 +929,7 @@ body.body_leaderboard {
       #FCCAA7 35px,
       #FCCAA7 70px);
   background-size: 86px 86px;
-} 
+}
 
 .recipe-container {
   flex-direction: column;
@@ -941,7 +943,8 @@ body.body_leaderboard {
   gap: 20px;
 }
 
-.right-column, .left-column {
+.right-column,
+.left-column {
   width: 50%;
   gap: 20px;
   display: flex;
@@ -961,10 +964,11 @@ body.body_leaderboard {
 
 
 @media (max-width: 499px) {
- .body_recipy .recipe-detail-image{
-  display: none;
- }
-  .columens-container{
+  .body_recipy .recipe-detail-image {
+    display: none;
+  }
+
+  .columens-container {
     flex-direction: column;
   }
 
@@ -972,7 +976,8 @@ body.body_leaderboard {
     font-size: 0.8rem;
   }
 
-  .right-column, .left-column {
+  .right-column,
+  .left-column {
     width: 100%;
   }
 
@@ -1172,47 +1177,47 @@ body.body_leaderboard {
     min-width: 100px;
   }
 
-   .panel-title {
+  .panel-title {
     font-size: 1.5rem;
     letter-spacing: 0.15rem;
   }
-  
+
   .panel-subtitle {
     font-size: 0.8rem;
     margin-bottom: 1rem;
   }
-  
+
   .personal-stats {
     padding: 1rem;
     margin-top: 1rem;
   }
-  
+
   .personal-stats h2 {
     font-size: 1.2rem;
   }
-  
+
   .leaderboard-table {
     font-size: 0.75rem;
   }
-  
+
   .leaderboard-table th,
   .leaderboard-table td {
     padding: 0.5rem 0.25rem;
     font-size: 0.75rem;
   }
-  
+
   .leaderboard-table th {
     font-size: 0.7rem;
   }
-  
+
   .stat-item span {
     font-size: 0.75rem;
   }
-  
+
   .stat-item strong {
     font-size: 1.2rem;
   }
-  
+
   .back-btn {
     padding: 0.8rem 1.5rem;
     font-size: 0.9rem;
@@ -1221,6 +1226,7 @@ body.body_leaderboard {
 
 /* Very small devices */
 @media (max-width: 370px) {
+
   .body_leaderboard.add-recipe-form input[type="text"],
   .body_leaderboard.add-recipe-form input[type="number"],
   .body_leaderboard.add-recipe-form textarea,
@@ -1234,7 +1240,7 @@ body.body_leaderboard {
     padding: 0.7rem;
     letter-spacing: 0.05rem;
   }
-  
+
   .body_menu ul li img {
     width: 100%;
     max-width: 120px;
@@ -1310,7 +1316,8 @@ body.body_leaderboard {
     padding: 0.2rem;
   }
 
-  .nav-button .logout-btn, .nav-button .leaderboard-btn img {
+  .nav-button .logout-btn,
+  .nav-button .leaderboard-btn img {
     width: 15px;
   }
 
@@ -1327,13 +1334,13 @@ body.body_leaderboard {
     font-size: 1.2rem;
     letter-spacing: 0.1rem;
   }
-  
+
   .leaderboard-table th,
   .leaderboard-table td {
     padding: 0.4rem 0.2rem;
     font-size: 0.7rem;
   }
-  
+
   .stat-item strong {
     font-size: 1rem;
   }
@@ -1591,76 +1598,78 @@ body.body_leaderboard {
   font-weight: bold;
   text-align: center;
   text-shadow: 2px 2px 0px rgba(255, 255, 255, 0.3);
-}/* Recipe Action Buttons */
+}
+
+/* Recipe Action Buttons */
 .recipe-actions {
-    display: flex;
-    gap: 1rem;
-    justify-content: center;
-    align-items: center;
-    margin-top: 2rem;
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  align-items: center;
+  margin-top: 2rem;
 }
 
 .btn-action {
-    text-decoration: none;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    font-family: inherit;
-    font-size: 1rem;
-    font-weight: bold;
-    text-transform: uppercase;
-    letter-spacing: 0.1rem;
-    padding: 0.8rem 1.5rem;
-    border-radius: 25px;
-    cursor: pointer;
-    border: 4px solid;
-    transition: all 0.15s ease;
-    min-width: 150px;
-    /* Pixel shadow */
-    box-shadow: 0 6px 0, 0 10px 10px rgba(0, 0, 0, 0.2);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.1rem;
+  padding: 0.8rem 1.5rem;
+  border-radius: 25px;
+  cursor: pointer;
+  border: 4px solid;
+  transition: all 0.15s ease;
+  min-width: 150px;
+  /* Pixel shadow */
+  box-shadow: 0 6px 0, 0 10px 10px rgba(0, 0, 0, 0.2);
 }
 
 .btn-action:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 9px 0, 0 13px 15px rgba(0, 0, 0, 0.3);
+  transform: translateY(-3px);
+  box-shadow: 0 9px 0, 0 13px 15px rgba(0, 0, 0, 0.3);
 }
 
 .btn-action:active {
-    transform: translateY(3px);
-    box-shadow: 0 3px 0, 0 6px 5px rgba(0, 0, 0, 0.2);
+  transform: translateY(3px);
+  box-shadow: 0 3px 0, 0 6px 5px rgba(0, 0, 0, 0.2);
 }
 
 /* Specific Colors */
 
 /* Edit Button (Yellow/Standard) */
 .btn-edit {
-    background: linear-gradient(180deg, #F8E769 0%, #f9d948 100%);
-    border-color: #EC8784;
-    color: #EC8784;
-    box-shadow: 0 6px 0 #e96b73, 0 10px 10px rgba(0, 0, 0, 0.2);
+  background: linear-gradient(180deg, #F8E769 0%, #f9d948 100%);
+  border-color: #EC8784;
+  color: #EC8784;
+  box-shadow: 0 6px 0 #e96b73, 0 10px 10px rgba(0, 0, 0, 0.2);
 }
 
 .btn-edit:hover {
-    box-shadow: 0 9px 0 #e96b73, 0 13px 15px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 9px 0 #e96b73, 0 13px 15px rgba(0, 0, 0, 0.3);
 }
 
 .btn-edit:active {
-    box-shadow: 0 3px 0 #e96b73, 0 6px 5px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 3px 0 #e96b73, 0 6px 5px rgba(0, 0, 0, 0.2);
 }
 
 /* Delete Button (Red/Danger) */
 .btn-delete {
-    background: linear-gradient(180deg, #ff8a80 0%, #ff5252 100%);
-    border-color: #d32f2f;
-    color: #b71c1c;
-    box-shadow: 0 6px 0 #c62828, 0 10px 10px rgba(0, 0, 0, 0.2);
+  background: linear-gradient(180deg, #ff8a80 0%, #ff5252 100%);
+  border-color: #d32f2f;
+  color: #b71c1c;
+  box-shadow: 0 6px 0 #c62828, 0 10px 10px rgba(0, 0, 0, 0.2);
 }
 
 .btn-delete:hover {
-    background: linear-gradient(180deg, #ff5252 0%, #ff1744 100%);
-    box-shadow: 0 9px 0 #c62828, 0 13px 15px rgba(0, 0, 0, 0.3);
+  background: linear-gradient(180deg, #ff5252 0%, #ff1744 100%);
+  box-shadow: 0 9px 0 #c62828, 0 13px 15px rgba(0, 0, 0, 0.3);
 }
 
 .btn-delete:active {
-    box-shadow: 0 3px 0 #c62828, 0 6px 5px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 3px 0 #c62828, 0 6px 5px rgba(0, 0, 0, 0.2);
 }

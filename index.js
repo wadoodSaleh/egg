@@ -54,10 +54,43 @@ app.use(async (req, res, next) => {
 });
 
 // ---------- view engine ----------
+// ---------- middleware ----------
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
+// DEADLINE LOGIC: GMT+2 2026-01-11T21:10:00
+// 12:03 MST = 19:03 UTC = 21:03 GMT+2. 
+// Targeting 21:10:00 GMT+2 (approx 7 mins from prompts).
+const DEADLINE = new Date("2026-01-11T22:00:00+02:00").getTime(); 
+
+// Global Middleware for Deadline
+app.use((req, res, next) => {
+  res.locals.deadline = DEADLINE;
+  
+  // If deadline has passed
+  if (Date.now() > DEADLINE) {
+    if (req.path === '/egg-master' || req.path === '/logout') {
+      return next();
+    }
+    // API requests should probably 403 or redirect? Let's redirect for now or fail
+    if (req.xhr || req.path.startsWith('/api/')) {
+       return res.status(403).json({error: "The kitchen is closed."});
+    }
+    return res.redirect('/egg-master');
+  }
+
+  // If deadline NOT passed, prevent seeing the future (optional, but good for surprise)
+  if (req.path === '/egg-master') {
+    return res.redirect('/');
+  }
+
+  next();
+});
+
 // ---------- routes ----------
+
+app.get("/egg-master", statsController.showEggMaster);
+
 
 app.get("/test-500", (req, res, next) => {
   console.log("HIT TEST 500");

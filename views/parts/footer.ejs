@@ -1,70 +1,72 @@
 </div>
 
-  <audio id="backgroundMusic" loop preload="auto">
-    <source src="/cosy_music.mp3" type="audio/mpeg">
-    Your browser does not support the audio element.
-  </audio>
+<audio id="backgroundMusic" loop preload="auto">
+  <source src="/cosy_music.mp3" type="audio/mpeg">
+  Your browser does not support the audio element.
+</audio>
 
-  <script>
-    const audio = document.getElementById('backgroundMusic');
-    let isPlaying = false;
-    const musicIcon = document.getElementById('musicIcon');
-    // sequence: 1 -> 2 -> 3 -> 2 -> repeat
-    const danceSequence = ['dancing egg 1.png','dancing egg 2.png','dancing egg 3.png','dancing egg 2.png'];
-    let danceIndex = 0;
-    let danceInterval = null;
-    const DANCE_INTERVAL_MS = 350;
+<script>
+  const audio = document.getElementById('backgroundMusic');
+  let isPlaying = false;
+  const musicIcon = document.getElementById('musicIcon');
+  // sequence: 1 -> 2 -> 3 -> 2 -> repeat
+  const danceSequence = ['dancing egg 1.png', 'dancing egg 2.png', 'dancing egg 3.png', 'dancing egg 2.png'];
+  let danceIndex = 0;
+  let danceInterval = null;
+  const DANCE_INTERVAL_MS = 350;
 
-    function playMusic() {
-      if (isPlaying) {
-        audio.pause();
-        isPlaying = false;
-        stopDance();
-        return;
-      }
+  function playMusic() {
+    if (isPlaying) {
+      audio.pause();
+      isPlaying = false;
+      stopDance();
+      return;
+    }
 
-      // Play returns a promise — handle rejection (browsers may block without a user gesture)
-      const playPromise = audio.play();
-      if (playPromise !== undefined) {
-        playPromise.then(() => {
-          isPlaying = true;
-          startDance();
-        }).catch((err) => {
-          console.warn('Audio play was prevented:', err);
-          isPlaying = false;
-        });
-      } else {
-        // Older browsers
+    // Play returns a promise — handle rejection (browsers may block without a user gesture)
+    const playPromise = audio.play();
+    if (playPromise !== undefined) {
+      playPromise.then(() => {
         isPlaying = true;
         startDance();
-      }
+      }).catch((err) => {
+        console.warn('Audio play was prevented:', err);
+        isPlaying = false;
+      });
+    } else {
+      // Older browsers
+      isPlaying = true;
+      startDance();
     }
+  }
 
-    function startDance() {
-      if (!musicIcon) return;
-      stopDance();
-      // set first frame immediately
-      danceIndex = 0;
+  function startDance() {
+    if (!musicIcon) return;
+    stopDance();
+    // set first frame immediately
+    danceIndex = 0;
+    musicIcon.src = '/' + danceSequence[danceIndex];
+    danceInterval = setInterval(() => {
+      danceIndex = (danceIndex + 1) % danceSequence.length;
       musicIcon.src = '/' + danceSequence[danceIndex];
-      danceInterval = setInterval(() => {
-        danceIndex = (danceIndex + 1) % danceSequence.length;
-        musicIcon.src = '/' + danceSequence[danceIndex];
-      }, DANCE_INTERVAL_MS);
-    }
+    }, DANCE_INTERVAL_MS);
+  }
 
-    function stopDance() {
-      if (!musicIcon) return;
-      if (danceInterval) {
-        clearInterval(danceInterval);
-        danceInterval = null;
-      }
-      // revert to idle icon
-      musicIcon.src = '/dancing egg 0.png';
+  function stopDance() {
+    if (!musicIcon) return;
+    if (danceInterval) {
+      clearInterval(danceInterval);
+      danceInterval = null;
     }
+    // revert to idle icon
+    musicIcon.src = '/dancing egg 0.png';
+  }
 
-    // Ensure animation stops when navigating away
-    window.addEventListener('beforeunload', stopDance);
-  </script>
-  <script src="/pjax.js"></script>
+  // Ensure animation stops when navigating away
+  window.addEventListener('beforeunload', stopDance);
+</script>
+<script src="/js/countdown.js"></script>
+<script src="/pjax.js"></script>
 </body>
+
 </html>

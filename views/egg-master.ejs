@@ -1,0 +1,129 @@
+<%- include('parts/header', { pageTitle: 'The Egg Master' , pageName: 'Egg Master' , bodyClass: 'body_menu' }) %>
+
+    <canvas id="confetti"
+        style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1000;"></canvas>
+
+    <div class="panel-container" style="max-width: 600px; padding: 3rem; position: relative;">
+
+        <div class="panel-inner"
+            style="text-align: center; display: flex; flex-direction: column; align-items: center; gap: 20px; position: relative; z-index: 1;">
+
+            <div style="font-size: 6rem; animation: bounce 2s infinite ease-in-out;">👑</div>
+
+            <h2 class="panel-title" style="margin: 0; color: #EC8784; text-shadow: 2px 2px 0 #fff;">The Egg Master</h2>
+
+            <div class="panel-subtitle">✨ The kitchen is closed. All hail the master! ✨</div>
+
+            <% if (eggMaster) { %>
+                <div
+                    style="background: #fff; padding: 2rem; border: 4px solid #EC8784; border-radius: 20px; width: 100%; box-shadow: 6px 6px 0 rgba(236,135,132,0.4); animation: pulse 3s infinite;">
+                    <div style="font-size: 1rem; color: #888; text-transform: uppercase; letter-spacing: 2px;">💖
+                        Current Champion 💖</div>
+                    <div
+                        style="font-size: 3.5rem; font-weight: bold; color: #EC8784; margin: 15px 0; word-break: break-all; font-family: 'Pixelify Sans', cursive;">
+                        <%= eggMaster.username %>
+                    </div>
+                    <div style="font-size: 1.3rem; font-weight: bold; color: #333;">
+                        Mastered <span style="color: #4CAF50; font-size: 1.5em;">
+                            <%= eggMaster.cooked %>
+                        </span> Eggs
+                    </div>
+                </div>
+                <% } else { %>
+                    <div style="padding: 2rem;">
+                        <h3 style="color: #666;">No Master Yet... 😢</h3>
+                        <p>The throne awaits its majestic ruler.</p>
+                    </div>
+                    <% } %>
+
+        </div>
+    </div>
+
+    <style>
+        .dancing-egg {
+            position: absolute;
+            width: 80px;
+            height: auto;
+            image-rendering: pixelated;
+            animation: bounce-dance 1s infinite alternate ease-in-out;
+            z-index: 50;
+            /* Above panel, below modal if any */
+        }
+
+        @keyframes bounce {
+
+            0%,
+            100% {
+                transform: translateY(0) scale(1);
+            }
+
+            50% {
+                transform: translateY(-20px) scale(1.1);
+            }
+        }
+
+        @keyframes bounce-dance {
+            0% {
+                transform: translateY(0) rotate(-5deg);
+            }
+
+            100% {
+                transform: translateY(-15px) rotate(5deg);
+            }
+        }
+
+        /* Handle flipped images separately if needed, but simplistic approach first */
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                box-shadow: 6px 6px 0 rgba(236, 135, 132, 0.4);
+            }
+
+            50% {
+                transform: scale(1.02);
+                box-shadow: 8px 8px 0 rgba(236, 135, 132, 0.6);
+            }
+
+            100% {
+                transform: scale(1);
+                box-shadow: 6px 6px 0 rgba(236, 135, 132, 0.4);
+            }
+        }
+    </style>
+
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+    <script>
+        // prevent back navigation
+        history.pushState(null, null, location.href);
+        window.onpopstate = function () {
+            history.go(1);
+        };
+
+        // Confetti!
+        // If CDN fails or isn't allowed, we'll silently fail (graceful degradation)
+        if (typeof confetti === 'function') {
+            var duration = 15 * 1000;
+            var animationEnd = Date.now() + duration;
+            var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 1000 };
+
+            function randomInRange(min, max) {
+                return Math.random() * (max - min) + min;
+            }
+
+            var interval = setInterval(function () {
+                var timeLeft = animationEnd - Date.now();
+
+                if (timeLeft <= 0) {
+                    return clearInterval(interval);
+                }
+
+                var particleCount = 50 * (timeLeft / duration);
+                // since particles fall down, start a bit higher than random
+                confetti({ ...defaults, particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } });
+                confetti({ ...defaults, particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } });
+            }, 250);
+        }
+    </script>
+
+    <%- include('parts/footer') %>
